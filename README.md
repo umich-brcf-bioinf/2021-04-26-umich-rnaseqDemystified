@@ -1,5 +1,7 @@
 # RNA-seq Demystified
 
+Links below are from intial pilot materials. Materials and schedule to be updated as development contiues.
+
 ## Schedule
 
 | Time | Topic | Instructor |
