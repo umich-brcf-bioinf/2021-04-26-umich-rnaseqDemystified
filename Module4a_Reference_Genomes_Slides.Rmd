@@ -1,0 +1,152 @@
+---
+title: "Reference Genomes"
+author: "UM Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+    ioslides_presentation:
+        transition: faster
+        widescreen: true
+---
+
+<!---
+library(rmarkdown)
+render('Module4a_Reference_Genomes_Slides.Rmd', output_dir = '~/Desktop')
+--->
+
+## Objectives
+
+- Understand what a reference genome is and what it contains.
+- Understand the FASTA and GTF formats.
+- Appreciate the differences in gene identifiers.
+- Understand how to download a reference genome.
+
+## Differential Expression Workflow
+
+| Step | Task |
+| :--: | ---- |
+| 1 | Experimental Design |
+| 2 | Biological Samples / Library Preparation |
+| 3 | Sequence Reads |
+| 4 | Assess Quality of Raw Reads |
+| **5** | **Splice-aware Mapping to Genome** |
+| **6** | **Count Reads Associated with Genes** |
+| 7 | Test for DE Genes |
+
+## Reference Genomes
+
+- A reference genome consists of:
+    - Reference sequence and,
+    - Genomic annotations that describe attributes about that sequence.
+- Examples of annotations include:
+    - Gene models, the location and other information about genes.
+    - Variants, location of common or rare genetic variants, their alleles, and frequencies.
+    - Small RNAs, location and other information about various types of small RNAs.
+- For our analysis we need the reference sequence and gene models.
+
+## Reference Sequence
+
+- Stored in [FASTA](https://en.wikipedia.org/wiki/FASTA_format) format.
+
+```
+>chrM
+GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCAT
+TTGGTATTTTCGTCTGGGGGGTGTGCACGCGATAGCATTGCGAGACGCTG
+GAGCCGGAGCACCCTATGTCGCAGTATCTGTCTTTGATTCCTGCCTCATT
+CTATTATTTATCGCACCTACGTTCAATATTACAGGCGAACATACCTACTA
+AAGTGTGTTAATTAATTAATGCTTGTAGGACATAATAATAACAATTGAAT
+GTCTGCACAGCCGCTTTCCACACAGACATCATAACAAAAAATTTCCACCA
+AACCCCCCCCTCCCCCCGCTTCTGGCCACAGCACTTAAACACATCTCTGC
+CAAACCCCAAAAACAAAGAACCCTAACACCAGCCTAACCAGATTTCAAAT
+TTTATCTTTAGGCGGTATGCACTTTTAACAGTCACCCCCCAACTAACACA
+```
+
+## Gene Models
+
+- Example `workshop_data/human_reference/hg19/hg19_genes.gtf`:
+```
+chr1	unknown	exon	11874	12227	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
+chr1	unknown	exon	12613	12721	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
+chr1	unknown	exon	13221	14409	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
+chr1	unknown	exon	14362	14829	.	-	.	gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS8568";
+```
+- Example `workshop_data/human_reference/GRCh38/GRCh38.98.gtf`:
+```
+1	havana	gene	11869	14409	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene";
+1	havana	transcript	11869	14409	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; transcript_id "ENST00000456328"; transcript_version "2"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene"; transcript_name "DDX11L1-202"; transcript_source "havana"; transcript_biotype "lncRNA"; tag "basic"; transcript_support_level "1";
+1	havana	exon	11869	12227	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; transcript_id "ENST00000456328"; transcript_version "2"; exon_number "1"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene"; transcript_name "DDX11L1-202"; transcript_source "havana"; transcript_biotype "lncRNA"; exon_id "ENSE00002234944"; exon_version "1"; tag "basic"; transcript_support_level "1";
+```
+
+## GTF Format
+
+1. Chromsome
+2. Source, e.g. ensembl, havana
+3. Gene feature, e.g. exon, intron, mRNA, transcript
+4. Start location, 1-based
+5. End location, 1-based
+6. Score
+7. Strand
+8. Frame, relating to codons
+9. Attribute, a semicolon separated list of key/value pairs giving additional information about the feature
+
+## Genome Builds
+
+- New reference genomes are versioned.
+    - e.g. UCSC genomes hg18, hg19, hg38
+    - e.g. ENSEMBL genomes GRCh36, GRCh37, GRCh38
+- With the most recent genome build, versioning is aligned.
+- Different organisms have their own versioning.
+
+## Annotation Sources
+
+- Historically three primary gene annotation databases (different organisms have their own databases):
+    - [NCBI RefSeq](https://www.ncbi.nlm.nih.gov/refseq/rsg/)
+    - [ENSEMBL](https://www.ensembl.org/info/genome/genebuild/index.html)
+    - [UCSC Known Genes](https://academic.oup.com/bioinformatics/article/22/9/1036/200093)
+- We will skip what each emphasizes, but note [others have examined this](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-015-1308-8).
+
+## Gene IDs
+
+- The two GTFs that we looked at illustrated some differences between the gene annotation databases.
+- First GTF:
+    - Chromosomes are "chr1"
+    - DDX11L1, the gene symbol, controlled by the [Human Gene Nomenclature Committee (HUGO)](https://www.genenames.org/)
+    - NR_046018, the RefSeq transcript ID
+- Second GTF:
+    - Chromosomes are "1"
+    - ENSG00000223972, the ENSEMBL gene ID
+    - DDX11L1, the gene symbol, thankfully the same
+    - ENST00000456328, the ENSEMBL transcript ID
+
+## Getting a Reference Genome
+
+- [Illumina iGenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html)
+    - Easy
+    - Comprehensive
+    - Includes reference sequence and gene models (and sometimes more).
+- **Note**, reference genomes can be very large. Typically not downloaded to your personal computer.
+
+## Getting a Reference Genome
+
+<center>
+![iGenomes image for copying link location](images/genome_copy_link.png){ width=95% }
+</center>
+
+## Getting a Reference Genome
+
+- On Great Lakes or on your lab's server:
+
+```
+$ wget <url from previous slide>
+$ tar -xf <resulting file>
+```
+
+## Which Reference is Right for Me?
+
+- Be consistent in your research. Pick one and use it.
+    - Switching between sources will cause headaches for mapping gene IDs.
+- Do not mix UCSC and ENSEMBL.
+    - "chr1" and "1" chromosome references will cause issues.
+
+---
+
+These materials have been adapted and extended from materials created by the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
