@@ -10,7 +10,7 @@ output:
             toc_float: true
             number_sections: true
             fig_caption: true
-            keep_md: true
+            keep_md: false
 ---
 
 <!--- Allow the page to be wider --->
