@@ -1,0 +1,126 @@
+---
+title: "Day 2 - Module 7a: Analysis Setup"
+author: "UM Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+        html_document:
+            theme: readable
+            toc: true
+            toc_depth: 4
+            toc_float: true
+            number_sections: true
+            fig_caption: true
+            keep_md: false
+---
+
+<!--- Allow the page to be wider --->
+<style>
+    body .main-container {
+        max-width: 1200px;
+    }
+</style>
+> # Objectives
+> * Shared understanding of R/RStudio environment & packages
+> * Import and review count tables
+
+# Reproducible Research
+
+Our goal for any analysis is to do it in a way where it can be easily and exactly replicated, i.e. following standards for "reproducible research". Rstudio has great tools to facilitate this process and is freely available, just like the underlying programming language (R).
+
+First, we'll open up our RStudio console.
+![](./images/Rstudio_example.png)
+
+Today we'll be exploring some RNA-seq data that should have been included in the course materials. To open the file for the first module today, we'll want to navigate to the same project directory we used yesterday, which can be done using the file viewer within Rstudio.
+
+## Best practices for file organization
+
+To follow best practices as discussed by [Nobel,2009](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424) for file organization for bioinformatics/computational projects, we will need to make sure there are separate storage locations for:   
+* Raw data    
+* Code    
+* Output files   
+
+![](./images/Noble2009_dataprojects.png)    
+
+To organize our files for our analysis today we'll create a new folder, ideally in our home directory, using the 'New Folder' button on the right side of our screen & naming it "RNASeqDemystified".           
+
+Next, we'll set our working directory and create a new subdirectory within "RNASeqDemystified" called "data".
+```{r SetupDirectories}
+setwd("~/RNASeqDemystified")
+dir.create("./data")
+```
+
+
+**TO UPDATE: Swap with modified count tables pulled from Monk Report & confirm/test URL for download**
+```{r DownloadData, eval=FALSE}
+#Example from UCdavis
+download.file("https://raw.github.com/umich-brcf-bioinf/rnaseq_demystified_workshop/tree/main/site/Day2Data/Mov10_full_counts.txt", "~/RNASeqDemystified/data/Mov10_full_counts.txt")
+download.file("https://raw.github.com/umich-brcf-bioinf/rnaseq_demystified_workshop/tree/main/site/Day2Data/Mov10_full_meta.txt", "~/RNASeqDemystified/data/Mov10_full_meta.txt")
+```
+
+
+**Please use the 'raise hand' button if you are having issues with downloading the data, or if you don't see the files after clicking on the "data" directory, like shown below. If you have successfully downloaded the data then used the green 'yes' button**
+
+![](./images/DirectoryWithData.png) **TO DO: Update image in `image` directory that show correct files.**
+
+# Interacting with the Console
+
+Next, we'll open a new '.R' script file by using the toolbar at the top of our window. We'll save our 'Untitled1' file as "RNASeqAnalysis" using the floppy disk iconon the top left of the file window. This new "RNASeqAnalysis.R" will serve as a record of our analysis and following best practices, is saved in a seperate location from our raw data.
+
+<details>
+  <summary>Click for code execution shortcut 
+**Ctrl-Enter** is a standard shortcut in Rstudio to send the current line (or selected lines) to the console. If you see an `>`, then R has executed the command. If you see a `+`, this means that the command is not complete and R is waiting (usually for a `)`).
+</details>
+
+<details>
+  <summary>Click for review of R conventions for object names
+R has some restrictions for naming objects:
+* Cannot start with numbers
+* Cannot include dashes
+* Cannot have spaces
+* Should not be identical to a named function
+* Dots & underscores will work but are better to avoid
+</details>
+
+### Reading in raw count data
+
+The starting point for our differential expression (DE) analysis will be a table of raw counts, so let's look at the example provided.
+```{r DataTable, eval=TRUE}
+CountTable <- read.table("./data/Mov10_full_counts.txt")
+head(CountTable) # look at the top of the table
+
+### How would we get an overview of the structure of the table? ###
+
+```
+
+Now that the file is read into R, note that we've created a data frame, which is a standard data structure in R.
+
+**TO DO: Show how to round down raw count table?**
+
+**TO DO: Add pop-out section to discuss using raw count table vs TxImport?**
+
+# Check package installations 
+
+You should already have DESeq2 and several other libraries installed, so we can load them into our R session now. To do that we'll use the `library` function and send the commands to the console.
+
+Before ending this module, let's load the libraries we'll need to use for the next module. 
+```{r Modules, message=FALSE, warning= FALSE, eval=TRUE}
+library(DESeq2)
+library(ggplot2)
+library(tidyr)
+library(matrixStats)
+library('ggrepel', character.only=TRUE)
+library('pheatmap', character.only=TRUE)
+library('RColorBrewer', character.only=TRUE)
+```
+
+
+```{r WriteOut.RData, eval=TRUE, echo=FALSE, message=FALSE}
+#Hidden code block to write out data for knitting
+save.image(file = "RunningData.RData")
+#How to load for next segment
+#load("RunningData.RData")
+```
+
+---
+
+These materials have been adapted and extended from materials from [Data Carpentry](https://datacarpentry.org/R-genomics/00-before-we-start.html) and [Software Carpentry](https://swcarpentry.github.io/r-novice-gapminder/). These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
