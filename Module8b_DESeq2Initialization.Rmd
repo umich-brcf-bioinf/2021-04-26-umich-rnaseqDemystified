@@ -10,7 +10,7 @@ output:
             toc_float: true
             number_sections: true
             fig_caption: true
-            keep_md: true
+            keep_md: false
 ---
 
 <!--- Allow the page to be wider --->
@@ -23,7 +23,7 @@ output:
 > * Setup sample information 
 > * Understand possible confounding factors
 > * Understand the impact of batches or additional covariates
-> * 
+> * Filter count table
 
 ```{r Modules, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(DESeq2)
@@ -72,7 +72,7 @@ unique(MetaInfo$Gtype.Tx)
 **TODO: Update to set levels within input table & test proper level order to get pairwise comparisons; possibly split up  samples/data to avoid?**
 Next, we'll format our table so that we have the appropriate data type (a ordered [factor](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/)) for DESeq2 to recognize our treatment groups and appropriately compare samples.
 ```{r SampleInfo2}
-MetaInfo$Gtype.Tx <- factor(MetaInfo$Gtype.Tx, levels = c("ko.noTx", "wt.noTx", "ko.TxB", "wt.TxB")) ## levels = c(Case, Control); Control should be last if only two groups & first if three groups. 
+MetaInfo$Gtype.Tx <- factor(MetaInfo$Gtype.Tx, levels = c("ko.control", "wt.control", "ko.Tx", "wt.Tx")) ## levels = c(Case, Control); Control should be last if only two groups & first if three groups. 
 unique(MetaInfo$Gtype.Tx)
 ```
 Notice that we set the levels in a particular order. This is important for setting the 'Control' group as the denominator in our comparisons when we setup our DESeq2 model.
@@ -135,48 +135,65 @@ dds_patient <- DESeqDataSetFromMatrix(countData = CountTable,
 Now we have specified for DESeq2 that we want to test for the effect of the condition (the last factor) while controlling for the effect of the patient origin (the first factor).
 
 
-> *Note*: More complex questions, including determining if a fold-change due to treatment is different across groups, such as patient samples, "interaction terms" can be included in the design formula, such as outlined in [this support thread](https://support.bioconductor.org/p/98628/).
+<details>
+    <summary>*Click for Note*</summary> 
+    More complex questions, including determining if a fold-change due to treatment is different across groups, such as patient samples, "interaction terms" can be included in the design formula, such as outlined in [this support thread](https://support.bioconductor.org/p/98628/).
+</details> 
 
-**TODO: Update to collapsable section**
-
-><details>
->  <summary>*Modeling batch effects with DESeq2*</summary>
->   Differences between samples can also be due to technical reasons, such as collection on different days or different sequencing runs. Differences between samples that are not due to biological factors as called **batch effects**. We can include batch effects in our design model in the same way as covariates, as long as the technical groups do not overlap, or **confound**, the biological treatment groups.   
->   Let's try add some additional meta-data information where we have counfounding batch effects and create another DESeq2 object.
-
+**TODO: Finalize formatting for pop out code**
+<details>
+    <summary>*Click for Modeling batch effects with DESeq2*</summary>
+    Differences between samples can also be due to technical reasons, such as collection on different days or different sequencing runs. Differences between samples that are not due to biological factors as called **batch effects**. We can include batch effects in our design model in the same way as covariates, as long as the technical groups do not overlap, or **confound**, the biological treatment groups.  
+    Let's try add some additional meta-data information where we have counfounding batch effects and create another DESeq2 object.   
     ```{r Confounders, eval=FALSE}
-  #MetaInfo
-  MetaInfo$batch <- factor(c(rep(c("Day1"), 3), rep(c("Day2"), 3), rep(c("Day3"), 3), rep(c("Day4"), 3)), levels = c("Day1", "Day2", "Day3", "Day4"))
-
-  dds_batch <- DESeqDataSetFromMatrix(countData = CountTable,
+    #MetaInfo
+    MetaInfo$batch <- factor(c(rep(c("Day1"), 3), 
+                               rep(c("Day2"), 3), 
+                               rep(c("Day3"), 3), 
+                               rep(c("Day4"), 3)), 
+                             levels = c("Day1", "Day2", "Day3", "Day4"))
+    
+    dds_batch <- DESeqDataSetFromMatrix(countData = CountTable,
                               colData = MetaInfo,
                               design = ~ batch + Gtype.Tx)
     ```
->  Notice that if you run the above command, the error indicates that variables in the design formula "are linear combinations" which means that batch and condition are correlated and the function is unable to fill in a required 'slot' in the DESeq2 object. So if batches are not balanced by including both case and controls (like in the patient covariate example) then we cannot control for those technical effects throughs statistical modeling.
-></details> 
+    Notice that if you run the above command, the error indicates that variables in the design formula "are linear combinations" which means that batch and condition are correlated and the function is unable to fill in a required 'slot' in the DESeq2 object. So if batches are not balanced by including both case and controls (like in the patient covariate example) then we cannot control for those technical effects throughs statistical modeling.
+</details> 
+
 
 ## Pre-filtering
 
 While not necessary, [pre-filtering](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#pre-filtering) the count table to exclude genes that were poorly measured helps to not only reduce the size of the DESeq2 object, but also gives you a sense of how many genes were measured at the sequencing depth generated for your samples.
 
-Here we will filter out any genes that are lacking counts across any of the samples, i.e.: all columns are zero.
+Here we will filter out any genes that have less than 10 counts across any of the samples. **TODO: May or may not want to keep filtering level so high here since makes rlog normalization a but wonky, even though rlog count normalization figure improves**
 ```{r PreFilter}
-keep <- rowSums(counts(dds)) >= 1
+keep <- rowSums(counts(dds)) >= 10
 dds <- dds[keep,]
 ```
 Notice how the `dds` object now has less elements than the `dds_patient` object after filtering, so there were quite a number of genes that were not measured in our experiment.
 
-Before moving on with our group comparisons, we'll take a short break before proceeding.
+We'll also filter the `dds_patient` genes, but we'll be less stringent with our filter for now.
+```{r PreFilterPatient}
+keep <- rowSums(counts(dds_patient)) >= 1
+dds_patient <- dds_patient[keep,]
+```
+
+Before moving on with our group comparisons, we'll take a short (10 minute) break.
 
 ---
 
 # Sources
+## Training resources used to develop materials
 * HBC DGE setup: https://hbctraining.github.io/DGE_workshop/lessons/01_DGE_setup_and_overview.html
 * HBC Count Normalization: https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html
 * DESeq2 standard vignette: http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
 * DESeq2 beginners vignette: https://bioc.ism.ac.jp/packages/2.14/bioc/vignettes/DESeq2/inst/doc/beginner.pdf
 * Bioconductor RNA-seq Workflows: https://www.bioconductor.org/help/course-materials/2015/LearnBioconductorFeb2015/B02.1_RNASeq.html
+* CCDL Gastric cancer training materials: https://alexslemonade.github.io/training-modules/RNA-seq/03-gastric_cancer_exploratory.nb.html
+* CCDL Neuroblastoma training materials: https://alexslemonade.github.io/training-modules/RNA-seq/05-nb_cell_line_DESeq2.nb.html
 
+## Papers and lectures
+**TODO: Add paper sources**
 
 ```{r WriteOut.RData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 #Hidden code block to write out data for knitting

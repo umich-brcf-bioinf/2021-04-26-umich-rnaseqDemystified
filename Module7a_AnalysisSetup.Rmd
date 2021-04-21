@@ -34,12 +34,12 @@ To get started, we'll open up our RStudio console and set up for our analysis.
 
 ## Best practices for file organization
 
-To follow best practices as discussed by [Nobel,2009](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424) for file organization for bioinformatics/computational projects, we will need to make sure there are separate storage locations for:    
+To follow best practices as discussed by [Nobel, 2009](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424) for file organization for bioinformatics/computational projects, we will need to make sure there are separate storage locations for:    
 * Raw data    
 * Code    
 * Output files       
 
-![File organization for reproducible research, from Nobel 2009](./images/Noble2009_dataprojects.png)    
+![](./images/Noble2009_dataprojects.png)    
 
 To organize our files for our analysis today we'll create a new folder, ideally in our home directory, using the 'New Folder' button on the right side of our screen & naming it `RNASeqDemystified`.           
 
@@ -75,19 +75,19 @@ This code file can also serve as a 'cheatsheet' of commands to use for working t
 *Another note is that there are several bonus content sections, like the two below that we will not be covering in this workshop, but that may be useful context or helpful when you review this material*
 
 ><details>
->  <summary>*Click for code execution shortcut*</summary>
-   **Ctrl-Enter** is a standard shortcut in Rstudio to send the current line (or selected lines) to the console. If you see an `>`, then R has executed the command. If you see a `+`, this means that the command is not complete and R is waiting (usually for a `)`).
-></details>
+    <summary>*Click for code execution shortcut*</summary>
+    **Ctrl-Enter** is a standard shortcut in Rstudio to send the current line (or selected lines) to the console. If you see an `>`, then R has executed the command. If you see a `+`, this means that the command is not complete and R is waiting (usually for a `)`).
+</details>
 
 
-> <details>
->  <summary>*Click for review of R conventions for object names*</summary>
->  R has some restrictions for naming objects:   
->  * Cannot start with numbers   
->  * Cannot include dashes   
->  * Cannot have spaces   
->  * Should not be identical to a named function   
->  * Dots & underscores will work but are better to avoid   
+><details>
+    <summary>*Click for review of R conventions for object names*</summary>
+    R has some restrictions for naming objects:   
+    * Cannot start with numbers   
+    * Cannot include dashes   
+    * Cannot have spaces   
+    * Should not be identical to a named function   
+    * Dots & underscores will work but are better to avoid   
 </details>
 
 ## Check package installations
@@ -107,7 +107,7 @@ library('RColorBrewer', character.only=TRUE)
 
 *Note: Expect to see some messages in your console while these packages are loading*
 
-Remember that R/RStudio has great resources for 
+R/RStudio has great resources for getting help, including [code 'cheatsheets'](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf) and package vignettes, like for [tidyr](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
 **Checkpoint**: *Please use the 'raise hand' button if you see any `Error` message after executing the library commands*
 
@@ -124,11 +124,11 @@ from Love, Anders, and Huber from which our workflow is partially adapted and is
 
 
 ><details>
->  <summary>*Click for additional resources regarding statistical testing and tool comparison for RNA-seq data*</summary>
-   To learn more about statistical testing and what distributions best model the behavior of RNA-seq data, a good resource is this [EdX lecture by Rafael Irizarry](https://www.youtube.com/watch?v=HK7WKsL3c2w&feature=youtu.be) or this [lecture by Kasper Hansen](https://www.youtube.com/watch?v=C8RNvWu7pAw). Another helpful guide is this [Comparative Study for Differential Expression Analysis by Zhang et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0103207) from 2014. 
-></details>
+    <summary>*Click for additional resources regarding statistical testing and tool comparison for RNA-seq data*</summary>
+    To learn more about statistical testing and what distributions best model the behavior of RNA-seq data, a good resource is this [EdX lecture by Rafael Irizarry](https://www.youtube.com/watch?v=HK7WKsL3c2w&feature=youtu.be) or this [lecture by Kasper Hansen](https://www.youtube.com/watch?v=C8RNvWu7pAw). Another helpful guide is this [Comparative Study for Differential Expression Analysis by Zhang et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0103207) from 2014. 
+</details>
 
-We previously loaded several libraries into our R session, we can check the tools documentation this out using the `?` operator.
+We previously loaded several libraries into our R session, we can check the tools documentation out using the `?` operator.
 ```{r CheckDocumentaion}
 ?`DESeq2-package`
 ```
@@ -142,10 +142,10 @@ A key assumption is that since a vast number of RNAs are represented in each sam
 For most experiments biological variance is much greater than technical variance, especially if [best practices](https://www.txgen.tamu.edu/faq/rna-isolation-best-practices/) for [quality RNA isolation](https://www.biocompare.com/Bench-Tips/128790-Four-Tips-for-Perfecting-RNA-Isolation/) are followed (including DNase treatment!).
 
 ><details>
->  <summary>*Click for statistical thinking around RNA-seq data & replicates with cell lines*</summary>
-      For a walk through of mean versus variance in RNA-seq data, this [blog post by David Tang](https://davetang.org/muse/2012/04/14/variance-in-rna-seq-data/) has a nice practical walk through. A more technical talk by Gordon Smyth is summarized in this [blog post by Peter Hicky](https://www.peterhickey.org/2011/11/23/bioinf-seminar-gordon-smyth/) and described in detail in [Symth's voom paper](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-2-r29)
-      >> **Note**: If you are working with cell lines and would like more detail about replicates for *in vitro* studies, this [archived page](https://web-archive-org.proxy.lib.umich.edu/web/20170807192514/http://www.labstats.net:80/articles/cell_culture_n.html) could be helpful.
-></details>
+    <summary>*Click for statistical thinking around RNA-seq data & replicates with cell lines*</summary>
+    For a walk through of mean versus variance in RNA-seq data, this [blog post by David Tang](https://davetang.org/muse/2012/04/14/variance-in-rna-seq-data/) has a nice practical walk through. A more technical talk by Gordon Smyth is summarized in this [blog post by Peter Hicky](https://www.peterhickey.org/2011/11/23/bioinf-seminar-gordon-smyth/) and described in detail in [Symth's voom paper](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-2-r29)
+    >> **Note**: If you are working with cell lines and would like more detail about replicates for *in vitro* studies, this [archived page](https://web-archive-org.proxy.lib.umich.edu/web/20170807192514/http://www.labstats.net:80/articles/cell_culture_n.html) could be helpful.
+</details>
 
 
 Since variance is key to the statistical approach used for DESeq2, if you try to compare treatment groups with less than **two** replicates, DESeq2 will give you an error, as shown in [this blog post](https://support.bioconductor.org/p/89746/). Without replicates, statistical significance (i.e. p-values) cannot be calculated, but qualitative approaches like looking at the top expressed genes after normalization are an option.
@@ -194,29 +194,32 @@ tail(CountTable) # now whole numbers
     
 
 ><details>
->  <summary>*Click for alternative DESeq2 input options for RSEM outputs*</summary>
->The package `tximport` is another option[recommended the DESeq2  authors](https://support.bioconductor.org/p/90672/) to read in the RSEM expected_counts, as this  package allows for the average transcript length per gene to be used in the DE analysis and, as [described by the author](https://support.bioconductor.org/p/88763/), the `tximport-to-DESeqDataSet` constructor function round the non-integer data generated by RSEM to whole numbers.
-></details>
+    <summary>*Click for alternative DESeq2 input options for RSEM outputs*</summary>
+    The package `tximport` is another option[recommended the DESeq2  authors](https://support.bioconductor.org/p/90672/) to read in the RSEM expected_counts, as this  package allows for the average transcript length per gene to be used in the DE analysis and, as [described by the author](https://support.bioconductor.org/p/88763/), the `tximport-to-DESeqDataSet` constructor function round the non-integer data generated by RSEM to whole numbers.
+</details>
     
 ><details>
->  <summary>*Click for comparison of RNA-seq data and microarray data*</summary>
-With [higher sensitivity, greater flexiblity, and decreasing cost](https://www.illumina.com/science/technology/next-generation-sequencing/microarray-rna-seq-comparison.html), sequencing has largely replaced microarray assays for measuring gene expression. A key difference between the platforms is that microarrays measure intensities and are therefore *continous* data while the count data from sequencing is *discrete*. A more detailed comparison between microarrays and sequencing technologies/analysis is outlined in [the online materials for Penn State's STAT555 course](https://online.stat.psu.edu/stat555/node/30/)
-></details>   
+    <summary>*Click for comparison of RNA-seq data and microarray data*</summary>
+    With [higher sensitivity, greater flexiblity, and decreasing cost](https://www.illumina.com/science/technology/next-generation-sequencing/microarray-rna-seq-comparison.html), sequencing has largely replaced microarray assays for measuring gene expression. A key difference between the platforms is that microarrays measure intensities and are therefore *continous* data while the count data from sequencing is *discrete*. A more detailed comparison between microarrays and sequencing technologies/analysis is outlined in [the online materials for Penn State's STAT555 course](https://online.stat.psu.edu/stat555/node/30/)
+</details>   
      
 
 Now that we have our count data processed, we can move on to "unblinding" our data, as the sample names are unique identifiers generated by a sequencing center and not very informative as far as our experimental conditions.
 
 ---
 
-# Sources used to develop materials:
+# Sources
+## Training resources used to develop materials
 * HBC DGE setup: https://hbctraining.github.io/DGE_workshop/lessons/01_DGE_setup_and_overview.html   
 * HBC Count Normalization: https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html   
 * DESeq2 standard vignette: http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html   
 * DESeq2 beginners vignette: https://bioc.ism.ac.jp/packages/2.14/bioc/vignettes/DESeq2/inst/doc/beginner.pdf   
 * Bioconductor RNA-seq Workflows: https://www.bioconductor.org/help/course-materials/2015/LearnBioconductorFeb2015/B02.1_RNASeq.html   
+* CCDL Gastric cancer training materials: https://alexslemonade.github.io/training-modules/RNA-seq/03-gastric_cancer_exploratory.nb.html
+* CCDL Neuroblastoma training materials: https://alexslemonade.github.io/training-modules/RNA-seq/05-nb_cell_line_DESeq2.nb.html
 
-**TODO: Add CCDL materials?**
-
+## Papers and lectures
+**TODO: Add paper sources**
 
 
 ```{r WriteOut.RData, eval=TRUE, echo=FALSE, message=FALSE}
