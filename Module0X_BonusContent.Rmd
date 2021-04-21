@@ -1,0 +1,168 @@
+---
+title: "Day 2 - Module 0X: Bonus Content"
+author: "UM Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+        html_document:
+            theme: readable
+            toc: true
+            toc_depth: 4
+            toc_float: true
+            number_sections: true
+            fig_caption: true
+            keep_md: false
+---
+
+<!--- Allow the page to be wider --->
+<style>
+    body .main-container {
+        max-width: 1200px;
+    }
+</style>
+> # Objectives 
+> * Additional visualizations for gene level QC assessment
+
+#
+
+## Count boxplots
+
+**TODO: Simplify plots so they are more easily explained**
+Next, we'll look at our distributions of raw and normalized counts. First, we need to set up some tables and labels.
+```{r RawCountsSetup}
+## setup for raw counts
+pdata <- data.frame(colData(dds))
+mat <- as.matrix(assay(dds))
+title <- 'Raw counts'
+y_label <- 'log2(counts)'
+Comparison <- "ko.Tx"
+```
+
+Then, we'll add the relevant annotations to the count table. 
+```{r Annotations}
+# create annotationn table for raw plots
+annot_df = data.frame(
+    sample = row.names(pdata),
+    row.names = row.names(pdata),
+    stringsAsFactors = F
+)
+
+# join counts and annotation table
+tidy_mat = tidyr::gather(as_tibble(mat), key = 'sample', value = 'counts') %>%
+    left_join(annot_df, by = 'sample')
+```
+
+Once we set up the input data, we can plot the raw counts for our samples. 
+```{r BoxplotsRaw, warning=FALSE}
+box_plot = ggplot(tidy_mat, aes(x = sample, y = log2(counts))) +
+    geom_boxplot(notch = TRUE) +
+    labs(
+        title = title,
+        x = '',
+        y = y_label) +
+    theme_bw() + theme(axis.text.x = element_text(angle = 90))
+box_plot
+```
+
+After generating the plot with ggplot, we'll save it as a file in the directory we set up.
+```{r BoxplotsRawSave}
+ggsave(filename = paste0(plotPath, "BoxPlot_Gtype.Tx_raw.pdf"), plot = box_plot, height = 8, width = 8, dpi = 300)
+```
+
+To understand how the rlog normalization impacted the distributions of counts for each sample, we can plot boxplots for the normalized data and compare that to our plot of the raw data.
+```{r BoxplotsRlog}
+## rlog counts
+pdata = data.frame(colData(rld))
+mat = as.matrix(assay(rld))
+title = 'Rlog normalized counts'
+y_label = 'rlog(counts)'
+
+annot_df = data.frame(
+    sample = row.names(pdata),
+    row.names = row.names(pdata),
+    stringsAsFactors = F
+)
+
+tidy_mat = tidyr::gather(as_tibble(mat), key = 'sample', value = 'counts') %>%
+    left_join(annot_df, by = 'sample')
+
+box_plot = ggplot(tidy_mat, aes(x = sample, y = counts)) +
+    geom_boxplot(notch = TRUE) +
+    labs(
+        title = title,
+        x = '',
+        y = y_label) +
+    theme_bw() + theme(axis.text.x = element_text(angle = 90))
+box_plot
+
+ggsave(filename = paste0(plotPath, "BoxPlot_Gtype.Tx_rlog.pdf"), plot = box_plot, height = 8, width = 8, dpi = 300)
+```
+
+
+
+## Heatmaps
+
+Next, we'll generate a heatmap of the top expressed genes across all samples. First, we'll set our color palette using a tool called [Color Brewer](https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html). 
+```{r ChooseColors}
+#heatmap with top 500 variant or expressed genes, rlog normalized data
+colors <- colorRampPalette(brewer.pal(9, 'Blues'))(255)
+```
+
+First, we'll select the top expressed genes across all our samples to prioritize this set of genes and allow for patterns to be more easily ovbserved. 
+```{r TopExpression}
+select <- order(rowMeans(assay(rld)), decreasing=TRUE)[1:500]
+df <- data.frame(Group = colData(rld)[,c('condition')], row.names = rownames(colData(dds)))
+```
+
+Next, we'll set up a PDF file and plot our heatmap. Saving the plot as an object allows us to view the figure within our session as well as writing the plot to file. 
+
+The [`pheatmap` function](https://cran.r-project.org/web/packages/pheatmap/pheatmap.pdf) does quite a lot in a single step, including scaling the data by row and clustering both the samples (columns) and genes (rows). *TODO: Add additional overview of pheatmap/heatmap function?*
+
+>**Note**: [This blog post](https://towardsdatascience.com/pheatmap-draws-pretty-heatmaps-483dab9a3cc) has a nice step by step overview of the pheatmap options, using basketball data as an example.
+
+```{r GeneratePrettyheatmap}
+pdf(file = paste0(plotPath,'Heatmap_TopExp_', Comparison, '.pdf'), onefile = FALSE, width=10, height=20)
+p <- pheatmap(assay(rld)[select,], scale="row",  cluster_rows=TRUE, show_rownames=FALSE, cluster_cols=TRUE, annotation_col=df, fontsize = 7, las = 2, fontsize_row = 7, color = colors, main = '500 Top Expressed Genes Heatmap')
+p
+dev.off()
+```
+
+Looking at the heatmap, we see that samples within the same treatment group cluster together, fitting our understanding of the experimental design. We also see clusters of genes that appear to have contrasting patterns between the treatment groups, which is promising for our differential expression comparisons.
+
+> **Note**: Heatmaps are helpful visualizations, especially for sharing an overview of your RNA-seq data. The why and how of to use them properly can be confusing, such as outlined in the questions and answers in [this biostars post](https://www.biostars.org/p/230115/) that adds additional context to the overview in this workshop. 
+
+#### Sample and Top Variable Expressed Heatmaps
+
+This [blog post](http://www.opiniomics.org/you-probably-dont-understand-heatmaps/) reviews the data transformation procedure for generating heatmaps and is a useful resource. They review the steps for generating a sample correlation heatmap similar to the plot generated below. 
+
+```{r SampleHeatmaps, warning=FALSE}
+#heatmap of normalized data, sample distibution matrix
+sampleDists <- dist(t(assay(rld))) #rld
+sampleDistMatrix <- as.matrix(sampleDists) # convert to matrix
+colnames(sampleDistMatrix) <- NULL
+
+colors <- colorRampPalette(rev(brewer.pal(9, 'Blues')))(255)
+pdf(file = paste0(plotPath,'Heatmap_Dispersions_', Comparison, '.pdf'), onefile = FALSE)
+p <- pheatmap(sampleDistMatrix, 
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+p
+dev.off()
+```
+If we look at the `sampleDists` object, we now see from the diagonal values that the least distant samples are `Irrel_kd1_1` and `Irrel_kd_2` so these will be clustered together first, with the next closest samples `Irrel_kd_3` and `Irrel_kd_2` clustered together next.
+
+Overall, like the heatmap of the top 500 most expressed genes, we see that samples in the same treatment groups cluster well together when the full dataset is considered.
+
+Another informative heatmap is for the top most variably expressed genes in the dataset. An example of this code is shown below.
+```{r TopVarianceHeatmaps}
+colors <- colorRampPalette(brewer.pal(9, 'Blues'))(255)
+
+select <- order(rowVars(assay(rld)), decreasing=TRUE)[1:500]
+df <- data.frame(Group = colData(rld)[,c('condition')], row.names = rownames(colData(dds)))
+
+pdf(file = paste0(plotPath,'Heatmap_TopVar_', Comparison, '.pdf'), onefile = FALSE, width=10, height=20)
+pheatmap(assay(rld)[select,], scale="row",  cluster_rows=TRUE, show_rownames=FALSE, cluster_cols=TRUE, annotation_col=df, fontsize = 7, las = 2, fontsize_row = 7, color = colors, main = '500 Top Variably Expressed Genes Heatmap')
+dev.off()
+
+```
+
