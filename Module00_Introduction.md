@@ -3,24 +3,24 @@
 ## About this workshop
 
 - By the end of the workshop, attendees will be able to
-  - Articulate the impact of experimental design and sequencing protocol on analytical results 
-  - Transform raw sequencing data into annotated differential expression values using a suite of 
+  - Articulate the impact of experimental design and sequencing protocol on analytical results
+  - Transform raw sequencing data into annotated differential expression values using a suite of
     open-source tools.
-  - Identify common data quality problems and understand their impact and possible mitigations 
+  - Identify common data quality problems and understand their impact and possible mitigations
 
-- This workshop is targeted toward researchers who would like to be able to run RNA-Seq analysis on their 
+- This workshop is targeted toward researchers who would like to be able to run RNA-Seq analysis on their
   own. It assumes a very basic familiarity with genetics, the command line, and R or R-Studio.
 
 - Our purpose is not to be exhaustive, and we don't expect anyone to be an expert at the end of
-  the workshop. But we hope you will have a familiarity with key concepts, data types, 
+  the workshop. But we hope you will have a familiarity with key concepts, data types,
   tools, and how they all connect to one another in the service of a biological question.
-- The first day will be a mix of hands-on content and lecture-style components, while the second 
+- The first day will be a mix of hands-on content and lecture-style components, while the second
   day will primarily be a hands-on experience.
 
 - This is a pilot of this workshop. We expect this to be an opportunity for you to learn more about RNA-
-  Seq analysis and for us to test out our workshop content and delivery. We will be asking you for specific 
-  feedback in a post-workshop survey; in the interim, please let us know if there is anything we can do to 
-  improve the workshop experience. 
+  Seq analysis and for us to test out our workshop content and delivery. We will be asking you for specific
+  feedback in a post-workshop survey; in the interim, please let us know if there is anything we can do to
+  improve the workshop experience.
 
 
 ## Thanks to our sponsors
@@ -30,26 +30,26 @@
 
 - [Biomedical Research Core Facilities](https://brcf.medicine.umich.edu/)
 
-  Biomedical Research Core Facilities (BRCF) helps researchers economically take advantage of 
-  the latest technology and collaborate with top experts in the field. Established in 1986, the 
+  Biomedical Research Core Facilities (BRCF) helps researchers economically take advantage of
+  the latest technology and collaborate with top experts in the field. Established in 1986, the
   BRCF was formed to offer centralized access to research services and equipment.
 
-- [University of Michigan Library](https://www.lib.umich.edu/) 
-  
-  Our mission is to support, enhance, and collaborate in the instructional, research, and 
-  service activities of faculty, students, and staff, and contribute to the common good by 
-  collecting, organizing, preserving, communicating, sharing, and creating the record of human 
+- [University of Michigan Library](https://www.lib.umich.edu/)
+
+  Our mission is to support, enhance, and collaborate in the instructional, research, and
+  service activities of faculty, students, and staff, and contribute to the common good by
+  collecting, organizing, preserving, communicating, sharing, and creating the record of human
   knowledge.
-  
+
 - [Michigan Institute for Data Science (MIDAS)](https://midas.umich.edu/)
-  
-  To strengthen University of Michigan’s preeminence in Data Science and to catalyze the    
-  transformative use of Data Science in a wide range of disciplines to achieve lasting societal 
+
+  To strengthen University of Michigan’s preeminence in Data Science and to catalyze the
+  transformative use of Data Science in a wide range of disciplines to achieve lasting societal
   impact.
 
 ## What is the Bioinformatics Core?
 
-- The UM Bioinformatics Core is a team seven analysts; we help researchers **design, analyze, 
+- The UM Bioinformatics Core is a team seven analysts; we help researchers **design, analyze,
   and interpret** high-throughput genomics experiments.
 - Last year we helped about 60 researchers design and execute about 100 projects across:
     - gene expression
@@ -75,36 +75,36 @@
 
 ## Code of Conduct (CoC)
 
-- Be kind to others. Do not insult or put down others. Behave professionally. Remember that 
+- Be kind to others. Do not insult or put down others. Behave professionally. Remember that
   harassment and sexist, racist, or exclusionary jokes are not appropriate for the workshop.
 
-- All communication should be appropriate for a professional audience including people of many 
+- All communication should be appropriate for a professional audience including people of many
   different backgrounds. Sexual language and imagery is not appropriate.
 
-- The Bioinformatics Core is dedicated to providing a harassment-free community for everyone, 
-  regardless of gender, sexual orientation, gender identity and expression, disability, physical 
-  appearance, body size, race, or religion. We do not tolerate harassment of participants in any 
+- The Bioinformatics Core is dedicated to providing a harassment-free community for everyone,
+  regardless of gender, sexual orientation, gender identity and expression, disability, physical
+  appearance, body size, race, or religion. We do not tolerate harassment of participants in any
   form.
 
 - Thank you for helping make this a welcoming, friendly community for all.
 
-- If you have questions about the CoC please reach out to the hosts during the workshop, or 
+- If you have questions about the CoC please reach out to the hosts during the workshop, or
   email us at bioinformatics-workshops@umich.edu.
 
-- To report a CoC incident/concern, please email Chris Gates (Bioinformatics Core, Managing 
-  Director) at cgates@umich.edu or contact the University of Michigan Office of Institutional 
+- To report a CoC incident/concern, please email Chris Gates (Bioinformatics Core, Managing
+  Director) at cgates@umich.edu or contact the University of Michigan Office of Institutional
   Equity at institutional.equity@umich.edu.
 
 
 ## Workshop patterns and Zoom controls
 
-- We will be recording this session. Recordings will be available to participants following 
+- We will be recording this session. Recordings will be available to participants following
   the workshop.
-  
+
 - Zoom controls are at the bottom of the Zoom window:
 ![Zoom controls](images/Module1_zoom_controls.png)
 
-- To mininize distractions, we encourage participants to keep their audio muted (1) (unless 
+- To mininize distractions, we encourage participants to keep their audio muted (1) (unless
   actively asking a question).
 - To maximize engagement, we encourage participants to keep their viedo on.
 - **Chat** can be used to communicate to the group or to individuals.
@@ -152,9 +152,9 @@
 ### Any questions?
  -
  -
- 
- 
- 
+
+
+
 ---
 
 *The workshop Code of Conduct has been adapted the NumFocus Code of Conduct (https://numfocus.org/code-of-conduct) which itself draws frin from numerous sources, including the Geek Feminism wiki, created by the Ada Initiative and other volunteers, which is under a Creative Commons Zero license, the Contributor Covenant version 1.2.0, the Bokeh Code of Conduct, the SciPy Code of Conduct, the Carpentries Code of Conduct, and the NeurIPS Code of Conduct.
