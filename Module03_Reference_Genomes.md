@@ -1,39 +1,15 @@
----
-title: "Reference Genomes"
-author: "UM Bioinformatics Core"
-date: "`r Sys.Date()`"
-output:
-    html_document:
-        theme: readable
-        toc: true
-        toc_depth: 4
-        toc_float: true
-        number_sections: true
-        fig_caption: true
-        keep_md: false
----
+# Reference Genomes
 
-<!---
-library(rmarkdown)
-render('Module4a_Reference_Genomes.Rmd', output_dir = 'site')
---->
+In this module, we will learn:
 
-<!--- Allow the page to be wider --->
-<style>
-    body .main-container {
-        max-width: 1200px;
-    }
-</style>
-
-> # Objectives
-> * Understand what a reference genome is and what it contains.
-> * Understand the FASTA and GTF formats.
-> * Appreciate the differences in gene identifiers.
-> * Understand how to download a reference genome.
+* what a reference genome is and what it contains
+* details about the FASTA and GTF formats
+* to appreciate the differences in gene identifiers
+* how to download a reference genome
 
 # Differential Expression Workflow
 
-In this lesson we will set the stage for steps 5 and 6 by discussing reference genomes, which are integral to genome alignments and gene/isoform quantification. Along the way we will touch on some quirks to be aware of.
+Here we will set the stage for steps 5 and 6 by discussing reference genomes, which are integral to genome alignments and gene/isoform quantification. Along the way we will touch on some quirks to be aware of.
 
 | Step | Task |
 | :--: | ---- |
@@ -62,35 +38,34 @@ Reference sequence is stored in [FASTA](https://en.wikipedia.org/wiki/FASTA_form
 1. Records are separated by lines beginning with `>` instead of `@`.
 2. Only the sequence is stored in a FASTA file, there is no notion of quality attached to the nucleotides.
 
-```
->chrM
-GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCAT
-TTGGTATTTTCGTCTGGGGGGTGTGCACGCGATAGCATTGCGAGACGCTG
-GAGCCGGAGCACCCTATGTCGCAGTATCTGTCTTTGATTCCTGCCTCATT
-CTATTATTTATCGCACCTACGTTCAATATTACAGGCGAACATACCTACTA
-AAGTGTGTTAATTAATTAATGCTTGTAGGACATAATAATAACAATTGAAT
-GTCTGCACAGCCGCTTTCCACACAGACATCATAACAAAAAATTTCCACCA
-AACCCCCCCCTCCCCCCGCTTCTGGCCACAGCACTTAAACACATCTCTGC
-CAAACCCCAAAAACAAAGAACCCTAACACCAGCCTAACCAGATTTCAAAT
-TTTATCTTTAGGCGGTATGCACTTTTAACAGTCACCCCCCAACTAACACA
-```
+
+    >chrM
+    GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCAT
+    TTGGTATTTTCGTCTGGGGGGTGTGCACGCGATAGCATTGCGAGACGCTG
+    GAGCCGGAGCACCCTATGTCGCAGTATCTGTCTTTGATTCCTGCCTCATT
+    CTATTATTTATCGCACCTACGTTCAATATTACAGGCGAACATACCTACTA
+    AAGTGTGTTAATTAATTAATGCTTGTAGGACATAATAATAACAATTGAAT
+    GTCTGCACAGCCGCTTTCCACACAGACATCATAACAAAAAATTTCCACCA
+    AACCCCCCCCTCCCCCCGCTTCTGGCCACAGCACTTAAACACATCTCTGC
+    CAAACCCCAAAAACAAAGAACCCTAACACCAGCCTAACCAGATTTCAAAT
+    TTTATCTTTAGGCGGTATGCACTTTTAACAGTCACCCCCCAACTAACACA
+
 
 ## Gene Models
 
 Well-characterized organisms (e.g. human, mouse, zebrafish) have fairly mature gene models. These are stored in [GTF](https://uswest.ensembl.org/info/website/upload/gff.html) format, which gives location and other information about each gene feature. Below are two examples:
 
-```
-chr1	unknown	exon	11874	12227	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
-chr1	unknown	exon	12613	12721	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
-chr1	unknown	exon	13221	14409	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
-chr1	unknown	exon	14362	14829	.	-	.	gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS8568";
-```
 
-```
-1	havana	gene	11869	14409	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene";
-1	havana	transcript	11869	14409	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; transcript_id "ENST00000456328"; transcript_version "2"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene"; transcript_name "DDX11L1-202"; transcript_source "havana"; transcript_biotype "lncRNA"; tag "basic"; transcript_support_level "1";
-1	havana	exon	11869	12227	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; transcript_id "ENST00000456328"; transcript_version "2"; exon_number "1"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene"; transcript_name "DDX11L1-202"; transcript_source "havana"; transcript_biotype "lncRNA"; exon_id "ENSE00002234944"; exon_version "1"; tag "basic"; transcript_support_level "1";
-```
+    chr1	unknown	exon	11874	12227	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
+    chr1	unknown	exon	12613	12721	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
+    chr1	unknown	exon	13221	14409	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
+    chr1	unknown	exon	14362	14829	.	-	.	gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS8568";
+
+
+    1	havana	gene	11869	14409	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene";
+    1	havana	transcript	11869	14409	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; transcript_id "ENST00000456328"; transcript_version "2"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene"; transcript_name "DDX11L1-202"; transcript_source "havana"; transcript_biotype "lncRNA"; tag "basic"; transcript_support_level "1";
+    1	havana	exon	11869	12227	.	+	.	gene_id "ENSG00000223972"; gene_version "5"; transcript_id "ENST00000456328"; transcript_version "2"; exon_number "1"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene"; transcript_name "DDX11L1-202"; transcript_source "havana"; transcript_biotype "lncRNA"; exon_id "ENSE00002234944"; exon_version "1"; tag "basic"; transcript_support_level "1";
+
 
 The GTF format stores specific information in each column:
 
@@ -141,21 +116,25 @@ The [Illumina iGenomes](https://support.illumina.com/sequencing/sequencing_softw
 
 Reference genomes can be **very large**, depending on the organism, and so we will not download one to the Amazon instance we are using for this workshop. It is not advised to download these references to your personal computer either. Instead, these should be downloaded on the server where you intend to do the RNA-seq analysis (your lab's or Great Lakes).
 
-To do that, you would go to the [iGenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html) page, find the build you want from the source you want, right click the genome build you want to download, and select "Copy link location":
 
-![iGenomes image for copying link location](images/genome_copy_link.png)
+<details>
+    <summary>How would I download references with iGenomes?</summary>
 
-Then on the remote server you would go to the directory you'd like to download the genome to and type (that URL is what we copied):
+    As noted, it's not recommended to download the iGenomes references to the AWS instance. However, if you wanted to know in general how you would do that, the process is described here.
 
-```
-$ wget http://igenomes.illumina.com.s3-website-us-east-1.amazonaws.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz
-```
+    First go to the [iGenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html) page, find the build you want from the source you want, right click the genome build you want to download, and select "Copy link location":
 
-After the download finishes (it may take a while as it is tens of GB large), you can unpack it with:
+    ![iGenomes image for copying link location](images/genome_copy_link.png)
 
-```
-$ tar -xf Homo_sapiens_NCBI_GRCh38.tar.gz
-```
+    Then on the remote server you would go to the directory you'd like to download the genome to and type (that URL is what we copied):
+
+        $ wget http://igenomes.illumina.com.s3-website-us-east-1.amazonaws.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz
+
+    After the download finishes (it may take a while as it is tens of GB large), you can unpack it with:
+
+        $ tar -xf Homo_sapiens_NCBI_GRCh38.tar.gz
+</details>
+
 
 ## Which Reference is Right for Me?
 
