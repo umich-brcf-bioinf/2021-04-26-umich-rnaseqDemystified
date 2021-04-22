@@ -23,7 +23,7 @@
    ------------------------------
    ...
    (/rsd/conda/workshop) YOUR_USER_NAME@ip:~$
-
+   ```
 
 4. Cut and paste the following command and type enter/return to execute:
 
