@@ -1,11 +1,35 @@
 # Building Blocks
 
 In this module, we will discuss the importance of:
-* Compute Environment
 * Input Data
+* Compute Environment
 * You
 
 ![Building Blocks](images/building-blocks.png)
+
+
+# Input Data
+
+## FASTQs
+
+These files contain base sequence and quality information - usually provided by the sequencing provider.
+
+You'll generally have one or two FASTQ files for each sample, depending on if your reads are single-end or paired-end. If there are more than two FASTQ files per sample, then it may be useful to combine them.
+
+For paired-end data, make sure to combine read 1 FASTQs separately from read 2 FASTQs.
+
+More details on FASTQs in later modules
+
+## References
+
+Files with known data (e.g. from a model organism). These include genome references, reference annotation information, etc.
+
+Reference files we'll use:
+
+- Genome Fasta (ENSEMBL)
+- Genome Annotation GTF (ENSEMBL)
+
+More details in later modules.
 
 # The Compute Environment
 
@@ -38,11 +62,11 @@ Single-threaded programs we'll use:
 - MultiQC
 
 <details>
-    <summary>What about clock speed?</summary>
+<summary>What about clock speed?</summary>
 
-    You may be familiar with clock speed of a processor from your experience while buying personal computers. You may've seen specs listed such as `3.3 GHz`, which refers to the CPU's clock speed.
+You may be familiar with clock speed of a processor from your experience while buying personal computers. You may've seen specs listed such as `3.3 GHz`, which refers to the CPU's clock speed.
 
-    Clock speeds on all modern processors are sufficient for basically all bioinformatics software. Clock speed is generally not a major consideration in choices today.
+Clock speeds on all modern processors are sufficient for basically all bioinformatics software. Clock speed is generally not a major consideration in choices today.
 </details>
 
 
@@ -50,13 +74,13 @@ Single-threaded programs we'll use:
 
 Here we're referring to Random Access Memory, or RAM. RAM is the hardware that provides a limited amount of very fast storage that a computer process will use within a short time frame.
 
-The memory requirements of various tools vary widely, and many bioinformatics programs require fairly high amounts. This is true for aligners. In the case of STAR, a very large data structure is loaded into RAM. This allows extremely fast and accurate alignments e.g. to a vertebrate genome, but requires very large amounts of RAM.
+The memory requirements of various tools vary widely, and many bioinformatics programs require fairly high amounts. This is true for aligners. In the case of the aligner we'll be using - STAR - a very large data structure is loaded into RAM. This allows extremely fast and accurate alignments e.g. to a vertebrate genome, but requires very large amounts of RAM.
 
 Cutadapt, fastQC, and multiQC have more modest memory requirements, so we won't have to consider memory as much in those cases.
 
 ### Storage
 
-Here we're referring to disk storage, or persistent storage. This is the hardware that stores large amounts of electronic data, and stores it safely even when there is no power to the device. You may sometimes use the phrase "save [the file] to your hard drive]", which is referring to persistent storage.
+Here we're referring to disk storage, or persistent storage. This is the hardware that stores large amounts of electronic data, and stores it safely even when there is no power to the device. You may sometimes use the phrase "save [the file] to your hard drive", which is referring to persistent storage.
 
 Consider:
 
@@ -75,11 +99,11 @@ The Operating System (OS) is the software layer that handles communication betwe
 
 Examples:
 
-- Microsoft - Windows
-- Apple - MacOS
-- FLOSS - GNU / LINUX
-- Google - Android
-- Apple - iOS
+- Microsoft - [Windows](https://en.wikipedia.org/wiki/Microsoft_Windows)
+- Apple - [MacOS](https://en.wikipedia.org/wiki/MacOS)
+- [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) - [GNU](http://www.gnu.org) / [LINUX](https://en.wikipedia.org/wiki/Linux)
+- Google - [Android](https://en.wikipedia.org/wiki/Android_(operating_system))
+- Apple - [iOS](https://en.wikipedia.org/wiki/IOS)
 
 Some software is specific to an operating system - developers may focus their time and attention on developing for certain configurations over others, depending on the niche or goal. Often, releases may be limited to certain OS / hardware configurations.
 
@@ -87,7 +111,7 @@ Some software is specific to an operating system - developers may focus their ti
 
 Can you touch the machine that is performing your computation? Can you hear the fan speed pick up when you begin your processes? This is local computing - probably what you're most familiar with.
 
-On the other hand, with remote computing you will utilize a network connection to connect to a distant machine that performs the work. Remote computing is sensible in many situations - for economies of scale it's best to have many machines in physical locations that are built and designed for that purpose. This is what it means if you've heard of Cloud Computing - a type of remote computing, often with convenience services or products built on top of the remote machines.
+On the other hand, with remote computing you will utilize a network connection to connect to a distant machine that performs the work. Remote computing is sensible in many situations - for economies of scale it's best to have many machines in physical locations that are built and designed for that purpose. This is what it means if you've heard of cloud computing - a type of remote computing, often with convenience services or products built on top of the remote machines.
 
 ### Warm-up exercise:
 
@@ -103,9 +127,9 @@ We will have time for troubleshooting at the end of this section.
 This is a broad topic - scheduling is inherent to the process of computing, but here we'll just consider a job as an individual call to a piece of software. There are many ways to manage resources at the job level.
 
 <details>
-    <summary>Workflow managers</summary>
+<summary>Workflow managers</summary>
 
-    [Snakemake](https://snakemake.readthedocs.io/en/stable/) is an example of this. This is a topic of its own. It's good to be aware of job management tools, but we won't talk about this today.
+[Snakemake](https://snakemake.readthedocs.io/en/stable/) is an example of this. This is a topic of its own. It's good to be aware of job management tools, but we won't talk about this today.
 </details>
 
 Resource management at the UMich HPC is handled by SLURM. A topic of its own, you can read more about these resources [here](https://arc.umich.edu/greatlakes/slurm-user-guide/).
@@ -120,11 +144,11 @@ Today we're using [miniconda](https://docs.conda.io/en/latest/miniconda.html). T
 
 Conda is an open-source, cross-platform, package management and environment management software. It's widely used for packaging and distributing software, particularly in the python community. Note: it is used for software of many different software languages; it is language-agnostic.
 
-Miniconda is a minimal installation of conda, that provides a lightweight option to get started using conda.
+Miniconda is a minimal installation of conda, that provides a lightweight option to get started.
 
 ## Software
 
-The software we'll use is free, open-sourced, and openly licensed. We can inspect the source code, use the program as we wish, modify it, contribute to it, etc. This is the case for many bioinformatics tools. We can appreciate the benefits of community-driven software.
+The software we'll use is free, open-source, and openly licensed. We can inspect the source code, use the program as we wish, modify it, contribute to it, etc. This is the case for many bioinformatics tools. We can appreciate the benefits of community-driven software.
 
 There are tools available for various kinds of bioinformatics tasks. Today we'll focus on a few important tasks for RNA sequencing, and discuss the subset of tools we've chosen.
 
@@ -160,27 +184,6 @@ Taking the above idea further, using the aggregated read alignment data, we can 
 Today we will use RSEM. RSEM effectively handles reads which map to multiple genes or transcripts by using a statistical model. RSEM is easy to use and provides the best combination of precision and accuracy in its class.
 
 
-# Input Data
-
-## FASTQs
-
-These files contain base sequence and quality information - usually provided by the sequencing provider.
-
-You'll generally have one or two FASTQ files for each sample, depending on if your reads are single-end or paired-end. If there are more than two FASTQ files per sample, then it may be useful to combine them.
-
-For paired-end data, make sure to combine read 1 FASTQs separately from read 2 FASTQs.
-
-More details on FASTQs in later modules
-
-## References
-
-Files with known data (e.g. from a model organism). These include genome references, reference annotation information, etc.
-
-Reference files we'll use:
-
-- Genome Fasta (ENSEMBL)
-- Genome Annotation GTF (ENSEMBL)
-
 ![Building Blocks](images/building-blocks-checkmark.png)
 
 
@@ -196,16 +199,16 @@ Orientation exercise:
 4. Use `ls` to view input fastq files
 
 <details>
-    <summary>Click here for help with the copy command</summary>
+<summary>Click here for help with the copy command</summary>
 
-    If you had trouble logging in or feel left behind, don't worry.
+If you had trouble logging in or feel left behind, don't worry.
 
-    You can use this command to copy the data into your home directory.
+You can use this command to copy the data into your home directory.
 
-        cp -r /data/example_data ~/
+    cp -r /data/example_data ~/
 
-    Upon success, `ls ~/example_data/` will show:
+Upon success, `ls ~/example_data/` will show:
 
-        input_fastq    refs
+    input_fastq    refs
 
 </details>

@@ -32,18 +32,18 @@ We will introduce each data type and their formats in more detail as they enter 
 
 - File formats represent the data in a structured manner.
 - Some file formats are not human-readable; they are binary, and we will see what that means when we discuss alignments.
-- Many file formats are human readble, but very large. **These files should not be viewed in Word or Excel.**
+- Many file formats are human readable, but very large. **These files should not be viewed in Word or Excel.**
 
 ## FASTQ Files
 
 Raw sequenced reads are stored in [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) format. This is a plain text, human readable file format that stores information about each read. For a single read there are four lines:
 
-```
-@A00437:266:HVFMYDSXX:1:1101:1181:1000 1:N:0:AGCCTATC+TGCGTAAC
-TTTATTGTTGATGGTTATTTTTTGTTTATGGTTATTTTGTGTTTATGGTTATTTTTTGTTTATGGTTATTTTTTA
-+
-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-```
+
+    @A00437:266:HVFMYDSXX:1:1101:1181:1000 1:N:0:AGCCTATC+TGCGTAAC
+    TTTATTGTTGATGGTTATTTTTTGTTTATGGTTATTTTGTGTTTATGGTTATTTTTTGTTTATGGTTATTTTTTA
+    +
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+
 
 | Line | Description |
 | :--: | ----------- |
@@ -56,17 +56,17 @@ FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 The fourth line encodes the quality of each nucleotide in the read. The most common encoding is referred to as PHRED-33, and the following maps characters to qualities:
 
-```
- Quality encoding: !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI
-                   |         |         |         |         |
-    Quality score: 0........10........20........30........40
-```
+
+    Quality encoding: !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI
+                      |         |         |         |         |
+       Quality score: 0........10........20........30........40
+
 
 The above example is a rather boring read with all bases having `F`, meaning a score of 37, which is good. Each quality score represents the probability that the corresponding nucleotide call is incorrect. The quality score is logarithmic and is calculated as:
 
-```
-Q = -10 x log10(P), where P is the probability that the base call is erroneous
-```
+
+    Q = -10 x log10(P), where P is the probability that the base call is erroneous
+
 
 Another way to interpret the scores is in terms of the following table:
 
@@ -101,6 +101,12 @@ Let's try running FastQC on our FASTQ input files.
 3. Watch FastQC process the files / gather quality metrics
 4. View the output of FastQC (the filenames)
 
+<details>
+<summary>Click here for solution - FastQC command</summary>
+
+    fastqc -o out_fastqc/ input_reads/*.fastq.gz
+
+</details>
 
 We can see some HTML reports, but there isn't a way to open them on the remote machine in the command-line interface (CLI). This is a good opportunity to learn how to pull files from a remote server onto our local computer that we're using.
 
@@ -115,14 +121,17 @@ Transferring Files Exercise:
 4. View the FastQC report and determine any issues
 
 <details>
-  <summary>scp command helpful details</summary>
+<summary>scp command helpful details</summary>
 
-  Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
+Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
 
-  scp command format, with the address for AWS remote
+scp command format, with the address for AWS remote
 
-      # Usage: scp source destination
-      scp <username>@ec2-54-92-149-238.compute-1.amazonaws.com:<remote-path> <local-path>
+    # Create directory on local computer
+    mkdir ~/rsd-workshop
+    # make the transfer with scp [source] [destination]
+    scp <username>@ec2-54-92-149-238.compute-1.amazonaws.com:~/example_data/out_fastqc/sample_01_R1_fastqc.html ~/rsd-workshop/
+
 </details>
 
 ## Interpreting FastQC

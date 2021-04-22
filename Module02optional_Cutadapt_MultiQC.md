@@ -39,16 +39,13 @@ Cutadapt Exercise:
 4. Construct a for-loop to trim the reads for all of our samples
 
 <details>
-  <summary>For-loop solution</summary>
+<summary>Cutadapt for-loop solution</summary>
 
-  for sample in sample_01 sample_02 sample_03 sample_04
-      do
-      cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG \
-      -o trimmed/${sample}_R1.trimmed.fastq.gz \
-      -p trimmed/${sample}_R2.trimmed.fastq.gz \
-      reads/${sample}_R1.fastq.gz \
-      reads/${sample}_R2.fastq.gz
-  done
+    for sample in sample_01 sample_02 sample_03 sample_04
+        do
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${sample}_R1.trimmed.fastq.gz -p out_trimmed/${sample}_R2.trimmed.fastq.gz reads/${sample}_R1.fastq.gz reads/${sample}_R2.fastq.gz
+    done
+
 </details>
 
 ## Re-running FastQC
@@ -60,6 +57,13 @@ Re-running FastQC Exercise:
 1. Construct and execute FastQC command to evaluate trimmed read FASTQ files
 2. View the output (filenames)
 
+
+<details>
+<summary>FastQC on trimmed reads solution</summary>
+
+    fastqc -o out_fastqc_trimmed out_trimmed/*.fastq.gz
+
+</details>
 
 # MultiQC
 
@@ -75,14 +79,27 @@ MultiQC Exercise:
 4. View the MultiQC report
 
 <details>
-  <summary>scp command helpful details</summary>
+<summary>MultiQC solution</summary>
 
-  Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
+    multiqc --outdir out_multiqc out_fastqc_trimmed/
 
-  scp command format, with the address for AWS remote
+</details>
 
-      # Usage: scp source destination
-      scp <username>@ec2-54-92-149-238.compute-1.amazonaws.com:<remote-path> <local-path>
+
+<details>
+<summary>scp command helpful details</summary>
+
+Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
+
+scp command format, with the address for AWS remote
+
+    # Usage: scp source destination
+    scp <username>@ec2-54-92-149-238.compute-1.amazonaws.com:~/example_data/out_multiqc/multiqc_report.html ~/rsd-workshop/
+
 </details>
 
 Opening the HTML report, we see it is organized by the same modules and each plot has all samples for which FastQC was run. We can see the report confirms that the adapters have been trimmed from our sequence.
+
+---
+
+These materials have been adapted and extended from materials created by the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
