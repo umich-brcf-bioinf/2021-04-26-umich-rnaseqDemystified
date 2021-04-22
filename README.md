@@ -15,7 +15,7 @@
 | 10:00 | [Quality Control](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module02_QC) | Travis Saari |
 |  | [Optional - Additional QC](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module02optional_Cutadapt_MultiQC) | Travis Saari |
 |  | [Reference Genomes](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module03_Reference_Genomes) | Travis Saari |
-| 11:00 [Sequence Alignment and Gene Quantification with STAR/RSEM](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module04_Alignment) | Travis Saari |
+| 11:00 | [Sequence Alignment and Gene Quantification with STAR/RSEM](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module04_Alignment) | Travis Saari |
 | 12:00 |  [MultiQC and Count Matrix](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module05_MultiQC_and_Count_Matrix) | Travis Saari |
 | **Day Two** |
 | 9:00 | Intro Day 2 | Chris Gates |
