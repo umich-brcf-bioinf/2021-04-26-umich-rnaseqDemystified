@@ -1,6 +1,6 @@
 # RNA-seq Demystified
 
-## [Setup instructions]((https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop_2021/setup_instructions)
+## [Setup instructions](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop_2021/setup_instructions)
 
 ## [Shared Google Doc](https://docs.google.com/document/d/1TRjD10zSwktd63irw8dZmdAZtzQ0gr4_eKEf0XQ1s-M/edit?usp=sharing)
 
