@@ -3,10 +3,10 @@
 ## About this workshop
 
 - By the end of the workshop, attendees will be able to
-  - Articulate the impact of experimental design and sequencing protocol on analytical results
   - Transform raw sequencing data into annotated differential expression values using a suite of
     open-source tools.
   - Identify common data quality problems and understand their impact and possible mitigations
+  - Visualize differential expression data in RStudio plots.
 
 - This workshop is targeted toward researchers who would like to be able to run RNA-Seq analysis on their
   own. It assumes a very basic familiarity with genetics, the command line, and R or R-Studio.
@@ -17,15 +17,12 @@
 - The first day will be a mix of hands-on content and lecture-style components, while the second
   day will primarily be a hands-on experience.
 
-- This is a pilot of this workshop. We expect this to be an opportunity for you to learn more about RNA-
-  Seq analysis and for us to test out our workshop content and delivery. We will be asking you for specific
-  feedback in a post-workshop survey; in the interim, please let us know if there is anything we can do to
-  improve the workshop experience.
+- Please let us know if there is anything we can do to improve the workshop experience.
 
 
 ## Thanks to our sponsors
 
-![Sponsors](images/Module1_sponsor_logos.png)
+![Sponsors](images/Module00_sponsor_logos.png)
 
 
 - [Biomedical Research Core Facilities](https://brcf.medicine.umich.edu/)
@@ -59,7 +56,7 @@
     - single-cell experiments
     - custom bioinformatic analyses
 - We provide letters of support for grant proposals.
-- We are also creating a series of bioinformatics-focused workshops (!)
+- We are also creating a series of bioinformatics-focused workshops
 
 
 ## Who are your hosts/instructors?
@@ -67,7 +64,7 @@
 - Chris Gates cgates@umich.edu
 - Marci Brandenburg mbradenb@umich.edu
 - Dana King damki@umich.edu
-- Raymond Calvalcante rcavalca@umich.edu
+- Travis Saari trsaari@umich.edu
 - Helpers
 
 
@@ -102,57 +99,38 @@
   the workshop.
 
 - Zoom controls are at the bottom of the Zoom window:
-![Zoom controls](images/Module1_zoom_controls.png)
+![Zoom controls](images/Module00_zoom_controls.png)
 
-- To mininize distractions, we encourage participants to keep their audio muted (1) (unless
+- To minimize distractions, we encourage participants to keep their audio muted (1) (unless
   actively asking a question).
-- To maximize engagement, we encourage participants to keep their viedo on.
+- To maximize engagement, we encourage participants to keep their video on.
 - **Chat** can be used to communicate to the group or to individuals.
-- **Participants** is another way to communicate using "non-verbal controls"
+- Zoom's "non-verbal controls" are a useful way to interact
+  - Depending on your version of Zoom you can access these either
+    - in the **Reactions** button on you main Zoom window
+    - at the bottom of the **Participant** pane
 
-![Zoom non verbals](images/Module1_zoom_nonverbals.png)
+![Zoom non verbals](images/Module00_zoom_nonverbals.png)
 
   - **Raise Hand** to request clarification or ask a question. (Same an in-person workshop.)
   - **Yes** when you complete an assigned task or other instructor feedback
   - **No** to request assistance from helper
-    - Hosts will start a private **Chat** and connect you with a helper in a breakout room.
-
-### Breakout Rooms
-
-- We're all going to be transported into randomized breakout rooms to see what that's like.
-- Introduce yourself. Tell the others in your breakout room what you hope to learn from the course.
-- When you have completed introductions, you can leave the breakout room to rejoin the main room.
+    - Hosts will connect you with a helper in a breakout room.
 
 
 ### Schedule
 
-
-| Time | Topic | Instructor |
-| ---- | ----------------- | ---------- |
-| **Day One** |
-| 9:00 | [Workshop Introduction](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module1_Introduction) | Chris Gates |
-| 9:15 | [UNIX Shell Introduction](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module2a_UNIXShell) | Raymond Cavalcante |
-| 10:00 | [Experimental Design, Library Prep, and Sequencing](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module3a_Design_Prep_Seq) | Raymond Cavalcante |
-|  | [Data QC](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module3b_QC) | Raymond Cavalcante |
-| 11:00 | [Reference Genomes](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module4a_Reference_Genomes) | Raymond Cavalcante |
-|  | [Sequence Alignment and Gene Quantification with STAR/RSEM](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module4b_Alignment) | Raymond Cavalcante |
-| 12:30 | Review, Questions, Prep for Day 2 | |
-| **Day Two** |
-| 9:00 | Intro Day 2 | Chris Gates |
-| 9:10 | [Introduction To R/RStudio](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module7a_IntroductionToR)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Dana King |
-|  | [Introduction to DESeq2](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module8a_IntroductionToDESeq2) | Dana King |
-| 10:00 | [DESeq2 Initialization](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module8b_DESeq2Initialization) | Dana King |
-|  | [DESeq2 Differential Expression](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module8d_DESeq2DifferentialExpression) | Dana King |
-| 11:00 | [Sample Visualizations for QC](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module9a_SampleVisualizations) | Dana King |
-|  | [DE Comparisons and Gene Annotations](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module10a_DEComparisons) | Dana King |
-| 12:00 | [DE Visualizations and output files](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module10b_DEVisualizations) | Dana King |
-| 12:45  | [Wrap-up](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module99_Wrap_up) | Chris Gates |
-
+TBD
 
 ### Any questions?
  -
  -
 
+### Breakout Rooms
+
+ - We're all going to be transported into randomized breakout rooms to see what that's like.
+ - Introduce yourself and share a reason you signed up for this workshop.
+ - When you have completed introductions, you can leave the breakout room to rejoin the main room.
 
 
 ---
