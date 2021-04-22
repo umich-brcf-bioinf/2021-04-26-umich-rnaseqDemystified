@@ -1,13 +1,16 @@
 # RNA-seq Demystified
 
-Links below are from intial pilot materials. Materials and schedule to be updated as development contiues.
+## [Setup instructions](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop_2021/setup_instructions)
+
+## [Shared Google Doc](https://docs.google.com/document/d/1TRjD10zSwktd63irw8dZmdAZtzQ0gr4_eKEf0XQ1s-M/edit?usp=sharing)
+
 
 ## Schedule
 
 | Time | Topic | Instructor |
 | ---- | ----------------- | ---------- |
 | **Day One** |
-| 9:00 | [Workshop Introduction](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module1_Introduction) | Chris Gates |
+| 9:00 | [Workshop Introduction](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop_2021/Module00_Introduction) | Chris Gates |
 | 9:15 | [UNIX Shell Introduction](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module2a_UNIXShell) | Raymond Cavalcante |
 | 10:00 | [Experimental Design, Library Prep, and Sequencing](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module3a_Design_Prep_Seq) | Raymond Cavalcante |
 |  | [Data QC](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module3b_QC) | Raymond Cavalcante |
