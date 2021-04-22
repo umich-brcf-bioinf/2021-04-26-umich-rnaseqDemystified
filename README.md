@@ -10,13 +10,13 @@
 | Time | Topic | Instructor |
 | ---- | ----------------- | ---------- |
 | **Day One** |
-| 9:00 | [Workshop Introduction](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop_2021/Module00_Introduction) | Chris Gates |
-| 9:15 | [UNIX Shell Introduction](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module2a_UNIXShell) | Raymond Cavalcante |
-| 10:00 | [Experimental Design, Library Prep, and Sequencing](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module3a_Design_Prep_Seq) | Raymond Cavalcante |
-|  | [Data QC](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module3b_QC) | Raymond Cavalcante |
-| 11:00 | [Reference Genomes](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module4a_Reference_Genomes) | Raymond Cavalcante |
-|  | [Sequence Alignment and Gene Quantification with STAR/RSEM](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module4b_Alignment) | Raymond Cavalcante |
-| 12:30 | Review, Questions, Prep for Day 2 | |
+| 9:00 | [Workshop Introduction](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module00_Introduction) | Chris Gates |
+| 9:15 | [Building Blocks](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module01_Building_Blocks) | Travis Saari |
+| 10:00 | [Quality Control](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module02_QC) | Travis Saari |
+|  | [Optional - Additional QC](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module02optional_Cutadapt_MultiQC) | Travis Saari |
+|  | [Reference Genomes](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module03_Reference_Genomes) | Travis Saari |
+| 11:00 [Sequence Alignment and Gene Quantification with STAR/RSEM](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module04_Alignment) | Travis Saari |
+| 12:00 |  [MultiQC and Count Matrix](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module05_MultiQC_and_Count_Matrix) | Travis Saari |
 | **Day Two** |
 | 9:00 | Intro Day 2 | Chris Gates |
 | 9:10 | [Introduction To R/RStudio](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module7a_IntroductionToR)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Dana King |

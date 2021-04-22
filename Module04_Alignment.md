@@ -72,6 +72,11 @@ RSEM can be run with just two commands: the first `rsem-prepare-reference` ([man
 
 The result of `rsem-prepare-reference` is a folder containing files for RSEM and STAR to be able to look up genomic location and gene model information as quickly and efficiently as possible.
 
+<details>
+<summary>Click here for rsem-prepare-reference solution</summary>
+
+    rsem-prepare-reference --gtf refs/Homo_sapiens.GRCh38.98.chr22.15-25Mbp.gtf --star --num-threads 1 refs/Homo_sapiens.GRCh38.dna_sm.chr22.15-25Mbp.fa refs/Homo_sapiens.GRCh38.index.chr22.15-25Mbp
+
 ## `rsem-calculate-expression`
 
 After preparing the reference index, we can do alignment and quantification with the `rsem-calculate-expression` ([manual](https://deweylab.github.io/RSEM/rsem-calculate-expression.html)) command. For our inputs, we will be using our FASTQ reads and the path to the reference index we just created.
@@ -81,12 +86,17 @@ RSEM Calculate Expression Exercise:
 1. View the help page for rsem-calculate-expression
 2. Create a command to execute RSEM / STAR alignment and quantification for one of our samples
 
+<details>
+<summary>Click here for rsem-calculate-expression solution</summary>
+
+    rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --paired-end out_cutadapt/sample_01_R1.fastq.gz out_cutadapt/sample_01_R2.fastq.gz refs/Homo_sapiens.GRCh38.index.chr22 out_rsem/sample_01
+
 
 RSEM+STAR, after completing above, outputs the following files for our sample:
 
 | File | Description |
 | ---- | ----------- |
-| `sample_N.genome.bam` | The alignments in genomic coordinates. Used for visualization in a gennome browser such as [IGV](https://software.broadinstitute.org/software/igv/). |
+| `sample_N.genome.bam` | The alignments in genomic coordinates. Used for visualization in a genome browser such as [IGV](https://software.broadinstitute.org/software/igv/). |
 | `sample_N.transcript.bam` | The alignments in transcriptomic coordinates. Not used for this workshop. |
 | `sample_N.genes.results` | Gene-level results to be used in downstream DE analysis. |
 | `sample_N.isoforms.results` | Isoform-level results. Not used for this workshop. |

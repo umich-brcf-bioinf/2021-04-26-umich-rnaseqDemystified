@@ -118,21 +118,22 @@ Reference genomes can be **very large**, depending on the organism, and so we wi
 
 
 <details>
-    <summary>How would I download references with iGenomes?</summary>
+<summary>How would I download references with iGenomes?</summary>
 
-    As noted, it's not recommended to download the iGenomes references to the AWS instance. However, if you wanted to know in general how you would do that, the process is described here.
+As noted, it's not recommended to download the iGenomes references to the AWS instance. However, if you wanted to know in general how you would do that, the process is described here.
 
-    First go to the [iGenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html) page, find the build you want from the source you want, right click the genome build you want to download, and select "Copy link location":
+First go to the [iGenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html) page, find the build you want from the source you want, right click the genome build you want to download, and select "Copy link location":
 
-    ![iGenomes image for copying link location](images/genome_copy_link.png)
+![iGenomes image for copying link location](images/genome_copy_link.png)
 
-    Then on the remote server you would go to the directory you'd like to download the genome to and type (that URL is what we copied):
+Then on the remote server you would go to the directory you'd like to download the genome to and type (that URL is what we copied):
 
-        $ wget http://igenomes.illumina.com.s3-website-us-east-1.amazonaws.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz
+    $ wget http://igenomes.illumina.com.s3-website-us-east-1.amazonaws.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz
 
-    After the download finishes (it may take a while as it is tens of GB large), you can unpack it with:
+After the download finishes (it may take a while as it is tens of GB large), you can unpack it with:
 
-        $ tar -xf Homo_sapiens_NCBI_GRCh38.tar.gz
+    $ tar -xf Homo_sapiens_NCBI_GRCh38.tar.gz
+
 </details>
 
 
