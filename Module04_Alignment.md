@@ -75,7 +75,10 @@ The result of `rsem-prepare-reference` is a folder containing files for RSEM and
 <details>
 <summary>Click here for rsem-prepare-reference solution</summary>
 
-    rsem-prepare-reference --gtf refs/Homo_sapiens.GRCh38.98.chr22.15-25Mbp.gtf --star --num-threads 1 refs/Homo_sapiens.GRCh38.dna_sm.chr22.15-25Mbp.fa refs/Homo_sapiens.GRCh38.index.chr22.15-25Mbp
+```
+rsem-prepare-reference --gtf refs/Homo_sapiens.GRCh38.98.chr22.15-25Mbp.gtf --star --num-threads 1 refs/Homo_sapiens.GRCh38.dna_sm.chr22.15-25Mbp.fa refs/Homo_sapiens.GRCh38.index.chr22.15-25Mbp
+```
+</details>
 
 ## `rsem-calculate-expression`
 
@@ -89,8 +92,10 @@ RSEM Calculate Expression Exercise:
 <details>
 <summary>Click here for rsem-calculate-expression solution</summary>
 
+```
     rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --paired-end out_cutadapt/sample_01_R1.fastq.gz out_cutadapt/sample_01_R2.fastq.gz refs/Homo_sapiens.GRCh38.index.chr22 out_rsem/sample_01
-
+```
+</details>
 
 RSEM+STAR, after completing above, outputs the following files for our sample:
 
