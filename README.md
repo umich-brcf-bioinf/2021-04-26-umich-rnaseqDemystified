@@ -18,6 +18,7 @@
 |  | [Reference Genomes](Module03_Reference_Genomes) | |
 |  | [Sequence Alignment and Gene Quantification with STAR/RSEM](Module04_Alignment) | |
 |  |  [MultiQC and Count Matrix](Module05_MultiQC_and_Count_Matrix) | |
+| 1:00 | ** Day  One concludes** | |
 | **Day Two** |
 | 9:00 | Intro Day 2 | Chris Gates |
 | 9:10 | [Introduction To R/RStudio](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module7a_IntroductionToR) | Dana King |
@@ -28,4 +29,5 @@
 |  | [Sample Visualizations for QC](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module9a_SampleVisualizations) |  |
 |  | [DE Comparisons and Gene Annotations](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module10a_DEComparisons) |  |
 |  | [DE Visualizations and output files](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module10b_DEVisualizations) |  |
-| 12:45  | [Wrap-up](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module99_Wrap_up) | Chris Gates |
+| 12:45 | [Wrap-up](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module99_Wrap_up) | Chris Gates |
+| 1:00 | ** Workshop concludes** | |
