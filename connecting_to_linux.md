@@ -13,7 +13,7 @@ conclusion of the workshop.
 The following steps verify that your account is working. To complete this check,
 you will need:
 - A Macintosh or Windows workstation connected to the internet.
-  - Windows users should have GitBash installed.
+  - Windows users should have GitBash installed. (See [Windows setup](setup_instructions.md#windows-setup) for details on installing GitBash.)
 - An individual **username** and **password** supplied by the workshop hosts.
 - About 5 minutes.
 
