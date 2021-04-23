@@ -13,8 +13,8 @@
 | 9:00 | [Workshop Introduction](Module00_Introduction) | Chris Gates |
 | 9:15 | [Building Blocks](Module01_Building_Blocks) | Travis Saari |
 |  | [Quality Control](Module02_QC) | |
-| 10:30 | **Break** | |
 |  | [Optional - Additional QC](Module02optional_Cutadapt_MultiQC) | |
+| 10:30 | **Break** | |
 |  | [Reference Genomes](Module03_Reference_Genomes) | |
 |  | [Sequence Alignment and Gene Quantification with STAR/RSEM](Module04_Alignment) | |
 |  |  [MultiQC and Count Matrix](Module05_MultiQC_and_Count_Matrix) | |
