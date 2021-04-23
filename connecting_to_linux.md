@@ -1,7 +1,25 @@
-## Connecting to a Linux environment
-1. Launch your command line terminal (GitBash in Windows or Terminal in MacOS)
+# Using a shared Linux environment
+To ensure a consistent experience and bypass some complexity in software installation, we have created a temporary shared Linux environment. Login/password will be communicated to participants individually.
 
-2. Type the following command, replacing the YOUR_USERNAME and SERVER_ADDRESS with the username and servername supplied to you by the workshop hosts. Hit enter to execute the command. Note: you can copy the command below to the clipboard and then right-click in the command window to paste.
+Please note that this environment is optimized for the exercises in this particular workshop but is likely unsuitable for analyzing your
+specific datasets. In particular:
+• It is not sized for compute or storage intensive operations.
+• It is not secured for sensitive data of any kind.
+• This environment is temporary and will be removed shortly after the
+conclusion of the workshop.
+
+## Connecting to a Linux environment
+
+The following steps verify that your account is working. To complete this check,
+you will need:
+- A Macintosh or Windows workstation connected to the internet.
+  - Windows users should have GitBash installed. (See [Windows setup](setup_instructions.md#windows-setup) for details on installing GitBash.)
+- An individual **username** and **password** supplied by the workshop hosts.
+- About 5 minutes.
+
+1. Launch your command line terminal (**GitBash** in Windows or **Terminal** in MacOS)
+
+2. Type the following command, replacing the **YOUR_USERNAME** with the username supplied to you by the workshop hosts. Hit enter to execute the command. Note: you can copy the command below to the clipboard and then right-click in the command window to paste.
 
    ```ssh YOUR_USERNAME@50.17.210.255```
 
