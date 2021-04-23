@@ -8,9 +8,9 @@ Links below are from intial pilot materials. Materials and schedule to be update
 | ---- | ----------------- | ---------- |
 | **Day 1** |
 | 9:00 | [Workshop Introduction](Module00_Introduction) | Chris Gates |
-| 9:15 | [Building Blocks](Module01_Warming_Up) | Travis Saari |
+| 9:15 | [Warming Up](Module01_Warming_Up) | Travis Saari |
 |  | [Quality Control](Module02_QC) | |
-|  | [Optional - Additional QC](Module02optional_Cutadapt_MultiQC) | |
+|  | [Optional - Trimming and MultiQC](Module02optional_Cutadapt_MultiQC) | |
 | 10:30 | **Break** | |
 |  | [Reference Genomes](Module03_Reference_Genomes) | |
 |  | [Sequence Alignment and Gene Quantification with STAR/RSEM](Module04_Alignment) | |
