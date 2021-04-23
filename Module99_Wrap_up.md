@@ -2,10 +2,10 @@
 
 ## In summary
 
-We hope you now have more familiarity with key concepts, data types, tools, and how they all 
+We hope you now have more familiarity with key concepts, data types, tools, and how they all
 connect to enable gene expression analysis from bulk RNA-Seq data.
-  
-- Day 1: UNIX, experimental design, sequence file types, QC, process of producing a count table
+
+- Day 1: UNIX, sequence file types, QC, process of producing a count table
 - Day 2: R, DESeq2, QC visualizations, process of differential expression analysis
 - Learning bioinformatic analyses more like a process than a task
 
@@ -31,8 +31,7 @@ We welcome your questions and feedback.
 - [bioinformatics-workshops@umich.edu](bioinformatics-workshops@umich.edu)
 - Chris Gates [cgates@umich.edu](cgates@umich.edu)
 - Marci Brandenburg [mbradenb@umich.edu](mbradenb@umich.edu)
+- Travis Saari [trsaari@umich.edu](trsaari@umich.edu)
 - Dana King [damki@umich.edu](damki@umich.edu)
-- Raymond Calvalcante [rcavalca@umich.edu](rcavalca@umich.edu)
 
 ![Sponsors](images/Module1_sponsor_logos.png)
-
