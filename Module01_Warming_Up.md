@@ -59,9 +59,8 @@ cp -r /rsd/data ~/
 
 Upon success, `ls ~/data/` will show:
 
-```
-reads    refs
-```
+    reads    refs
+
 
 </details>
 
