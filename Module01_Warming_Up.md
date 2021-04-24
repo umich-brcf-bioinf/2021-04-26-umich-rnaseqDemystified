@@ -46,26 +46,23 @@ Orientation exercise:
 3. Use `ls` to view references
 4. Use `ls` to view input fastq files
 
- test <details>
-<summary >Click here for help with the copy command</summary>
+ test <details><summary >Click here for help with the copy command</summary>
 
-  You can use this command to copy the data into your home directory.
-
-
-      cp -r /rsd/data ~/
+You can use this command to copy the data into your home directory.
 
 
-  Upon success, `ls ~/data/` will show:
+    cp -r /rsd/data ~/
 
-  ```
-  reads    refs
-  ```
 
-<<<<<<< HEAD
+Upon success, `ls ~/data/` will show:
+
 ```
 reads    refs
 ```
 
-=======
->>>>>>> d3905b2d5861e3f7242b26f0ba676a184ef099e6
+```
+reads    refs
+```
+
 </details>
+
