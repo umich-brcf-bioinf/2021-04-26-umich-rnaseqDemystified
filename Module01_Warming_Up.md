@@ -53,9 +53,9 @@ If you had trouble logging in or feel left behind, don't worry.
 
 You can use this command to copy the data into your home directory.
 
-```sh
+~~~ sh
 cp -r /rsd/data ~/
-```
+~~~
 
 Upon success, `ls ~/data/` will show:
 
