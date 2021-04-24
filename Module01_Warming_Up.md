@@ -61,28 +61,3 @@ Upon success, `ls ~/data/` will show:
 
     reads    refs
 </details>
-
-  
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<img src="images/building-blocks-checkmark.png" width="800" />
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
