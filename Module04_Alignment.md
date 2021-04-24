@@ -155,7 +155,7 @@ Aligning All Samples Exercise:
 
 The `genes.results` files for each sample can be directly imported into DESeq2 using the [`tximport`](https://bioconductor.org/packages/release/bioc/vignettes/tximport/inst/doc/tximport.html#rsem) R Bioconductor package.
 
-Alternatively, we can combine these results into a count matrix. We'll cover this in the next module.
+Alternatively, we can combine these results into a count matrix. The count matrix can be very useful, since it contains summary-level data in a widely supported format, this makes it great for sharing and as input into different analyses.
 
 ---
 

@@ -17,11 +17,9 @@ You'll generally have one or two FASTQ files for each sample, depending on if yo
 
 For paired-end data, make sure to combine read 1 FASTQs separately from read 2 FASTQs.
 
-More details on FASTQs in later modules
-
 ## References
 
-Files with known data (e.g. from a model organism). These include genome references, reference annotation information, etc.
+Files with known data (e.g. from a model organism). These include reference genome sequence, and transcript annotation information, etc.
 
 Reference files we'll use:
 
@@ -79,7 +77,7 @@ Cutadapt, fastQC, and multiQC have more modest memory requirements, so we won't 
 
 ### Storage
 
-Here we're referring to disk storage, or persistent storage. This is the hardware that stores large amounts of electronic data, and stores it safely even when there is no power to the device. You may sometimes use the phrase "save [the file] to your hard drive", which is referring to persistent storage.
+Here we're referring to disk storage, or persistent storage. This is the hardware that stores large amounts of data persistently - the information will remain even when there is no power to the device. You may sometimes use the phrase "save [the file] to your hard drive", which is referring to persistent storage.
 
 Consider:
 
@@ -87,8 +85,6 @@ Consider:
 - Storage during processing
 
 Some input and output files can be quite large. Additionally, several large intermediates are produced during processing, requiring (sometimes considerable) additional storage.
-
-In some cases, it makes sense to have separate locations for inputs, outputs, and intermediates. This is especially true with large datasets / large numbers of samples, where the storage consumption can balloon during processing.
 
 ## System Configuration
 
@@ -114,61 +110,55 @@ On the other hand, with remote computing you will utilize a network connection t
 
 ### Job Management
 
-This is a broad topic - scheduling is inherent to the process of computing, but here we'll just consider a job as an individual call to a piece of software. There are many ways to manage resources at the job level.
+This is a broad topic - job scheduling is a common method for allocating shared computing resources, but here we'll just consider a job as an individual call to a piece of software. There are many ways to manage resources at the job level.
 
-<details>
-<summary>Workflow managers</summary>
+Resource management and job scheduling at the UMich HPC is handled by SLURM. Quite a large topic of its own, you can read more about these resources [here](https://arc.umich.edu/greatlakes/slurm-user-guide/).
 
-[Snakemake](https://snakemake.readthedocs.io/en/stable/) is an example of this. This is a topic of its own. It's good to be aware of job management tools, but we won't talk about this today.
-</details>
+Another large topic which we won't dive into, are workflow managers. [Snakemake](https://snakemake.readthedocs.io/en/stable/) is an example of this.
 
-Resource management at the UMich HPC is handled by SLURM. A topic of its own, you can read more about these resources [here](https://arc.umich.edu/greatlakes/slurm-user-guide/).
-
-Today we're aiming for simplicity and transparency, so we'll manage our jobs manually and sequentially. In other words, we'll write and submit the commands by hand, in order, for illustrative purposes.
+Today we've been aiming for simplicity and transparency, so managed our jobs manually and sequentially. In other words, we wrote and submitted the commands by hand, in order, for illustrative purposes.
 
 ### Software Management
 
 Similarly, there are many methods for managing software. As a system accumulates changes over time, and as the resulting software installations become more complex (esp. across multi-user systems), the need for software management systems becomes more apparent.
 
-Today we're using [miniconda](https://docs.conda.io/en/latest/miniconda.html). This provides a good balance of simplicity, flexibility, and utility for software management.
+Today we've been using [miniconda](https://docs.conda.io/en/latest/miniconda.html). This provides a good balance of simplicity, flexibility, and utility for software management.
 
-Conda is an open-source, cross-platform, package management and environment management software. It's widely used for packaging and distributing software, particularly in the python community. Note: it is used for software of many different software languages; it is language-agnostic.
+Conda is an open-source, cross-platform, package management and environment management software. It's widely used for packaging and distributing software, particularly in the python community. Note: it is also used for software of many different software languages; it is language-agnostic.
 
-Miniconda is a minimal installation of conda, that provides a lightweight option to get started.
+Miniconda is a minimal installation of conda, that provides a lightweight option to get started with.
 
 ## Software
 
-The software we'll use is free, open-source, and openly licensed. We can inspect the source code, use the program as we wish, modify it, contribute to it, etc. This is the case for many bioinformatics tools. We can appreciate the benefits of community-driven software.
+The software we've been using is free, open-source, and openly licensed. We can inspect the source code, use the program as we wish, modify it, contribute to it, etc. This is the case for many bioinformatics tools. We can appreciate the benefits of community-driven software.
 
-There are tools available for various kinds of bioinformatics tasks. Today we'll focus on a few important tasks for RNA sequencing, and discuss the subset of tools we've chosen.
+There are tools available for various kinds of bioinformatics tasks. Today we've focused on a few important tasks for RNA sequencing, and used a subset of quality tools for this purpose. Here is a summary of the tasks we've performed and the tools we've used today.
 
-- Quality Control
-- Read Trimming
-- Alignment
-- Gene Quantification
+| Task | Tool |
+| :--: | ---- |
+| Quality Control | [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/) |
+| Quality Control | [MultiQC](https://multiqc.info/docs/) |
+| Read Trimming | [Cutadapt](https://cutadapt.readthedocs.io/en/stable/) |
+| Alignment | [STAR](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf) |
+| Gene Quantification | [RSEM](http://deweylab.github.io/RSEM/) |
 
-### Quality Control
+<br>
+<br>
+<br>
+<br>
+<br>
 
-At various steps, it can be instructive to gather summary metrics and generate summarized figures of input data. Assessing quality can help us make important determinations about the input data. These can inform our data processing choices, or how we interpret downstream results.
 
-FastQC is useful for generating these summarized metrics and figures for each of our samples.
+# Summary
 
-We'll also use MultiQC to gather our results from multiple samples into a single output.
+Things that we have learned:
+* Important aspects of hardware, software, and compute environments to consider
+* Important file formats and their contents
+* Reference files necessary / where to find
+* How to use FastQC, assess quality of reads
+* How to transfer files from remote to local computer
+* How to prepare a reference for alignment and quantification with RSEM + STAR
+* How to combine expression results across samples into a count matrix
+* How to use MultiQC to summarize large volumes of QC data.
 
-### Read Trimming
-
-Trimming and filtering our sequencing reads based on quality scores, adapter content, minimum size, etc. can be an important pre-alignment step. We'll see examples of this as well.
-
-Many tools are available for read trimming. We'll use a very widely used trimming tool, Cutadapt.
-
-### Alignment
-
-Mapping the sequenced reads (from our fragmented transcript molecules) back to a known transcriptome is one way that we begin to transform the data into biologically meaningful information. Alignment allows us to see the output from the sequenced fragment in relationship to its location in the transcriptome and/or genome. This information can provide meaningful insights at the individual read level, as well as in the aggregate.
-
-We will use the STAR aligner. It is widely lauded for its speed and accuracy.
-
-### Gene Quantification
-
-Taking the above idea further, using the aggregated read alignment data, we can begin to assess gene expression based on the number of fragments that align to particular gene locus. There are several tools available for this purpose, each with their own pros and cons.
-
-Today we will use RSEM. RSEM effectively handles reads which map to multiple genes or transcripts by using a statistical model. RSEM is easy to use and provides the best combination of precision and accuracy in its class.
+![Results Summary](images/results-summary.png)

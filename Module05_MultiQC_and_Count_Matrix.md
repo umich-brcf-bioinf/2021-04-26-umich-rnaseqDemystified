@@ -189,17 +189,3 @@ if __name__ == '__main__':
     main(sys.argv)
 ```
 </details>
-
-# Summary
-
-Things that we have learned:
-* Important aspects of hardware, software, and compute environments to consider
-* Important file formats and their contents
-* Reference files necessary / where to find
-* How to use FastQC, assess quality of reads
-* How to transfer files from remote to local computer
-* How to prepare a reference for alignment and quantification with RSEM + STAR
-* How to combine expression results across samples into a count matrix
-* How to use MultiQC to summarize large volumes of QC data.
-
-![Results Summary](images/results-summary.png)
