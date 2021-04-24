@@ -61,6 +61,9 @@ Upon success, `ls ~/data/` will show:
 
     reads    refs
 
+``` sh
+reads    refs
+```
 
 </details>
 
