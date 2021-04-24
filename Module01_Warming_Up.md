@@ -54,15 +54,21 @@ Orientation exercise:
 <summary >Click here for solution</summary>
 
 1. Log in to remote
-    ssh <username>@50.17.210.255
+
+        ssh <username>@50.17.210.255
+
 2. Copy data to our home directory
-    cp -r /rsd/data/ ~/
+
+        cp -r /rsd/data/ ~/
+
 3. View our references
-    ls ~/data/refs
+        ls ~/data/refs
+
 4. View our input fastq files
-    ls ~/data/reads
+        ls ~/data/reads
+
 5. Create a folder for our analysis
-    mkdir ~/analysis
+        mkdir ~/analysis
 
 </details>
 
