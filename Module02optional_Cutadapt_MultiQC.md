@@ -39,12 +39,25 @@ Cutadapt Exercise:
 4. Construct a for-loop to trim the reads for all of our samples
 
 <details>
-<summary>Cutadapt for-loop solution</summary>
+<summary>Click here for solution - cutadapt for all samples</summary>
 
-    for sample in sample_01 sample_02 sample_03 sample_04
-        do
-        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${sample}_R1.trimmed.fastq.gz -p out_trimmed/${sample}_R2.trimmed.fastq.gz reads/${sample}_R1.fastq.gz reads/${sample}_R2.fastq.gz
-    done
+```
+SAMPLE=sample_01
+cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
+reads/${SAMPLE}_R2.fastq.gz
+
+SAMPLE=sample_02
+cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
+reads/${SAMPLE}_R2.fastq.gz
+
+SAMPLE=sample_03
+cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
+reads/${SAMPLE}_R2.fastq.gz
+
+SAMPLE=sample_04
+cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
+reads/${SAMPLE}_R2.fastq.gz
+```
 
 </details>
 
@@ -61,7 +74,9 @@ Re-running FastQC Exercise:
 <details>
 <summary>FastQC on trimmed reads solution</summary>
 
-    fastqc -o out_fastqc_trimmed out_trimmed/*.fastq.gz
+```
+fastqc -o out_fastqc_trimmed out_trimmed/*.fastq.gz
+```
 
 </details>
 
@@ -81,7 +96,9 @@ MultiQC Exercise:
 <details>
 <summary>MultiQC solution</summary>
 
-    multiqc --outdir out_multiqc out_fastqc_trimmed/
+```
+multiqc --outdir out_multiqc out_fastqc_trimmed/
+```
 
 </details>
 
@@ -93,8 +110,10 @@ Make sure you're running scp on your **local** computer, requesting a file from 
 
 scp command format, with the address for AWS remote
 
-    # Usage: scp source destination
-    scp <username>@ec2-54-92-149-238.compute-1.amazonaws.com:~/example_data/out_multiqc/multiqc_report.html ~/rsd-workshop/
+```
+# Usage: scp source destination
+scp <username>@50.17.210.255:~/example_data/out_multiqc/multiqc_report.html ~/rsd-workshop/
+```
 
 </details>
 

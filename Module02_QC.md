@@ -104,7 +104,9 @@ Let's try running FastQC on our FASTQ input files.
 <details>
 <summary>Click here for solution - FastQC command</summary>
 
-    fastqc -o out_fastqc/ input_reads/*.fastq.gz
+```
+fastqc -o out_fastqc/ input_reads/*.fastq.gz
+```
 
 </details>
 
@@ -127,10 +129,11 @@ Make sure you're running scp on your **local** computer, requesting a file from 
 
 scp command format, with the address for AWS remote
 
-    # Create directory on local computer
-    mkdir ~/rsd-workshop
-    # make the transfer with scp [source] [destination]
-    scp <username>@ec2-54-92-149-238.compute-1.amazonaws.com:~/example_data/out_fastqc/sample_01_R1_fastqc.html ~/rsd-workshop/
+```
+# Ensure you're on local computer
+# make the transfer with scp [source] [destination]
+scp <username>@50.17.210.255:~/example_data/out_fastqc/sample_01_R1_fastqc.html ~/rsd-workshop/
+```
 
 </details>
 
@@ -148,7 +151,8 @@ A per base boxplot of the quality scores with helpful coloring for good, fair, a
 
 <center>
 
-![Good per base quality](images/fastqc_per_base.png){ width=75% }
+<img src="images/fastqc_per_base.png" width="800"/>
+
 
 An example of a good quality run.
 
@@ -156,7 +160,7 @@ An example of a good quality run.
 
 <center>
 
-![Bad per base quality](images/fastqc_poor_per_base.png)
+<img src="images/fastqc_poor_per_base.png" width="800" />
 
 An example of a poor quality run.
 
@@ -170,7 +174,7 @@ On the other hand, if the library was prepared with an enrichment step (e.g. ChI
 
 <center>
 
-![Sequence Duplication](images/fastqc_duplication.png){ width=75% }
+<img src="images/fastqc_duplication.png" width="800" />
 
 An example of a sample with low sequence duplication levels.
 
@@ -178,7 +182,7 @@ An example of a sample with low sequence duplication levels.
 
 <center>
 
-![Sequence Duplication](images/fastqc_poor_duplication.png)
+<img src="images/fastqc_poor_duplication.png" width="800" />
 
 An example of a sample with high sequence duplication levels.
 
@@ -190,7 +194,7 @@ Overrepresented sequences are those making up more than 0.1% of the total (of th
 
 <center>
 
-![Overrepresented Table](images/fastqc_overrepresented.png)
+<img src="images/fastqc_overrepresented.png" width="800" />
 
 We see that there is a high number of reads with polyA tails. This could be a result of an inefficient removal of polyA tails.
 
@@ -200,7 +204,7 @@ We see that there is a high number of reads with polyA tails. This could be a re
 
 Adapter sequence typically is not present in standard RNA-seq libraries. However, if the fragment sizes resulting from library prep are smaller than the read length on the sequencer, then it is possible to get "read-through" of the adapter.
 
-This can be dealt with in two ways. First, we could add a step to the workflow that trims the reads of adapter content with a tool such as [cutadapt](https://cutadapt.readthedocs.io/en/stable/). Second, the choice of aligner may gracefully deal with adapter sequence, as we will see with STAR in a later module.
+This can be dealt with by adding a step to the workflow that trims the reads of adapter content with a tool such as [cutadapt](https://cutadapt.readthedocs.io/en/stable/). We will see this in a later module.
 
 
 # Acting on QC
