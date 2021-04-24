@@ -46,7 +46,10 @@ Orientation exercise:
 3. Use `ls` to view references
 4. Use `ls` to view input fastq files
 
- test <details><summary >Click here for help with the copy command</summary>
+<details>
+<summary >Click here for help with the copy command</summary>
+
+If you had trouble logging in or feel left behind, don't worry.
 
 You can use this command to copy the data into your home directory.
 
@@ -60,9 +63,4 @@ Upon success, `ls ~/data/` will show:
 reads    refs
 ```
 
-```
-reads    refs
-```
-
 </details>
-
