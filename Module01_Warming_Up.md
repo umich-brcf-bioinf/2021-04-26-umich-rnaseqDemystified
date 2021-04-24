@@ -1,7 +1,9 @@
 ## Warming Up
 
 In this module, we will:
-* Discuss important aspects of
+* cover basic materials needed
+* familiarize ourselves with remote computing
+* prepare for later modules
 
 <br>
 <br>
@@ -37,30 +39,53 @@ We will have time for troubleshooting at the next section.
 
 ## Orientation exercise
 
-Note: We will provide additional time during this exercise for people who have had trouble logging in earlier.
+Note: We will provide additional time during this exercise to ensure that everyone is prepared to move forward.
 
 Orientation exercise:
 
-1. Ensure in home directory with `cd`
-2. Copy the data from `/rsd/data/` to your home directory
-3. Use `ls` to view references
-4. Use `ls` to view input fastq files
+1. Log in (or confirm logged in) to aws instance
+2. Ensure in home directory with `cd`
+3. Use `cp` to copy the data from `/rsd/data/` to your home directory
+4. Use `ls` to view references
+5. Use `ls` to view input fastq files
+6. Use `mkdir` to create a folder for our analysis
 
 <details>
-<summary >Click here for help with the copy command</summary>
+<summary >Click here for solution</summary>
 
-If you had trouble logging in or feel left behind, don't worry.
-
-You can use this command to copy the data into your home directory.
-
-
-    cp -r /rsd/data ~/
-
-
-Upon success, `ls ~/data/` will show:
-
-```
-reads    refs
-```
+1. Log in to remote
+`ssh <username>@50.17.210.255`
+2. Copy data to our home directory
+`cp -r /rsd/data/ ~/`
+3. View our references
+`ls ~/data/refs`
+4. View our input fastq files
+`ls ~/data/reads`
+5. Create a folder for our analysis
+`mkdir ~/analysis`
 
 </details>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img src="images/building-blocks-checkmark.png" width="800" />
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
