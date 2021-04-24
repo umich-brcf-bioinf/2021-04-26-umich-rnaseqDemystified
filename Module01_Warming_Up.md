@@ -49,18 +49,23 @@ Orientation exercise:
  test <details>
 <summary >Click here for help with the copy command</summary>
 
-If you had trouble logging in or feel left behind, don't worry.
-
-You can use this command to copy the data into your home directory.
+  You can use this command to copy the data into your home directory.
 
 
-    cp -r /rsd/data ~/
+      cp -r /rsd/data ~/
 
 
-Upon success, `ls ~/data/` will show:
+  Upon success, `ls ~/data/` will show:
 
+  ```
+  reads    refs
+  ```
+
+<<<<<<< HEAD
 ```
 reads    refs
 ```
 
+=======
+>>>>>>> d3905b2d5861e3f7242b26f0ba676a184ef099e6
 </details>
