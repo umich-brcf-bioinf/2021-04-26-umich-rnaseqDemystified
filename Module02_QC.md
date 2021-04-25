@@ -92,50 +92,92 @@ The first step in many high-throughput sequencing analyses is to examine the qua
 - Adapter content
 - Overrepresented sequences
 
+<br>
+<br>
+<br>
+<br>
+
 ## FastQC Exercise
 
 Let's try running FastQC on our FASTQ input files.
 
-1. View fastQC help file
-2. Construct the call to FastQC
-3. Watch FastQC process the files / gather quality metrics
-4. View the output of FastQC (the filenames)
+1. Make sure logged in to remote aws instance
+2. View FastQC help file
+3. Prepare to run FastQC
+4. Watch FastQC process the files / gather quality metrics
+5. View output of FastQC (the filenames)
+
+We can see some HTML reports, but there isn't a way to open them on the remote machine in the command-line interface (CLI). This is a good opportunity to learn how to pull files from a remote server onto our local computer that we're using.
 
 <details>
-<summary>Click here for solution - FastQC command</summary>
+<summary>Click here for solution - FastQC exercise</summary>
 
-```
-fastqc -o out_fastqc/ input_reads/*.fastq.gz
-```
+1. Ensure you're on the remote aws instance
+2. View FastQC help file
+
+        fastqc --help | less
+        # Will need to type `q` to exit from `less`
+
+3. Prepare to run FastQC
+
+        # Make the output directory before running
+        mkdir ~/analysis/out_fastqc
+        fastqc -o ~/analysis/out_fastqc ~/data/reads/*.fastq.gz
+
+4. Watch FastqQC output during processing
+5. View output of FastQC
+
+        ls -l analysis/out_fastqc/
 
 </details>
 
-We can see some HTML reports, but there isn't a way to open them on the remote machine in the command-line interface (CLI). This is a good opportunity to learn how to pull files from a remote server onto our local computer that we're using.
+<br>
+<br>
+<br>
+<br>
 
 ## Remote File Transfer Exercise
 
 Transferring Files Exercise:
 
-1. View the help page of the scp tool
+1. View the manual page of the scp tool
 2. Create / execute an scp command on personal computer, to transfer one (or more) of the FastQC reports from the remote system.
     remote ---transfer---> local
 3. Ensure that file(s) transferred to personal computer
-4. View the FastQC report and determine any issues
+4. View the FastQC report and interpret
 
 <details>
-<summary>scp command helpful details</summary>
+<summary>Click here for solution - Remote file transfer exercise</summary>
 
-Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
+0. Ensure you're on your **local** computer
 
-scp command format, with the address for AWS remote
+        # If currently on remote:
+        exit
 
-```
-# Ensure you're on local computer
-# make the transfer with scp [source] [destination]
-scp <username>@50.17.210.255:~/example_data/out_fastqc/sample_01_R1_fastqc.html ~/rsd-workshop/
-```
+1. View scp manual page
+
+        man scp
+        # Will need to type `q` to exit the manual
+
+2. Use scp to transfer a FastQC report to local computer
+
+        scp <username>@50.17.210.255:~/analysis/out_fastqc/sample_01_R1_fastqc.html ~/workshop_rsd
+        # you will need to enter your password to transfer the file
+
+3. Ensure file is on local computer
+
+        ls ~/workshop_rsd/
+
+4. View the FastQC report
+Use GUI file manager to find your ~/workshop_rsd folder
+Double-click sample_01_R1_fastqc.html (open it with an internet browser)
 
 </details>
+
+<br>
+<br>
+<br>
+<br>
 
 ## Interpreting FastQC
 
