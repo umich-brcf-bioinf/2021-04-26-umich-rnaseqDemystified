@@ -1,6 +1,9 @@
 # RNA-seq Demystified
 
-Links below are from intial pilot materials. Materials and schedule to be updated as development contiues.
+## [Setup instructions](setup_instructions)
+
+## [Shared Google Doc](https://docs.google.com/document/d/1TRjD10zSwktd63irw8dZmdAZtzQ0gr4_eKEf0XQ1s-M/edit?usp=sharing)
+
 
 ## Schedule
 
