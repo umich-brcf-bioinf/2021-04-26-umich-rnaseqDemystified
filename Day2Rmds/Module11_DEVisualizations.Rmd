@@ -24,8 +24,8 @@ output:
 > * Understand advantages of using gene ids when analyzing data.    
 > * Given a list of ENSEMBL gene ids, add gene symbols and Entrez accessions.    
 > * Generate common visualizations for differential expression comparisons    
-> * Understand reasonable thresholds for statistically significant diffex genes    
-> * Understand options for functional enrichments    
+> * Understand reasonable thresholds for statistically significant differentially expressed genes    
+> * Discuss options for functional enrichments    
 
 ```{r Modules, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(DESeq2)
@@ -52,51 +52,69 @@ fc <- 1.5
 pval <- 0.05
 ```
 
-Then, we need to sep up some object to run our plotting code, creating a new object for our plotting and labeling our comparison of interest. 
+Then, we need to sep up some objects to run our plotting code, creating a new object that will have the right shape for plotting, labeling our comparison of interest, and setting up our output directory 
 ```{r PlotSetup2}
-df<- res.KD[order(res.KD$padj),] #select our data of interest
+df<- res[order(res$padj),] #select our data of interest
 df <- as.data.frame(df) #convert our object type
 df <- cbind("id" = row.names(df), df) #set rownames to valid column
 str(df) 
 
-Comparison <- "Mov10.KD_vs_Irrel"
+Comparison <- "ko.control_v_wt.control"
+
+plotPath = "./Figures/"
 ```
 
-Now we need to [subset our data](https://www.statmethods.net/management/subset.html) to label the datapoints (genes) that pass our thresholds.
-```{r PlotSetup2a, message=FALSE, warning=FALSE}
-df$dot <- rep(3, nrow(df))
-df$dot[which(df$padj <= pval & df$log2FoldChange < 0 & abs(df$log2FoldChange) >= log2(fc))] = 2
-df$dot[which(df$padj <= pval & df$log2FoldChange > 0 & abs(df$log2FoldChange) >= log2(fc))] = 1
-df$sig <- df$dot
-
-#take top 5 up, down, then combine, assign label
-top <- rbind(head(subset(df, df$dot == 1), 5),head(subset(df, df$dot == 2), 5))
-top$label <- top$id
-df <- merge(x = df, y = top[,c('id','label')], by = "id", all.x = TRUE)
-
-#count the number of significan up and down genes, assign value for legend
-df$dot <- factor(df$dot,levels = c(1,2,3), labels = c(paste0('Up: ', sum(df$dot == 1)),paste0('Down: ', sum(df$dot == 2)),'NS'))
-```
-
-Once we've setup the annotations we need, we can proceed with generating the volcano plot.
+Once we've setup the annotations we need, we can proceed with generating the volcano plot, including our thresholds.
 ```{r VolcanoPlot, message=FALSE, warning=FALSE}
 pdf(file = paste0(plotPath,'VolcanoPlot_', Comparison, '.pdf'), onefile = FALSE)
 
-p <- ggplot(df, aes(x = log2FoldChange, y = -log10(padj))) + geom_point(aes(color = df$dot), size = 1) + theme_classic() + xlab('Log2 fold-change') + ylab('-Log10 adjusted p-value')
+# Initialize the plot, saving as object 'p' and specifying the plot type as 'geom_point'
+p <- ggplot(df, aes(x = log2FoldChange, y = -log10(padj))) + geom_point(shape = 21, fill= 'darkgrey', color= 'darkgrey', size = 1) + theme_classic() + xlab('Log2 fold-change') + ylab('-Log10 adjusted p-value')
 
-p <- p + scale_color_manual(name = '', values=c('#B31B21', '#1465AC', 'darkgray'))
-
+# Add threshold lines
 p <- p + geom_vline(xintercept = c(0, -log2(fc), log2(fc)), linetype = c(1, 2, 2), color = c('black', 'black', 'black')) + geom_hline(yintercept = -log10(pval), linetype = 2, color = 'black')
 
-if (sum(is.na(df$label)) < nrow(df)) {
-  p <- p + geom_label_repel(label = df$label, force = 3, segment.alpha = 0.4) + ggtitle(as.character(Comparison))
-} else {
-  p <- p + ggtitle(as.character(comparison))
-}
+# Add Title that includes comparison name
+p <- p + ggtitle(as.character(Comparison))
 
 print(p)
 dev.off()
 p
+```
+
+
+<details>
+    <summary>*Click for color coded volcano plot*</summary>
+    Now we need to [subset our data](https://www.statmethods.net/management/subset.html) to label the datapoints (genes) that pass our thresholds.
+    ```{r PlotSetup2a, message=FALSE, warning=FALSE}
+    df$dot <- rep(3, nrow(df))
+    df$dot[which(df$padj <= pval & df$log2FoldChange < 0 & abs(df$log2FoldChange) >= log2(fc))] = 2
+    df$dot[which(df$padj <= pval & df$log2FoldChange > 0 & abs(df$log2FoldChange) >= log2(fc))] = 1
+    df$sig <- df$dot
+
+    #take top 5 up, down, then combine, assign label
+    top <- rbind(head(subset(df, df$dot == 1), 5),head(subset(df, df$dot == 2), 5))
+    top$label <- top$id
+    df <- merge(x = df, y = top[,c('id','label')], by = "id", all.x = TRUE)
+    
+    #count the number of significan up and down genes, assign value for legend
+    df$dot <- factor(df$dot,levels = c(1,2,3), labels = c(paste0('Up: ', sum(df$dot == 1)),paste0('Down: ', sum(df$dot == 2)),'NS'))
+    ```
+    Once we've setup the annotations we need, we can proceed with generating the volcano plot.
+    ```{r VolcanoPlot2, message=FALSE, warning=FALSE}
+    pdf(file = paste0(plotPath,'VolcanoPlot_Fancier', Comparison, '.pdf'), onefile = FALSE)
+    
+    p <- ggplot(df, aes(x = log2FoldChange, y = -log10(padj))) + geom_point(aes(color = df$dot), size = 1) + theme_classic() + xlab('Log2 fold-change') + ylab('-Log10 adjusted p-value')
+    # specify colors for up-/down-/nonsignificant genes
+    p <- p + scale_color_manual(name = '', values=c('#B31B21', '#1465AC', 'darkgray'))
+    # add threshol lines
+    p <- p + geom_vline(xintercept = c(0, -log2(fc), log2(fc)), linetype = c(1, 2, 2), color = c('black', 'black', 'black')) + geom_hline(yintercept = -log10(pval), linetype = 2, color = 'black')
+    # Add Title that includes comparison name
+    p <- p + ggtitle(as.character(Comparison))
+
+    print(p)
+    dev.off()
+    p
 ```
 
 How does significance relate to fold change?
@@ -113,46 +131,42 @@ To generate a general summary of the DE results, we can use the `summary` functi
 
 However, we can also use conditional statements to determine the number of genes that pass our thresholds for each comparison, which might be more informative.
 ```{r StatSigGenes2}
-#summary(res.KD)
-sum(res.KD$padj < 0.05 & abs(res.KD$log2FoldChange) >= log2(1.5), na.rm = TRUE)
-sum(res.OE$padj < 0.05 & abs(res.OE$log2FoldChange) >= log2(1.5), na.rm = TRUE)
+#summary(res)
+sum(res$padj < 0.05 & abs(res$log2FoldChange) >= log2(1.5), na.rm = TRUE)
+sum(res_Tx$padj < 0.05 & abs(res_Tx$log2FoldChange) >= log2(1.5), na.rm = TRUE)
 ```
+How do the number of DE genes compare to what we observed from the PCA plots?
 
 #### Subsetting significant genes
+
 <details>
-  <summary>Click for code</summary>
+    <summary>*Click for code to generate a table of only DE genes*</summary>
+    You may be interested in identifying only the genes that pass your significance thesholds. A useful way to do this is to conditionally subset your results. 
+    ```{r ConditionalSubset, eval=FALSE}
+    res_sig <- na.omit(res)
+    res_sig <- res_sig[which(res_sig$padj < 0.05 & abs(res_sig$log2FoldChange) >= log2(1.5)), ]
+    head(res_sig)
+    ```
+    For more details about subsetting tables in R, we recommend reviewing the [Data Carpentry manipulating and analyzing data module](https://datacarpentry.org/R-ecology-lesson/03-dplyr.html).    
+    We can also annotate our results to include a column that identifies our significant genes.
+    ```{r ConditionalAnno, eval=FALSE}
+    res_anno <- res # copy table
+    # add a column and assign all genes are non-significance
+    res_anno$Call <- rep(FALSE, length(res$baseMean)) 
 
-You may be interested in identifying only the genes that pass your significance thesholds. A useful way to do this is to conditionally subset your results. 
-```{r ConditionalSubset, eval=FALSE}
-res.KD_sig <- na.omit(res.KD)
-res.KD_sig <- res.KD_sig[which(res.KD_sig$padj < 0.05 & abs(res.KD_sig$log2FoldChange) >= log2(1.5)), ]
-head(res.KD_sig)
-```
+    # change 'Call' column to TRUE if meets conditions for significant differences
+    res_anno[which(!is.na(res_anno$padj) & res_anno$padj < 0.05 & abs(res_anno$log2FoldChange) >= log2(1.5)), ]$Call <- TRUE
 
-For more details about subsetting tables in R, we recommend the [Data Carpentry manipulating and analyzing data module](https://datacarpentry.org/R-ecology-lesson/03-dplyr.html). 
-
-We can also annotate our results to include a column that identifies our significant genes.
-```{r ConditionalAnno, eval=FALSE}
-res.KD_anno <- res.KD # copy table
-# add a column and assign all genes are non-significance
-res.KD_anno$Call <- rep(FALSE, length(res.KD$baseMean)) 
-
-# change 'Call' column to TRUE if meets conditions for significant differences
-res.KD_anno[which(!is.na(res.KD_anno$padj) & res.KD_anno$padj < 0.05 & abs(res.KD_anno$log2FoldChange) >= log2(1.5)), ]$Call <- TRUE
-
-# reorder table to rank significant genes at the top
-res.KD_anno <- res.KD_anno[order(-res.KD_anno$Call),]
-```
-
-
+    # reorder table to rank significant genes at the top
+    res_anno <- res_anno[order(-res_anno$Call),]
+    ```
+    
 </details>
 
 
 ## Adding genome annotations
 
 Bioconductor provides many tools and resources to facilitate access to [genomic annotation resources](http://bioconductor.org/packages/devel/workflows/vignettes/annotation/inst/doc/Annotation_Resources.html). 
-
-From the [RNA-Seq methods reported in the Kenny et al paper](https://ars-els-cdn-com.proxy.lib.umich.edu/content/image/1-s2.0-S2211124714009231-mmc1.pdf), we know that the hg19 (UCSC) reference genome was used for alignment. 
 
 We can access additional genomic annotations using the [`bioMart` package](https://bioconductor.org/packages/release/bioc/html/biomaRt.html). To identify  we'll structure our 'query' or search of the bioMart resources to use the gene symbols from our alignment to add the [ENSEMBL id](https://m.ensembl.org/info/genome/genebuild/gene_names.html) and gene description for each gene. 
 
@@ -241,16 +255,14 @@ A way to determine possible [broader biological interpretations](https://www.ebi
 
 The University of Michigan has license and support for additional tools, such as Cytoscape, so we recommend reaching out to staff with [Taubman Library](https://www.lib.umich.edu/locations-and-hours/taubman-health-sciences-library/research-and-clinical-support) to learn more about resources that might be application toyour research.
 
-# Review of Kenny et al results
+# Thresholds
 
-From the results [reported in the Kenny PJ et al paper](http://www.ncbi.nlm.nih.gov/pubmed/25464849), we identified fewer DE genes than their analysis. From their [RNA-Seq methods](https://ars-els-cdn-com.proxy.lib.umich.edu/content/image/1-s2.0-S2211124714009231-mmc1.pdf), we know that they used a different tool, EdgeR, but they only used a significance threshold to call DE genes. 
-
-How many DE genes would we have if we only apply a threshold to our adjusted pvalues?
+How many DE genes would we have if we only apply a threshold to our adjusted pvalues and ignored fold-change?
 ```{r StatSigGenes}
 sum(res.KD$padj < 0.05, na.rm = TRUE)
 ```
 
-If we threshold only on significance, we still identify less DE genes than the 6057 identified in the paper. How should we interpret these differences? Are we in danger of missing relevant genes or, due to DESeq2's stringency, are we better protected against irrelevant genes? One of the authors of DESeq2, wrote this [blog post that detailed differences between DESeq2 and EdgeR ](https://mikelove.wordpress.com/2016/09/28/deseq2-or-edger/) but this [review of multiple DE tools by Costa-Silva, Domingues, and Martins Lopes](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5739479/) may also be useful for forming your own opinion.
+If we threshold only on significance, we still identify less DE genes than the 6057 identified in the paper. How should we interpret these differences? Are we in danger of missing relevant genes or, due to DESeq2's stringency, are we better protected against irrelevant genes? One of the authors of DESeq2, wrote this [blog post that detailed differences between DESeq2 and EdgeR ](https://mikelove.wordpress.com/2016/09/28/deseq2-or-edger/) but this [review of multiple DE tools by Costa-Silva, Domingues, and Martins Lopes](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5739479/) may also be useful for making choices for your own data.
 
 ---
 
@@ -274,6 +286,7 @@ save.image(file = "RunningData_Full.RData")
 * Using HTSeq data with DESeq2: https://angus.readthedocs.io/en/2019/diff-ex-and-viz.html
 * Detailed RNA-seq analysis paper: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/
 * Overview of RNA-seq analysis considerations: https://academic-oup-com.proxy.lib.umich.edu/bfg/article/14/2/130/257370
+* Alternative overview of DESeq2, including visualizations and functional enrichments: http://dputhier.github.io/jgb71e-polytech-bioinfo-app/practical/rna-seq_R/rnaseq_diff_Snf2.html
 
 ---
 

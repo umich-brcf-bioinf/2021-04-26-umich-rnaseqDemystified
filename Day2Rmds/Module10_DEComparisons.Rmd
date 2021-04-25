@@ -23,7 +23,7 @@ output:
 > # Objectives 
 > * Generate tables of DE results
 > * Understand what a p-value represents.   
-> * Understand  multiple hypothesis correction and importance    
+> * Understand multiple hypothesis correction application and importance    
 
 
 ```{r Modules, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
@@ -32,6 +32,26 @@ library(tidyr)
 library(dplyr)
 load("RunningData.RData")
 ```
+
+# Differential Expression Workflow
+
+**TODO: "Here we will proceed with ..."  plus highlight step**
+
+| Step | Task |
+| :--: | ---- |
+| 1 | Experimental Design |
+| 2 | Biological Samples / Library Preparation |
+| 3 | Sequence Reads |
+| 4 | Assess Quality of Raw Reads |
+| 5 | Splice-aware Mapping to Genome |
+| 6 | Count Reads Associated with Genes |
+| :--: | ---- |
+| 7 | Organize project files locally |
+| 8 | Initialize DESeq2 and fit DESeq2 model |
+| 9 | Assess expression variance within treatment groups |
+| 10 | Specify pairwise comparisons and test for differential expression |
+| 11 | Generate summary figures for comparisons |
+| 12 | Annotate differential expression result tables |
 
 # Generating DE results
 
@@ -91,7 +111,7 @@ If there are comparisons that are not included in the `resultsName`, since our d
 ?results
 ```
 
-As the function description specifies, we need to provide a list of three elements: the name of the factor in the model design , the name of the numerator for the fold-change, and the name of denominator. 
+As the function description specifies, we need to provide a list of three elements: the name of the factor in the model design, the name of the numerator for the fold-change, and the name of denominator. 
 ```{r AdditionalComparisons}
 res <- results(dds, contrast=c("Gtype.Tx", "ko.control", "wt.control")) 
 head(res)
