@@ -9,15 +9,18 @@
 
 | Time | Topic | Instructor |
 | ---- | ----------------- | ---------- |
-| **Day One** |
+| **Day 1** |
 | 9:00 | [Workshop Introduction](Module00_Introduction) | Chris Gates |
-| 9:15 | [Building Blocks](Module01_Building_Blocks) | Travis Saari |
-| 10:00 | [Quality Control](Module02_QC) | Travis Saari |
-|  | [Optional - Additional QC](Module02optional_Cutadapt_MultiQC) | Travis Saari |
-|  | [Reference Genomes](Module03_Reference_Genomes) | Travis Saari |
-| 11:00 | [Sequence Alignment and Gene Quantification with STAR/RSEM](Module04_Alignment) | Travis Saari |
-| 12:00 |  [MultiQC and Count Matrix](Module05_MultiQC_and_Count_Matrix) | Travis Saari |
-| **Day Two** |
+| 9:15 | [Warming Up](Module01_Warming_Up) | Travis Saari |
+|  | [Quality Control](Module02_QC) | |
+|  | [Optional - Trimming and MultiQC](Module02optional_Cutadapt_MultiQC) | |
+| 10:30 | **Break** | |
+|  | [Reference Genomes](Module03_Reference_Genomes) | |
+|  | [Sequence Alignment and Gene Quantification with STAR/RSEM](Module04_Alignment) | |
+|  | [MultiQC and Count Matrix](Module05_MultiQC_and_Count_Matrix) | |
+|  | [Optional - Additional Information](Module05optional_Additional_Details) | |
+| 1:00 | **Day  1 concludes** | |
+| **Day 2** |
 | 9:00 | Intro Day 2 | Chris Gates |
 | 9:10 | [Introduction To R/RStudio](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module7a_IntroductionToR)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Dana King |
 |  | [Introduction to DESeq2](https://umich-brcf-bioinf.github.io/rnaseq_demystified_workshop/site/Module8a_IntroductionToDESeq2) | Dana King |

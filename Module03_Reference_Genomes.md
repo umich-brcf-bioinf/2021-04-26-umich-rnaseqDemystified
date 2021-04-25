@@ -128,11 +128,15 @@ First go to the [iGenomes](https://support.illumina.com/sequencing/sequencing_so
 
 Then on the remote server you would go to the directory you'd like to download the genome to and type (that URL is what we copied):
 
-    $ wget http://igenomes.illumina.com.s3-website-us-east-1.amazonaws.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz
+```
+$ wget http://igenomes.illumina.com.s3-website-us-east-1.amazonaws.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz
+```
 
 After the download finishes (it may take a while as it is tens of GB large), you can unpack it with:
 
-    $ tar -xf Homo_sapiens_NCBI_GRCh38.tar.gz
+```
+$ tar -xf Homo_sapiens_NCBI_GRCh38.tar.gz
+```
 
 </details>
 
