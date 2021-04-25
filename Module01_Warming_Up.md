@@ -16,32 +16,26 @@ In this module, we will:
 
 ## Local vs remote exercise:
 
-1. Determine if you are currently viewing a remote or local shell
-2. If remote, log out by using the command `exit`
-3. Become familiar with the different appearance of the local shell
-4. Create local folder for results
-5. Log back in to the aws instance
-6. Become familiar with the differences between the local and remote shell
+1. Become familiar with the different appearance of the local shell
+2. Create local folder `~/workshop_rsd` for results
+3. Log in to the aws instance with `ssh <username>@50.17.210.255`
+5. Become familiar with appearance of the remote shell
 
 <details>
 <summary >Click here for hints - Local vs remote exercise</summary>
 
-1. Determine if you are in remote or local shell
-2. If remote, log out
 
-        # If remote
-        exit
 
-3. Familiarize with local shell appearance
-4. Create local folder for results
+1. Familiarize with local shell appearance
+2. Create local folder for results
 
         mkdir ~/workshop_rsd
 
-5. Log back in to aws instance
+3. Log in to aws instance
 
         ssh <username>@50.17.210.255
 
-6. Become familiar with the differences between local and remote shell
+4. Become familiar with the differences between local and remote shell
 
 </details>
 
@@ -107,13 +101,23 @@ Orientation exercise:
 <br>
 <br>
 
-## Warm-up exercise:
+## Bonus exercise:
 
-1. Try logging into the AWS instance
+1. Ensure we're on
 2. run the command `fortune | cowsay | lolcat`
 
 Optional and only for fun!
-We will have time for troubleshooting at the next section.
+
+These programs are installed 'games' for entertainment purposes.
+
+<details>
+<summary>Details about `fortune | cowsay | lolcat`</summary>
+
+`fortune` prints a random fortune
+`cowsay` is a talking cow
+`lolcat` is like `cat` but with a fun twist
+
+</details>
 
 <br>
 <br>
