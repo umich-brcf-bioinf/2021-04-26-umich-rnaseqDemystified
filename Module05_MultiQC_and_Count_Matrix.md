@@ -76,18 +76,18 @@ MultiQC With STAR Exercise:
 
 1. Note contents of our analysis directory, including RSEM / STAR contents
 
-        ls -l ~/analysis/out_rsem/
+        ls -l ~/analysis/rsem_star/
 
 2. Run MultiQC on this directory
 
-        multiqc --outdir ~/analysis/out_multiqc_star ~/analysis/out_rsem
+        multiqc --outdir ~/analysis/multiqc_star ~/analysis/rsem_star
 
 3. Transfer the report back to local computer and view it
 
         exit # log out from remote
 
         # Now on local
-        scp <username>@50.17.210.255:~/analysis/out_multiqc/multiqc_report.html ~/workshop_rsd/multiqc_report_star.html
+        scp <username>@50.17.210.255:~/analysis/multiqc/multiqc_report.html ~/workshop_rsd/multiqc_report_star.html
 
 Use GUI file manager to find your ~/workshop_rsd folder. Double-click multiqc_report.html (open it with an internet browser).
 
@@ -122,7 +122,7 @@ Count Matrix Exercise:
 
 1. View the `.genes.results` files that we want to combine
 
-        head -n 1 ~/analysis/out_rsem/sample_01.genes.results
+        head -n 1 ~/analysis/rsem_star/sample_01.genes.results
         # It's easiest to look at the first line (header)
 
 2. Understand the process of creating a count matrix
@@ -132,7 +132,7 @@ Count Matrix Exercise:
 
 4. Construct / execute a command to combine our results into a count matrix
 
-        combine.py --output_file ~/analysis/count_matrix.tsv --input_path 'analysis/out_rsem/*.genes.results' --column expected_count --id_columns gene_id
+        combine.py --output_file ~/analysis/count_matrix.tsv --input_path 'analysis/rsem_star/*.genes.results' --column expected_count --id_columns gene_id
 
 5. View the resulting count matrix
 
