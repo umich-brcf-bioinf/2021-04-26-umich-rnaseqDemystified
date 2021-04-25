@@ -121,13 +121,13 @@ We can see some HTML reports, but there isn't a way to open them on the remote m
 3. Prepare to run FastQC
 
         # Make the output directory before running
-        mkdir ~/analysis/out_fastqc
-        fastqc -o ~/analysis/out_fastqc ~/data/reads/*.fastq.gz
+        mkdir ~/analysis/fastqc
+        fastqc -o ~/analysis/fastqc ~/data/reads/*.fastq.gz
 
 4. Watch FastqQC output during processing
 5. View output of FastQC
 
-        ls -l analysis/out_fastqc/
+        ls -l analysis/fastqc/
 
 </details>
 
@@ -161,7 +161,7 @@ Transferring Files Exercise:
 
 2. Use scp to transfer a FastQC report to local computer
 
-        scp <username>@50.17.210.255:~/analysis/out_fastqc/sample_01_R1_fastqc.html ~/workshop_rsd
+        scp <username>@50.17.210.255:~/analysis/fastqc/sample_01_R1_fastqc.html ~/workshop_rsd
         # you will need to enter your password to transfer the file
 
 3. Ensure file is on local computer

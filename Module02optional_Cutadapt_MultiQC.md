@@ -54,24 +54,24 @@ Cutadapt Exercise:
 2. Trim the adapters from sample_01 with cutadapt
 
         SAMPLE=sample_01
-        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
 
 3. View cutadapt output
 
-        ls -l ~/analysis/out_trimmed
+        ls -l ~/analysis/trimmed
 
 4. Construct commands to trim the reads for all of our samples
 
 Note: We're re-using the same command. We can update `$SAMPLE`, then press 'up' to re-run cutadapt command with newly defined variable.
 
         SAMPLE=sample_02
-        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
 
         SAMPLE=sample_03
-        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
 
         SAMPLE=sample_04
-        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
 
 
 </details>
@@ -97,11 +97,11 @@ Re-running FastQC Exercise:
 
 1. Create directory for new fastqc results
 
-        mkdir ~/analysis/out_fastqc_trimmed
+        mkdir ~/analysis/fastqc_trimmed
 
 2. FastQC command to evaluate trimmed FASTQ files
 
-        fastqc -o ~/analysis/out_fastqc_trimmed ~/analysis/out_trimmed/*.fastq.gz
+        fastqc -o ~/analysis/fastqc_trimmed ~/analysis/trimmed/*.fastq.gz
 
 
 </details>
@@ -139,14 +139,14 @@ MultiQC Exercise:
 
 2. MultiQC command to process our trimmed read results
 
-        multiqc --outdir ~/analysis/out_multiqc ~/analysis/out_fastqc_trimmed/
+        multiqc --outdir ~/analysis/multiqc ~/analysis/fastqc_trimmed/
 
 3. Log out of aws instance and use scp to transfer MultiQC report to local computer
 
         exit # log out from remote
 
         # Now on local
-        scp <username>@50.17.210.255:~/analysis/out_multiqc/multiqc_report.html ~/workshop_rsd/
+        scp <username>@50.17.210.255:~/analysis/multiqc/multiqc_report.html ~/workshop_rsd/
 
 4. View MultiQC report
 Use GUI file manager to find your ~/workshop_rsd folder
