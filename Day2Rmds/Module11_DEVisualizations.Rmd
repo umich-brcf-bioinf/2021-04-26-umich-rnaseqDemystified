@@ -11,6 +11,7 @@ output:
             number_sections: true
             fig_caption: true
             keep_md: true
+            markdown: GFM
 ---
 
 <!--- Allow the page to be wider --->

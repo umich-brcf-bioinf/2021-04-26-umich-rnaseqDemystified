@@ -38,7 +38,7 @@ load("RunningData.RData")
 Now that we have reviewed the plots by sample and determined that our data passed our quality control checks, specifically that the patterns we observe are likely due to our experimental treatments over technical or other cofounding factors. 
 
 This illustration from the HCB training materials illustrates the basis of the differential expression procedure, where our goal is to compare the distribution of an expressed gene across samples in each treatment groups. 
-![](./images/de_theory.png)
+![](~/repos/rnaseq_demystified_workshop_2021/images/de_theory.png)
 *Image credit: Paul Pavlidis, UBC*
 
 Only where the distributions of each group are sufficiently seperated will a gene be considered differentially expressed. This is where having sufficient replicates to overcome within group variance is important, as the more replicates we have in each group the better we can determine the distributions of expression for each group. 
@@ -63,7 +63,7 @@ This [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/04_DGE_DE
 
 ## DESeq2 statistical testing
 
-We have already fit our DESeq2 model, specifing our model as `~ condition` and our next step is to identify genes with significantly different expression between our contrasts of interest. To determine significance, a statistical test is required.
+We have already fit our DESeq2 model, specifing our model as `~ Gtype.Tx` and our next step is to identify genes with significantly different expression between our contrasts of interest. To determine significance, a statistical test is required.
 
 The first step for any statistical test is to define the *null hypothesis*. In this case, the null hypothesis would be that there is no difference in the expression of a gene between two groups of samples, such as illustrated at the bottom of the first figure in this module. The next step is to use a statistical test to determine if, based on the observed data, the null hypothesis can be rejected.
 
@@ -78,12 +78,10 @@ We can check what comparisons were automatically generated during fitting using 
 resultsNames(dds)
 ```
 
-Since we are interested in comparing the Mov.KD or Mov.OE samples to the Irrel control, we can select one of the automatically generated comparisons using the `results` function and assign those result to a new object.
+Since we are interested in comparing each knockout versus its corresponding wild-type control, only one of the automatically generated comparisons is relevant. We can pull the `Tx_ko.Tx_vs_wt.Tx` comparison results using the `results` function and assign those result to a new object.
 ```{r SetsResult}
-Comparison <- "condition_Mov.KD_vs_Irrel"
-res.KD <- results(dds, name=Comparison)
-Comparison <- "condition_Mov.OE_vs_Irrel"
-res.OE <- results(dds, name=Comparison)
+Comparison <- "Gtype.Tx_ko.Tx_vs_wt.Tx"
+res_Tx <- results(dds, name=Comparison)
 ```
 
 ## How to generate additional contrasts
@@ -95,7 +93,7 @@ If there are comparisons that are not included in the `resultsName`, since our d
 
 As the function description specifies, we need to provide a list of three elements: the name of the factor in the model design , the name of the numerator for the fold-change, and the name of denominator. 
 ```{r AdditionalComparisons}
-res <- results(dds, contrast=c("condition", "Mov.OE", "Mov.KD")) 
+res <- results(dds, contrast=c("Gtype.Tx", "ko.control", "wt.control")) 
 head(res)
 ```
 
@@ -103,14 +101,14 @@ head(res)
 
 Next, we'll take a look at some of the results we generated. 
 ```{r ResultsKD}
-head(res.KD)
+head(res_Tx)
 ```
 
 We can see in the results table that the row name are gene symbols and there are [six columns of values](https://support.illumina.com/help/BS_App_RNASeq_DE_OLH_1000000071939/Content/Source/Informatics/Apps/DESeq2ResultFile_swBS.htm#:~:text=baseMean%E2%80%94The%20average%20of%20the,factors%2C%20taken%20over%20all%20samples.&text=log2FoldChange%E2%80%93The%20effect%20size%20estimate,the%20comparison%20and%20control%20groups). 
 
 The first column, 'baseMean' is the average of the normalized count values, dividing by size factors, taken over all samples, and can be interpreted as the relative expression level of that gene across all samples. 
 
-The second column, 'log2FoldChange', is the ratio of the expression of the numerator group (`Mov.KD`) over the denominator group (`Irrel`). If the value is positive, that means the expression of that gene is greater across the Mov.KD samples than across the Irrel samples. If the value is negative, that means the expression of that gene is greater across the Irrel samples. The third column, 'lfcSE' is the standard error for the log2 fold change estimate. 
+The second column, 'log2FoldChange', is the ratio of the expression of the numerator group (`ko.Tx`) over the denominator group (`wt.Tx`). If the value is positive, that means the expression of that gene is greater across the `ko.Tx` samples than across the `wt.Tx` samples. If the value is negative, that means the expression of that gene is greater across the `wt.Tx` samples. The third column, 'lfcSE' is the standard error for the log2 fold change estimate. 
 
 The fourth column, 'stat', is the calculated Wald statistic for that gene, while the fifth column 'pvalue' is the *nominal* significance for that gene.
 
@@ -126,11 +124,13 @@ DESeq2 reduces the number of genes that will be tested by removing genes with lo
 
 The default FDR rate cutoff for DESeq2 is `alpha = 0.05`. By setting the cutoff to < 0.05, we expect that the proportion of false positives amongst our differentially expressed genes is now controlled to 5%. For example, if we call 500 genes as differentially expressed with this FDR cutoff, we expect only 25 of them to be false positives. DESeq2 vignette's includes a [further discussion of filtering and multiple testing](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#independent-filtering-and-multiple-testing)
 
-> **Note on 'padj' values set to NA**
-> As discussed in the [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html) as well as the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#i-want-to-benchmark-deseq2-comparing-to-other-de-tools.)
+> **Note on 'padj' values set to NA**    
+> As discussed in the [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html) as well as the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#i-want-to-benchmark-deseq2-comparing-to-other-de-tools.)    
 > * If within a row, all samples have zero counts, the baseMean column will be zero, and the log2 fold change estimates, p-value and adjusted p-value will all be set to NA.    
 > * If a row contains a sample with an extreme count outlier then the p-value and adjusted p-value will be set to NA. These outlier counts are detected by Cook’s distance.     
 > * If a row is filtered by automatic independent filtering, for having a low mean normalized count, then only the adjusted p-value will be set to NA.    
+
+Now that we've generated our differential comparisons and have an understanding of our results, including multiple hypothesis correction, we can proceed with generating summary figures and tables for our differential expression analysis.
 
 ---
 
@@ -141,7 +141,7 @@ The default FDR rate cutoff for DESeq2 is `alpha = 0.05`. By setting the cutoff 
 
 ---
 
-![](./images/significant_xkcd.png)
+![](~/repos/rnaseq_demystified_workshop_2021/images/significant_xkcd.png)
 
 
 ```{r WriteOut.RData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}

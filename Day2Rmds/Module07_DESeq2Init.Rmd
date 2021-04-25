@@ -73,7 +73,7 @@ unique(MetaInfo$Gtype.Tx)
 **TODO: Update to set levels within input table & test proper level order to get pairwise comparisons; possibly split up  samples/data to avoid?**
 Next, we'll format our table so that we have the appropriate data type (a ordered [factor](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/)) for DESeq2 to recognize our treatment groups and appropriately compare samples.
 ```{r SampleInfo2}
-MetaInfo$Gtype.Tx <- factor(MetaInfo$Gtype.Tx, levels = c("ko.control", "wt.control", "ko.Tx", "wt.Tx")) ## levels = c(Case, Control); Control should be last if only two groups & first if three groups. 
+MetaInfo$Gtype.Tx <- factor(MetaInfo$Gtype.Tx, levels = c( "wt.Tx", "ko.Tx", "ko.control", "wt.control" )) ## levels = c(Case, Control); Control should be last if only two groups & first if three groups to generate default pair-wise comparisons. 
 unique(MetaInfo$Gtype.Tx)
 ```
 Notice that we set the levels in a particular order. This is important for setting the 'Control' group as the denominator in our comparisons when we setup our DESeq2 model.
