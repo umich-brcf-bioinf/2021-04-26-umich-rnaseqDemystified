@@ -114,8 +114,7 @@ Translating between different gene IDs is possible, as we will see in Day Two wi
 
 The [Illumina iGenomes](https://support.illumina.com/sequencing/sequencing_software/igenome.html) resource is one of the easiest, and most comprehensive, ways to download a reference genome. iGenomes includes both the reference sequence and gene models.
 
-Reference genomes can be **very large**, depending on the organism, and so we will not download one to the Amazon instance we are using for this workshop. It is not advised to download these references to your personal computer either. Instead, these should be downloaded on the server where you intend to do the RNA-seq analysis (your lab's or Great Lakes).
-
+Reference genomes can be **very large**, depending on the organism, and so we will not download one to the Amazon instance we are using for this workshop. We've included instructions for downloading these, in case you want to download these to the server where you intend to later do a similar RNA-seq analysis (e.g. on High-Performance Compute, GreatLakes).
 
 <details>
 <summary>How would I download references with iGenomes?</summary>

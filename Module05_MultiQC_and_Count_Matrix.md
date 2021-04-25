@@ -67,10 +67,31 @@ We will run `multiqc`, and it will detect these reports from STAR and include th
 
 MultiQC With STAR Exercise:
 
-1. Note the contents of our analysis directory, including the STAR contents
+1. Note the contents of our analysis directory, including the RSEM / STAR contents
 2. Run MultiQC on this directory
 3. Transfer the report back to local computer and view it
 
+<details>
+<summary>Click here for solution - MultiQC with STAR exercise</summary>
+
+1. Note contents of our analysis directory, including RSEM / STAR contents
+
+        ls -l ~/analysis/out_rsem/
+
+2. Run MultiQC on this directory
+
+        multiqc --outdir ~/analysis/out_multiqc_star ~/analysis/out_rsem
+
+3. Transfer the report back to local computer and view it
+
+        exit # log out from remote
+
+        # Now on local
+        scp <username>@50.17.210.255:~/analysis/out_multiqc/multiqc_report.html ~/workshop_rsd/multiqc_report_star.html
+
+Use GUI file manager to find your ~/workshop_rsd folder. Double-click multiqc_report.html (open it with an internet browser).
+
+</details>
 
 The newly included STAR section will look something like the following:
 
@@ -95,6 +116,31 @@ Count Matrix Exercise:
 3. View the help file of `combine.py`
 4. Construct / execute a command to combine our results into a count matrix
 5. View the resulting count matrix
+
+<details>
+<summary>Click here for solution - Creating count matrix exercise</summary>
+
+1. View the `.genes.results` files that we want to combine
+
+        head -n 1 ~/analysis/out_rsem/sample_01.genes.results
+        # It's easiest to look at the first line (header)
+
+2. Understand the process of creating a count matrix
+3. View the help file of `combine.py`
+
+        combine.py --help
+
+4. Construct / execute a command to combine our results into a count matrix
+
+        combine.py --output_file ~/analysis/count_matrix.tsv --input_path 'analysis/out_rsem/*.genes.results' --column expected_count --id_columns gene_id
+
+5. View the resulting count matrix
+
+        head ~/analysis/count_matrix.tsv
+
+</details>
+
+
 
 <details>
     <summary>Contents of combine.py script</summary>
@@ -189,3 +235,8 @@ if __name__ == '__main__':
     main(sys.argv)
 ```
 </details>
+
+
+---
+
+These materials have been adapted and extended from materials created by the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
