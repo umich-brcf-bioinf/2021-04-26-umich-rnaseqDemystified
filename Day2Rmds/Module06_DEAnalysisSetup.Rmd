@@ -98,13 +98,13 @@ This code file can also serve as a 'cheatsheet' of commands to use for working t
 
 *Another note is that there are several bonus content sections on the instruction pages, like the two below that we will not be covering in this workshop, but that may have useful context or be helpful when you review this material*
 
-><details>
+<details>
     <summary>*Click for code execution shortcut reminder*</summary>
     **Ctrl-Enter** is a standard shortcut in Rstudio to send the current line (or selected lines) to the console. If you see an `>`, then R has executed the command. If you see a `+`, this means that the command is not complete and R is waiting (usually for a `)`).
 </details>
 
 
-><details>
+<details>
     <summary>*Click for review of R conventions for object names*</summary>
     R has some restrictions for naming objects:   
     * Cannot start with numbers   

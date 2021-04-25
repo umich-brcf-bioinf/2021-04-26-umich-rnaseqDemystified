@@ -182,6 +182,7 @@ keep <- rowSums(counts(dds_patient)) >= 10
 dds_patient <- dds_patient[keep,]
 ```
 
+Now that we've created our DESeq2 objects, including specifying what model is appropriate for our data, and filtered our data, we can proceed with assessing the impact of the experimental conditions on gene expression across our samples. 
 
 ---
 

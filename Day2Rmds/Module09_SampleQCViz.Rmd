@@ -39,7 +39,9 @@ library('RColorBrewer', character.only=TRUE)
 load("RunningData.RData")
 ```
 
+
 **TODO: Add schedule to top**
+
 
 # Sample Visualizatons for Quality Control     
 
@@ -185,7 +187,9 @@ However, the samples are clearly seperated by experimental condition on PC1, and
 
 Generally, the decision to remove samples should not be taken lightly, especially if the consideration is based on the expression level patterns we are visualizing in this section, as doing so without sufficient justification could potentially bias your results. Other training materials have a step-by-step example of evaluating [batch effects](https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html) using PCAs, that we would recommend reviewing prior to removing any samples from your comparisons. 
 
-if your PCA reveals patterns that were not accounted for in the initial model fit, the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs) provides an overview of how to add additional covariates to a model design before refitting the DESeq2 model for a dataset.
+If your PCA reveals patterns that were not accounted for in the initial model fit, the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs) provides an overview of how to add additional covariates to a model design before refitting the DESeq2 model for a dataset.
+
+
 
 ---
 

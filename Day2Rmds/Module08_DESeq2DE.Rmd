@@ -40,14 +40,14 @@ Since counts of mapped reads for each gene is proportional to the expression of 
 
 Two common factors that need to be accounted for during normalization are **sequencing depth** and **gene length**.    
 
-* **Sequencing depth** normalization is neccessary to account for the proportion of reads per gene expected for more deeply sequenced samples (like in pink below) versus a less deeply sequenced sample (like in green blow.)
+* **Sequencing depth** normalization is neccessary to account for the proportion of reads per gene expected for more deeply sequenced samples (like in pink below) versus a less deeply sequenced sample (like in green blow.)    
 
 ![*Note that each pink or green rectangle represents an aligned read, with reads spanning an intron connected by a dashed line.Figure credit to [HBC  training materials](https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html)*](~/repos/rnaseq_demystified_workshop_2021/images/normalization_methods_depth.png)    
 
     
-* **Gene length** normalization is necessary since genes of different lengths have different probablities of generating fragments that end up in the library. In the example below, both genes have similar levels of expression. However, the number of reads that map to the longer gene (Gene X) will be much great than the number of reads that map to the short gene (Gene Y).
+* **Gene length** normalization is necessary since genes of different lengths have different probablities of generating fragments that end up in the library. In the example below, both genes have similar levels of expression. However, the number of reads that map to the longer gene (Gene X) will be much great than the number of reads that map to the short gene (Gene Y).    
 
-![*Each pink rectangle represents an aligned read, with reads spanning an intron connected by a dashed line.Figure credit to [HBC  training materials](https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html)*](~/repos/rnaseq_demystified_workshop_2021/images/normalization_methods_length.png)     
+![*Each pink rectangle represents an aligned read, with reads spanning an intron connected by a dashed line.Figure credit to [HBC  training materials](https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html)*](~/repos/rnaseq_demystified_workshop_2021/images/normalization_methods_length.png)      
     
 > **Note**: The above figures are originally from a [HBC  tutorial](https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html) that also includes a detailed comparison of different normalization (CPM, TPM, FPKM) approaches and their best uses.
 
@@ -106,7 +106,7 @@ Notice that with the additional covariate, additional comparisons are generated 
 **Checkpoint**: *If you see the same results when you execute `resultsNames(dds)`, please indicate with the green 'yes' button. Otherwise, please use the 'red x' button to get help*
 
 
-Before moving on with our group comparisons, we'll take a short (10 minute) break.
+**Before moving on with our group comparisons, we'll take a short (10 minute) break.**
 
 ---
 
