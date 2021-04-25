@@ -105,6 +105,9 @@ Notice that with the additional covariate, additional comparisons are generated 
 
 **Checkpoint**: *If you see the same results when you execute `resultsNames(dds)`, please indicate with the green 'yes' button. Otherwise, please use the 'red x' button to get help*
 
+
+Before moving on with our group comparisons, we'll take a short (10 minute) break.
+
 ---
 
 # Sources

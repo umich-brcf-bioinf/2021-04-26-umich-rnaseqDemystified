@@ -167,7 +167,7 @@ Now we have specified for DESeq2 that we want to test for the effect of the cond
 
 While not necessary, [pre-filtering](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#pre-filtering) the count table to exclude genes that were poorly measured helps to not only reduce the size of the DESeq2 object, but also gives you a sense of how many genes were measured at the sequencing depth generated for your samples.
 
-Here we will filter out any genes that have less than 10 counts across any of the samples. **TODO: May or may not want to keep filtering level so high here since makes rlog normalization a but wonky, even though rlog count normalization figure improves**
+Here we will filter out any genes that have less than 10 counts across any of the samples. This is a fairly standard level of filtering, but can filter data less/more depending on quality control metrics from alignments and/or total number of samples.
 ```{r PreFilter}
 keep <- rowSums(counts(dds)) >= 10
 dds <- dds[keep,]
@@ -180,7 +180,6 @@ keep <- rowSums(counts(dds_patient)) >= 1
 dds_patient <- dds_patient[keep,]
 ```
 
-Before moving on with our group comparisons, we'll take a short (10 minute) break.
 
 ---
 
