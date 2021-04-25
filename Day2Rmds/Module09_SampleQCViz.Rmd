@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module XX: Sample Visualizations"
+title: "Day 2 - Module 09: Sample Visualizations for Quality Control"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -10,7 +10,8 @@ output:
             toc_float: true
             number_sections: true
             fig_caption: true
-            keep_md: false
+            keep_md: true
+            markdown: GFM
 ---
 
 <!--- Allow the page to be wider --->
@@ -48,7 +49,7 @@ To do this, we will assess the similarity of our samples by using principal comp
 
 ### Plot Setup
 
-We've already loaded the libraries we need for this module. We'll follow best practices and create new directories to organize our output figures.
+We've already loaded the libraries we need for this module. We'll follow best practices and create new directories to organize our output figures as well as a variable to store a descriptor of the dataset we are looking at.
 ```{r Setupdirectory}
 # system("mkdir ./Figures") # create output folder if not already generated
 # system("mkdir ./Figures/BySamples") # create output folder if not already generated
@@ -64,19 +65,19 @@ A common and very useful plot for evaluating how well our samples cluster by tre
 This image from
 [a helpful step by step explaination of PCA](https://blog.bioturing.com/2018/06/14/principal-component-analysis-explained-simply/) helps to illustrate the principle component projections for two genes measured in approximately 60 mouse samples. Generally, this process is repeated and after each gene's contribution to a principle component or weight is determined, the expression and weight are summed across genes for each sample to calculate a value for each principle component. 
 
-![](./images/Blog_pca_6b.png)
+![](~/repos/rnaseq_demystified_workshop_2021/images/Blog_pca_6b.png)
 
 >**Note**: A more detailed overview of the PCA procedure is outlined in [a Harvard Chan Bioinformatic Core training module](https://hbctraining.github.io/DGE_workshop/lessons/principal_component_analysis.html) and is based a more thorough description presented in a [StatQuest’s video](https://www.youtube.com/watch?v=_UVHneBUBW0). Additionally, [this TowardsDataScience blog post](https://towardsdatascience.com/principal-component-analysis-3c39fbf5cb9d) goes through the math behind PCAs.
 
 Below, we will plot the rlog normalized data for our samples projected onto a 2D plane and spanned by their first two principle components to visualize the overall effect of experimental covariates and determine if there is evidence of batch effects. 
 
-We'll generate the PCA projections for the top 500 using the `plotPCA` function from DESeq2. 
+We'll generate the PCA projections for the top 500 using the `plotPCA` function from DESeq2, specifying `Gtype.Tx` as the condition of interest. 
 ```{r PCArlog3}
 p.all <- plotPCA(rld, intgroup = c('Gtype.Tx'), ntop = 500)
 p.all
 ```
 
-Next, we'll save this plot to file. **TODO: Check that this  works**
+Next, we'll save this plot to file.
 ```{r PCArlog1}
 pdf(file = paste0(plotPath, 'PCAplot_rlog_', Comparison, '.pdf'), onefile = TRUE)
 p.all
@@ -84,24 +85,26 @@ dev.off()
 ```
 
 
-**TODO: Format as popout bonus section**
+<details>
+    <summary>*Click for code to customize PCA plots*</summary>
+    We can generate a customized plot using the `ggplot2` package, including shape assignments for our treatment groups and color assignments for the individual samples.
+    ```{r PCArlog4}
+    pdf(file = paste0(plotPath, 'PCAplot_Fancy_rlog_', Comparison, '.pdf'), onefile = TRUE)
 
-We can generate a customized plot using the `ggplot2` package, including shape assignments for our treatment groups and color assignments for the individual samples.
-```{r PCArlog4}
-pdf(file = paste0(plotPath, 'PCAplot_Fancy_rlog_', Comparison, '.pdf'), onefile = TRUE)
+    #PCA plot for Rlog-Normalized counts for all samples
+    CombinatoricGroup <- factor(MetaInfo$Gtype.Tx)
+    SampleName <- factor(row.names(MetaInfo))
 
-#PCA plot for Rlog-Normalized counts for all samples
-CombinatoricGroup <- factor(MetaInfo$Gtype.Tx)
-SampleName <- factor(row.names(MetaInfo))
+    #Generate the PCA projections using the `plotPCA` function from DESeq2. 
+    p.all <- plotPCA(rld, intgroup = c('Gtype.Tx'), ntop = 500)
 
-#Generate the PCA projections using the `plotPCA` function from DESeq2. 
-p.all <- plotPCA(rld, intgroup = c('Gtype.Tx'), ntop = 500)
+    gp <- ggplot(p.all$data, aes(x = PC1, y = PC2, color = SampleName, shape = CombinatoricGroup)) +     xlab(p.all$labels[2]) + ylab(p.all$labels[1]) + scale_shape_manual(values=1:nlevels(CombinatoricGroup), name = 'Combinatoric Group') + geom_point(size=2) + ggtitle(label = as.character('All samples Rlog-Normalized')) + theme(plot.title = element_text(hjust = 0.5)) + guides(colour=guide_legend(nrow=12, title = 'Sample'), legend.key = element_rect(size = 1), legend.key.size = unit(0, 'cm')) + theme_classic(base_size = 10) + theme(legend.margin=margin(t = 0, unit='mm'))
+    plot(gp)
+    dev.off()
 
-gp <- ggplot(p.all$data, aes(x = PC1, y = PC2, color = SampleName, shape = CombinatoricGroup)) + xlab(p.all$labels[2]) + ylab(p.all$labels[1]) + scale_shape_manual(values=1:nlevels(CombinatoricGroup), name = 'Combinatoric Group') + geom_point(size=2) + ggtitle(label = as.character('All samples Rlog-Normalized')) + theme(plot.title = element_text(hjust = 0.5)) + guides(colour=guide_legend(nrow=12, title = 'Sample'), legend.key = element_rect(size = 1), legend.key.size = unit(0, 'cm')) + theme_classic(base_size = 10) + theme(legend.margin=margin(t = 0, unit='mm'))
-plot(gp)
-dev.off()
+    ```
+</details> 
 
-```
 
 ### Interpreting PCA plots
 
@@ -112,49 +115,47 @@ This [helpful overview of PCA basics](https://blog.bioturing.com/2018/06/14/prin
 We generally expect most of the variance to be explained by the first two or three principle components. A screeplot is a way to visualize the variance explained by each principle component. 
 
 In these scree plot examples from BioTuring, the plot on the left fits what we would expect for a dataset with high signal from the experimental treatment, where the majority of the variance is explained by the first few principle components. The plot on the right illustrates a scenario where the variance is distributed across many components, which could be due to low signal from the experimental treatment, complex experimental design, or confounding factors.
-image: ![](./images/proportion-of-variance-blog-horz.jpg)
+image: ![](~/repos/rnaseq_demystified_workshop_2021/images/proportion-of-variance-blog-horz.jpg)
 
 **TODO: Check formatting and give bridge into why scree plots are used**
 #### Generating a ScreePlot
 <details>
-  <summary>Click for example code for generating a ScreePlot</summary>
-  
-To generate a scree plot, the PCA results need to be used independently of plotting, such as described by [this statquest post](https://statquest.org/pca-clearly-explained/) and replicated below.
-```{r ScreePlot}
-# generate PCA loadings
-pca <- prcomp(t(assay(rld)), scale=TRUE)
+    <summary>*Click for example code for generating a ScreePlot*</summary>
+    To generate a scree plot, the PCA results need to be used independently of plotting, such as described by [this statquest post](https://statquest.org/pca-clearly-explained/) and replicated below.
+    ```{r ScreePlot}
+    # generate PCA loadings
+    pca <- prcomp(t(assay(rld)), scale=TRUE)
 
-## get the scree information
-pca.var <- pca$sdev^2
-scree <- pca.var/sum(pca.var)
-barplot((scree[1:10]*100), main="Scree Plot", xlab="Principal Component", ylab="Percent Variation") 
+    ## get the scree information
+    pca.var <- pca$sdev^2
+    scree <- pca.var/sum(pca.var)
+    barplot((scree[1:10]*100), main="Scree Plot", xlab="Principal Component", ylab="Percent Variation") 
 
-```
-
-We can see that the majority (>75%) of the variance across our samples is explained by the first three principle components, giving us further confidence regarding the quality of our data.
-
+    ```
+    We can see that the majority (~65%) of the variance across our samples is explained by the first three principle components, giving us some additional confidence regarding the quality of our data.
 </details>
+
 
 #### Additional PCA plot for raw data
 <details>
-  <summary>Click for code for additional visualizations</summary>
+    <summary>*Click for code for PCA visualization of raw data*</summary>
+    It can sometimes be useful to also generate a PCA plot for the raw data as well as the normalized data.
   
-It can sometimes be useful to also generate a PCA plot for the raw data as well as the normalized data.    
-```{r PCAraw}
-pdf(file = paste0(plotPath, 'PCAplot_raw_', Comparison, '.pdf'), onefile = TRUE)
-#PCA for Raw counts for all samples
-RC <- SummarizedExperiment(log2(counts(dds, normalized = FALSE)), colData=colData(dds))
-p.RC <- plotPCA(DESeqTransform(RC), intgroup = 'condition')
-gpRC <- ggplot(p.RC$data, aes(x = PC1, y = PC2, color = SampleName, shape = CombinatoricGroup)) + xlab(p.RC$labels[2]) + ylab(p.RC$labels[1]) + scale_shape_manual(values=1:nlevels(CombinatoricGroup), name = 'Combinatoric Group') + geom_point(size=2) + ggtitle(label = as.character('All samples Raw')) + theme(plot.title = element_text(hjust = 0.5)) + guides(colour=guide_legend(nrow=12, title = 'Sample'), legend.key = element_rect(size = 1), legend.key.size = unit(0, 'cm')) + theme_classic(base_size = 10) + theme(legend.margin=margin(t = 0, unit='mm'))
-plot(gpRC)
+    ```{r PCAraw}
+    pdf(file = paste0(plotPath, 'PCAplot_raw_', Comparison, '.pdf'), onefile = TRUE)
+    #PCA for Raw counts for all samples
+    RC <- SummarizedExperiment(log2(counts(dds, normalized = FALSE)), colData=colData(dds))
+    p.RC <- plotPCA(DESeqTransform(RC), intgroup = 'Gtype.Tx')
+    
+    gpRC <- ggplot(p.RC$data, aes(x = PC1, y = PC2, color = SampleName, shape = CombinatoricGroup)) +     xlab(p.RC$labels[2]) + ylab(p.RC$labels[1]) + scale_shape_manual(values=1:nlevels(CombinatoricGroup), name = 'Combinatoric Group') + geom_point(size=2) + ggtitle(label = as.character('All samples Raw Data')) + theme(plot.title = element_text(hjust = 0.5)) + guides(colour=guide_legend(nrow=12, title = 'Sample'), legend.key = element_rect(size = 1), legend.key.size = unit(0, 'cm')) + theme_classic(base_size = 10) + theme(legend.margin=margin(t = 0, unit='mm'))
+    plot(gpRC)
 
-dev.off()
+    dev.off()
 
-# embedd example of plot (rlog only)
-plot(gp)
-```
-
-We see that there is less variance explained by PC1 and that the samples from the same group are not as well clustered for the raw data. Since this is prior to normalization, these differences are likely due to **technical** considerations like sequencing depth differences that are accounted for in the rlog normalization.   
+    # embedd example of plot (rlog only)
+    plot(gpRC)
+    ```
+    We see that there is less variance explained by PC1 and that the samples from the same group are not as well clustered for the raw data. Since this is prior to normalization, these differences are likely due to **technical** considerations like sequencing depth differences that are accounted for by the rlog normalization.   
 </details>
 
 ### Evaulating batch effects or confounders
@@ -164,21 +165,21 @@ PCA plots are useful for evaulating the impact of factors other than the experim
 At times, batch effects can be quite obvious, such as this example from the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html), where there is clear separation within the treatment groups. 
 
 
-![](./images/PCA1_DESeq2Vignette.png)
+![](~/repos/rnaseq_demystified_workshop_2021/images/PCA1_DESeq2Vignette.png)
 
 If we color only by sequencing run type (paired-end vs. single-end), we see that PC2 (29% of variance) is primarily explained by this technical covariate. 
-![](./images/PCA1_DESeq2Vignette.png)
+![](~/repos/rnaseq_demystified_workshop_2021/images/PCA1_DESeq2Vignette.png)
 
 However, the samples are clearly seperated by experimental condition on PC1, and since PC1 explains more variance than  PC2 **and** since we have non-confounded batches, we could incorporate the technical covariate into our model design, such as outlined in the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs).
 
-**TODO: Change to popout**
-In experiments with more complex designs, such as when there are interesecting/multiple treatment conditions, it can be less clear what covariants are influencing expression, such as illustrated from [this documenation for a microarray analysis tool](http://www.molmine.com/magma/global_analysis/batch_effect.html).
-
-From the PCA labeled by experimental treatment, we see that samples from the treatment group do not cluster together and that there is high variance across all treatment groups.
-![](./images/batch_ex1b.jpg)
-
-However, when the plot is color coded by the technical batches of probe labeling, we see that the patterns in the data are better explained by batch than the experimental conditions.
-![](./images/batch_ex1c.jpg)
+<details>
+    <summary>*Click for complex design discussion*</summary>
+    In experiments with more complex designs, such as when there are interesecting/multiple treatment conditions, it can be less clear what covariants are influencing expression, such as illustrated from [this documenation for a microarray analysis tool](http://www.molmine.com/magma/global_analysis/batch_effect.html).
+    From the PCA labeled by experimental treatment, we see that samples from the treatment group do not cluster together and that there is high variance across all treatment groups.
+    ![](~/repos/rnaseq_demystified_workshop_2021/images/batch_ex1b.jpg)
+    However, when the plot is color coded by the technical batches of probe labeling, we see that the patterns in the data are better explained by batch than the experimental conditions.
+    ![](~/repos/rnaseq_demystified_workshop_2021/images/batch_ex1c.jpg)
+</details>
 
 #### When to remove samples or update the design formula
 
