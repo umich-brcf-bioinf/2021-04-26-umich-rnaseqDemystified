@@ -9,14 +9,6 @@ In this module, we will discuss more details of:
 
 # Input Data
 
-## FASTQs
-
-These files contain base sequence and quality information - usually provided by the sequencing provider.
-
-You'll generally have one or two FASTQ files for each sample, depending on if your reads are single-end or paired-end. If there are more than two FASTQ files per sample, then it may be useful to combine them.
-
-For paired-end data, make sure to combine read 1 FASTQs separately from read 2 FASTQs.
-
 ## References
 
 Files with known data (e.g. from a model organism). These include reference genome sequence, and transcript annotation information, etc.
@@ -26,7 +18,15 @@ Reference files we'll use:
 - Genome Fasta (ENSEMBL)
 - Genome Annotation GTF (ENSEMBL)
 
-More details in later modules.
+More details in other modules.
+
+## FASTQs
+
+These files contain base sequence and quality information - usually provided by the sequencing provider.
+
+You'll generally have one or two FASTQ files for each sample, depending on if your reads are single-end or paired-end. If there are more than two FASTQ files per sample, then it may be useful to combine them.
+
+For paired-end data, make sure to combine read 1 FASTQs separately from read 2 FASTQs.
 
 # The Compute Environment
 
