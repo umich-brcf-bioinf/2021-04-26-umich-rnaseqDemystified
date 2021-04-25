@@ -13,17 +13,6 @@ In this module, we will:
 <br>
 <br>
 
-## Warm-up exercise:
-
-1. Try logging into the AWS instance
-2. run the command `fortune | cowsay | lolcat`
-
-Optional and only for fun!
-We will have time for troubleshooting at the next section.
-
-<br>
-<br>
-<br>
 
 ## Local vs remote exercise:
 
@@ -32,7 +21,7 @@ We will have time for troubleshooting at the next section.
 3. Become familiar with the different appearance of the local shell
 4. Create local folder for results
 5. Log back in to the aws instance
-6. Become familiar with the differences between the local and remote shell.
+6. Become familiar with the differences between the local and remote shell
 
 <details>
 <summary >Click here for hints - Local vs remote exercise</summary>
@@ -48,6 +37,22 @@ We will have time for troubleshooting at the next section.
 
         mkdir ~/workshop_rsd
 
+5. Log back in to aws instance
+
+        ssh <username>@50.17.210.255
+
+6. Become familiar with the differences between local and remote shell
+
+</details>
+
+<br>
+<br>
+<br>
+
+<details>
+<summary>Click here for demonstration of local (git-bash on Windows) vs remote (AWS)</summary>
+
+<img src="images/local_v_remote.gif" width="800" />
 
 </details>
 
@@ -97,6 +102,18 @@ Orientation exercise:
 
 </details>
 
+
+<br>
+<br>
+<br>
+
+## Warm-up exercise:
+
+1. Try logging into the AWS instance
+2. run the command `fortune | cowsay | lolcat`
+
+Optional and only for fun!
+We will have time for troubleshooting at the next section.
 
 <br>
 <br>
