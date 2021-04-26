@@ -120,7 +120,21 @@
 
 ### Schedule
 
-TBD
+| Time | Topic | Instructor |
+| ---- | ----------------- | ---------- |
+| **Day 1** |
+| 9:00 | [Workshop Introduction](Module00_Introduction) | Chris Gates |
+| 9:15 | Warming Up, Quality Control | Travis Saari |
+| 10:30 | **Break** | |
+|  | Reference Genomes, Alignment, Quantification, QC | |
+| 1:00 | **Day  1 concludes** | |
+| **Day 2** |
+| 9:00 | Intro Day 2 | Chris Gates |
+| 9:10 | Introduction to DESeq2, Count Normalizations, Models | Dana King |
+| 10:30 | **Break** | |
+|  | Comparisons, Annotations, Visualization | |
+| 12:45  | Wrap-up | Chris Gates |
+| 1:00 | **Workshop concludes** | |
 
 ### Any questions?
  -
