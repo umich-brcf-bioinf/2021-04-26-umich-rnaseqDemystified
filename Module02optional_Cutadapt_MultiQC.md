@@ -19,7 +19,13 @@ As a reminder, our overall differential expression workflow is shown below. In t
 | **4** | **Assess Quality of Reads** |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
-| 7 | Test for DE Genes |
+| :--: | ---- |
+| 7 | Organize project files locally |
+| 8 | Initialize DESeq2 and fit DESeq2 model |
+| 9 | Assess expression variance within treatment groups |
+| 10 | Specify pairwise comparisons and test for differential expression |
+| 11 | Generate summary figures for comparisons |
+| 12 | Annotate differential expression result tables |
 
 ## Cutadapt
 
@@ -46,21 +52,25 @@ Cutadapt Exercise:
 <details>
 <summary>Click here for solution - cutadapt exercise</summary>
 
-1. View cutadapt help page
+1. Log back in to aws instance with `ssh <username>@50.17.210.255`
+
+2. View cutadapt help page
 
         cutadapt --help | less
         # Will need to type `q` to exit from `less`
 
-2. Trim the adapters from sample_01 with cutadapt
+3. Trim the adapters from sample_01 with cutadapt
 
-        SAMPLE=sample_01
-        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+        # Need to create directory for trimmed outputs
+        mkdir ~/analysis/trimmed
 
-3. View cutadapt output
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/sample_01.trimmed.fastq.gz -p ~/analysis/trimmed/sample_01_R2.trimmed.fastq.gz ~/data/reads/sample_01_R1.fastq.gz ~/data/reads/sample_01_R2.fastq.gz
+
+4. View cutadapt output
 
         ls -l ~/analysis/trimmed
 
-4. Construct commands to trim the reads for all of our samples
+5. Construct commands to trim the reads for all of our samples
 
 Note: We're re-using the same command. We can update `$SAMPLE`, then press 'up' to re-run cutadapt command with newly defined variable.
 

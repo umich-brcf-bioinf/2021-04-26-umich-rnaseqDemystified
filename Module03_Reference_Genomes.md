@@ -19,7 +19,13 @@ Here we will set the stage for steps 5 and 6 by discussing reference genomes, wh
 | 4 | Assess Quality of Raw Reads |
 | **5** | **Splice-aware Mapping to Genome** |
 | **6** | **Count Reads Associated with Genes** |
-| 7 | Test for DE Genes |
+| :--: | ---- |
+| 7 | Organize project files locally |
+| 8 | Initialize DESeq2 and fit DESeq2 model |
+| 9 | Assess expression variance within treatment groups |
+| 10 | Specify pairwise comparisons and test for differential expression |
+| 11 | Generate summary figures for comparisons |
+| 12 | Annotate differential expression result tables |
 
 # Reference Genomes
 
