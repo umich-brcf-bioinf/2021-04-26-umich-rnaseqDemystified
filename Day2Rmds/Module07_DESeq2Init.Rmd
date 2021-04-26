@@ -34,7 +34,7 @@ load("RunningData.RData")
 
 # Differential Expression Workflow
 
-**TODO: "Here we will proceed with ..."  plus highlight step**
+Here we will proceed with continuing to set up the inputs we need to initialize DESeq2 before testing for differential expression.
 
 | Step | Task |
 | :--: | ---- |
@@ -46,12 +46,13 @@ load("RunningData.RData")
 | 6 | Count Reads Associated with Genes |
 | :--: | ---- |
 | 7 | Organize project files locally |
-| 8 | Initialize DESeq2 and fit DESeq2 model |
+| **8** | **Initialize DESeq2 and fit DESeq2 model** |
 | 9 | Assess expression variance within treatment groups |
 | 10 | Specify pairwise comparisons and test for differential expression |
 | 11 | Generate summary figures for comparisons |
 | 12 | Annotate differential expression result tables |
 
+---
 
 # Sample Information 
 

@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module 10a: DE Comparisons Results"
+title: "Day 2 - Module 10: DE Comparisons Results"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -35,7 +35,7 @@ load("RunningData.RData")
 
 # Differential Expression Workflow
 
-**TODO: "Here we will proceed with ..."  plus highlight step**
+Here we will finally test for differential expression between our comparisons of interest.
 
 | Step | Task |
 | :--: | ---- |
@@ -49,9 +49,11 @@ load("RunningData.RData")
 | 7 | Organize project files locally |
 | 8 | Initialize DESeq2 and fit DESeq2 model |
 | 9 | Assess expression variance within treatment groups |
-| 10 | Specify pairwise comparisons and test for differential expression |
+| **10** | **Specify pairwise comparisons and test for differential expression** |
 | 11 | Generate summary figures for comparisons |
 | 12 | Annotate differential expression result tables |
+
+---
 
 # Generating DE results
 
@@ -113,8 +115,8 @@ If there are comparisons that are not included in the `resultsName`, since our d
 
 As the function description specifies, we need to provide a list of three elements: the name of the factor in the model design, the name of the numerator for the fold-change, and the name of denominator. 
 ```{r AdditionalComparisons}
-res <- results(dds, contrast=c("Gtype.Tx", "ko.control", "wt.control")) 
-head(res)
+res_Wt <- results(dds, contrast=c("Gtype.Tx", "ko.control", "wt.control")) 
+head(res_Wt)
 ```
 
 ## Results table - review of output columns

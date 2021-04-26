@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module 0X: Bonus Content"
+title: "Day 2 - Module 11X: Bonus Content"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -23,12 +23,10 @@ output:
 > # Objectives 
 > * Additional visualizations for gene level QC assessment
 
-#
 
 ## Count boxplots
 
-**TODO: Simplify plots so they are more easily explained**
-Next, we'll look at our distributions of raw and normalized counts. First, we need to set up some tables and labels.
+To understand how skewed our raw data was and how well our normalization worked, we can look at distributions of raw and normalized counts. First, we need to set up some tables and labels.
 ```{r RawCountsSetup}
 ## setup for raw counts
 pdata <- data.frame(colData(dds))
@@ -99,16 +97,17 @@ ggsave(filename = paste0(plotPath, "BoxPlot_Gtype.Tx_rlog.pdf"), plot = box_plot
 ```
 
 
-
 ## Heatmaps
 
-Next, we'll generate a heatmap of the top expressed genes across all samples. First, we'll set our color palette using a tool called [Color Brewer](https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html). 
+To understand the patterns of expression across all our samples, including how well our samples cluster by group labels, we can generate a heatmaps. 
+
+The first heatmap to generate is of the top 500 expressed genes across all samples. First, we'll set our color palette using a tool called [Color Brewer](https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html). 
 ```{r ChooseColors}
 #heatmap with top 500 variant or expressed genes, rlog normalized data
 colors <- colorRampPalette(brewer.pal(9, 'Blues'))(255)
 ```
 
-First, we'll select the top expressed genes across all our samples to prioritize this set of genes and allow for patterns to be more easily ovbserved. 
+First, we'll select the top 500 expressed genes across all our samples to prioritize this set of genes and allow for patterns to be more easily ovbserved. 
 ```{r TopExpression}
 select <- order(rowMeans(assay(rld)), decreasing=TRUE)[1:500]
 df <- data.frame(Group = colData(rld)[,c('condition')], row.names = rownames(colData(dds)))
@@ -116,7 +115,7 @@ df <- data.frame(Group = colData(rld)[,c('condition')], row.names = rownames(col
 
 Next, we'll set up a PDF file and plot our heatmap. Saving the plot as an object allows us to view the figure within our session as well as writing the plot to file. 
 
-The [`pheatmap` function](https://cran.r-project.org/web/packages/pheatmap/pheatmap.pdf) does quite a lot in a single step, including scaling the data by row and clustering both the samples (columns) and genes (rows). *TODO: Add additional overview of pheatmap/heatmap function?*
+The [`pheatmap` function](https://cran.r-project.org/web/packages/pheatmap/pheatmap.pdf) does quite a lot in a single step, including scaling the data by row and clustering both the samples (columns) and genes (rows).
 
 >**Note**: [This blog post](https://towardsdatascience.com/pheatmap-draws-pretty-heatmaps-483dab9a3cc) has a nice step by step overview of the pheatmap options, using basketball data as an example.
 
@@ -150,7 +149,7 @@ p <- pheatmap(sampleDistMatrix,
 p
 dev.off()
 ```
-If we look at the `sampleDists` object, we now see from the diagonal values that the least distant samples are `Irrel_kd1_1` and `Irrel_kd_2` so these will be clustered together first, with the next closest samples `Irrel_kd_3` and `Irrel_kd_2` clustered together next.
+If we look at the `sampleDists` object, we now see from the diagonal values that there appears to be two major groups of samples, with better defined subgroups in the bottom right quadrant.
 
 Overall, like the heatmap of the top 500 most expressed genes, we see that samples in the same treatment groups cluster well together when the full dataset is considered.
 
@@ -167,3 +166,18 @@ dev.off()
 
 ```
 
+
+# Sources Used    
+* HBC QC tutorial: https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html    
+* Detailed Heatmap tutorial from Galaxy: https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-heatmap2/tutorial.html  
+
+---
+
+# Session Info    
+```{r SessionInfo}
+sessionInfo()
+```
+
+---
+
+These materials have been adapted and extended from materials listed above. These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.

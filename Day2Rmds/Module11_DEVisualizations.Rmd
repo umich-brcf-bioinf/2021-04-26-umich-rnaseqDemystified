@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module 10b: DE Visualizationsand Gene Annotations"
+title: "Day 2 - Module 11: DE Visualizationsand Gene Annotations"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -30,13 +30,35 @@ output:
 ```{r Modules, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(DESeq2)
 library(ggplot2)
-library(tidyr)
-library(dplyr)
+#library(tidyr)
+#library(dplyr)
 library('ggrepel', character.only=TRUE)
 library('pheatmap', character.only=TRUE)
 library('RColorBrewer', character.only=TRUE)
 load("RunningData.RData")
 ```
+
+# Differential Expression Workflow
+
+Here we will 
+
+| Step | Task |
+| :--: | ---- |
+| 1 | Experimental Design |
+| 2 | Biological Samples / Library Preparation |
+| 3 | Sequence Reads |
+| 4 | Assess Quality of Raw Reads |
+| 5 | Splice-aware Mapping to Genome |
+| 6 | Count Reads Associated with Genes |
+| :--: | ---- |
+| 7 | Organize project files locally |
+| 8 | Initialize DESeq2 and fit DESeq2 model |
+| 9 | Assess expression variance within treatment groups |
+| 10 | Specify pairwise comparisons and test for differential expression |
+| **11** | **Generate summary figures for comparisons** |
+| **12** | **Annotate differential expression result tables** |
+
+---
 
 # Visualizing DE results
 
@@ -54,7 +76,7 @@ pval <- 0.05
 
 Then, we need to sep up some objects to run our plotting code, creating a new object that will have the right shape for plotting, labeling our comparison of interest, and setting up our output directory 
 ```{r PlotSetup2}
-df<- res[order(res$padj),] #select our data of interest
+df<- res_WT[order(res_WT$padj),] #select our data of interest
 df <- as.data.frame(df) #convert our object type
 df <- cbind("id" = row.names(df), df) #set rownames to valid column
 str(df) 
@@ -115,9 +137,9 @@ p
     print(p)
     dev.off()
     p
-```
+    ```
 
-How does significance relate to fold change?
+</details>
 
 For additional visualizations for our DE results, this [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/06_DGE_visualizing_results.html) includes some nice examples.
 
@@ -131,11 +153,23 @@ To generate a general summary of the DE results, we can use the `summary` functi
 
 However, we can also use conditional statements to determine the number of genes that pass our thresholds for each comparison, which might be more informative.
 ```{r StatSigGenes2}
-#summary(res)
-sum(res$padj < 0.05 & abs(res$log2FoldChange) >= log2(1.5), na.rm = TRUE)
+#summary(res_WT)
+sum(res_WT$padj < 0.05 & abs(res_WT$log2FoldChange) >= log2(1.5), na.rm = TRUE)
 sum(res_Tx$padj < 0.05 & abs(res_Tx$log2FoldChange) >= log2(1.5), na.rm = TRUE)
 ```
 How do the number of DE genes compare to what we observed from the PCA plots?
+
+#### Chosing thresholds
+
+Thresholding adjusted pvalues < 0.05 is very standard
+
+How many DE genes would we have if we only apply a more stringent threshold to our adjusted pvalues and ignore fold-change?
+```{r StatSigGenes}
+sum(res_WT.KD$padj < 0.01, na.rm = TRUE)
+```
+
+If we threshold only on significance, we still identify less DE genes than the 6057 identified in the paper. How should we interpret these differences? Are we in danger of missing relevant genes or, due to DESeq2's stringency, are we better protected against irrelevant genes? One of the authors of DESeq2, wrote this [blog post that detailed differences between DESeq2 and EdgeR ](https://mikelove.wordpress.com/2016/09/28/deseq2-or-edger/) but this [review of multiple DE tools by Costa-Silva, Domingues, and Martins Lopes](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5739479/) may also be useful for making choices for your own data.
+
 
 #### Subsetting significant genes
 
@@ -143,22 +177,22 @@ How do the number of DE genes compare to what we observed from the PCA plots?
     <summary>*Click for code to generate a table of only DE genes*</summary>
     You may be interested in identifying only the genes that pass your significance thesholds. A useful way to do this is to conditionally subset your results. 
     ```{r ConditionalSubset, eval=FALSE}
-    res_sig <- na.omit(res)
+    res_sig <- na.omit(res_WT)
     res_sig <- res_sig[which(res_sig$padj < 0.05 & abs(res_sig$log2FoldChange) >= log2(1.5)), ]
     head(res_sig)
     ```
     For more details about subsetting tables in R, we recommend reviewing the [Data Carpentry manipulating and analyzing data module](https://datacarpentry.org/R-ecology-lesson/03-dplyr.html).    
     We can also annotate our results to include a column that identifies our significant genes.
     ```{r ConditionalAnno, eval=FALSE}
-    res_anno <- res # copy table
+    res_WT_DE <- res_WT # copy table
     # add a column and assign all genes are non-significance
-    res_anno$Call <- rep(FALSE, length(res$baseMean)) 
+    res_WT_DE$Call <- rep(FALSE, length(res_WT$baseMean)) 
 
     # change 'Call' column to TRUE if meets conditions for significant differences
-    res_anno[which(!is.na(res_anno$padj) & res_anno$padj < 0.05 & abs(res_anno$log2FoldChange) >= log2(1.5)), ]$Call <- TRUE
+    res_WT_DE[which(!is.na(res_WT_DE$padj) & res_WT_anno$padj < 0.05 & abs(res_WT_DE$log2FoldChange) >= log2(1.5)), ]$Call <- TRUE
 
     # reorder table to rank significant genes at the top
-    res_anno <- res_anno[order(-res_anno$Call),]
+    res_WT_DE <- res_WT_DE[order(-res_WT_DE$Call),]
     ```
     
 </details>
@@ -168,42 +202,70 @@ How do the number of DE genes compare to what we observed from the PCA plots?
 
 Bioconductor provides many tools and resources to facilitate access to [genomic annotation resources](http://bioconductor.org/packages/devel/workflows/vignettes/annotation/inst/doc/Annotation_Resources.html). 
 
-We can access additional genomic annotations using the [`bioMart` package](https://bioconductor.org/packages/release/bioc/html/biomaRt.html). To identify  we'll structure our 'query' or search of the bioMart resources to use the gene symbols from our alignment to add the [ENSEMBL id](https://m.ensembl.org/info/genome/genebuild/gene_names.html) and gene description for each gene. 
+We can access additional genomic annotations using the [`bioMart` package](https://bioconductor.org/packages/release/bioc/html/biomaRt.html). To identify  we'll structure our 'query' or search of the bioMart resources to use the [ENSEMBL id](https://m.ensembl.org/info/genome/genebuild/gene_names.html) from our alignment to add the gene symbols and gene description for each gene. 
 
 ### Gene symbols versus Gene ids
 
 Since UCSC and ENSEMBL are two difference reference builds not all genes are shared, as outlined in [this comprehensive review of reference genomes by Zhao & Zhang](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-015-1308-8). Additionally, since gene symbols can change over time or be ambigous we use and recommend using the EMSEMBL reference genome and ENSEMBL ids for alignments.
 
-To proceed with our BioMart query, we will first load the biomaRt library & choose what reference we want to access.
+To proceed with our BioMart query, we will first load the biomaRt library & choose what reference we want to access. For a more detailed walk through of using biomaRt, [this training module](https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2019/RNAseq/html/05_Annotation_and_Visualisation.html) might be useful, including what to do when annotations are not 1:1 mappings.
+
+*Note: I was geeting errors when initially testing this code, so some of us might have issues here*
 ```{r AddAnnotations1, warning=FALSE }
+## code to install if needed
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("biomaRt")
+
 library("biomaRt")
-ensembl <- useMart("ensembl",dataset="hsapiens_gene_ensembl")
+
+# using an archived host since my R/Bioconductor versions are out of date
+listMarts(host="jul2016.archive.ensembl.org")
+
+# choose ensembl database since have ENSEMBl gene ids
+ensembl <- useMart("ENSEMBL_MART_ENSEMBL", host = "jul2016.archive.ensembl.org")
+
+# alternative host
+#ensembl <- useMart("ENSEMBL_MART_ENSEMBL", host="uswest.ensembl.org")
+
+# search for mouse 
+searchDatasets(mart = ensembl, pattern = "mus")
 ```
+
+
+*Note that this process takes some time and will take up a larger amount of working memory so skip if your machine has less than 4G of memory*
+```{r Pullmart, warning=FALSE}
+# redefine ensembl with species specific database
+ensembl <- useDataset("mmusculus_gene_ensembl", mart=ensembl)
+```
+
 
 To identify possible **filters** to restrict our data, we can use the `listFilters` function. To identify the **attributes** we want to retrive, we can use the `listAttributes` function. There are also [search functions](https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html#how-to-build-a-biomart-query) to help narrow down the available options.
 ```{r AddAnnotations2, warning=FALSE}
-head(listFilters(mart = ensembl))
-head(listAttributes(ensembl))
+head(listFilters(mart = ensembl), n = 20)
+head(listAttributes(ensembl), n = 30)
 ```
 
 Next, we'll [build our query](https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html#how-to-build-a-biomart-query) to retrive the information we want to add to our DE results table.
 ```{r AddAnotation3, warning=FALSE}
-GeneKey <- getBM(attributes=c('ensembl_gene_id', 'hgnc_symbol', "description"), 
-      filters = 'hgnc_symbol', 
-      values = row.names(assay(dds)), 
+## wasn't working for my version of biomaRt but might work for you
+GeneKey <- getBM(attributes=c('ensembl_gene_id', 'external_gene_name'),
+      filters = 'ensembl_gene_id',
+      values = row.names(assay(dds)),
       mart = ensembl) # will take some time to run
+
 head(GeneKey)
 ```
 
 
 Now that we have the ENSEMBL information and a gene symbol to match to our results, we can add this to our DE results table.
 ```{r updateDETable}
-res.KD_anno <- res.KD # copy table
-res.KD_anno <- cbind(genes=row.names(res.KD_anno), res.KD_anno[ ,c(1:6)])
-res.KD_anno <- as.data.frame(res.KD_anno)
+res_WT_anno <- res_WT # copy table
+res_WT_anno <- cbind(genes=row.names(res_WT_anno), res_WT_anno[ ,c(1:6)])
+res_WT_anno <- as.data.frame(res_WT_anno)
 
-res.KD_anno <- merge(GeneKey, res.KD_anno, by.x = "hgnc_symbol", by.y="genes", all.x = FALSE, all.y = TRUE) # combine the two tables using the merge function
-head(res.KD_anno)
+res_WT_anno <- merge(GeneKey, res_WT_anno, by.x = "external_gene_name", by.y="genes", all.x = FALSE, all.y = TRUE) # combine the two tables using the merge function
+head(res_WT_anno)
 ```
 
 Notice that not all genes were annotated with an ENSEMBl gene id or gene description. While we are able to annotate our results, we should be very cautious as the gene symbol is not a good unique identifier plus we did not use a UCSC annotation resource so the HUGO gene symbol may not always match. However, this code is similar to the steps needed to annotate ENSEMBL id based results, like what would have been generated from yesterday's alignments, with more interpretable gene symbols.
@@ -235,17 +297,31 @@ write.csv(assay(rld), file="./OutputTables/DESeq2_rlogNormalized_counts.csv")
 
 ## DE results table
 
-Next we'll write out our DE results for the KD comparison to file ,since we added additional information to that table. 
+Next we'll write out our DE results for the KD comparison to file, since we added additional information to that table. 
 ```{r DEResultsOuput}
-write.csv(res.KD_anno, 
+write.csv(res_WT_anno, 
           row.names = FALSE,
           na = ".",
-          file="./OutputTables/Mov10.KD_vs_Irrel_DESeq2.csv")
+          file="./OutputTables/DEResults_ko.control_v_wt.control_annotated.csv")
 ```
 
-For the OE comparsion, we could repeat our annotations or write the DE results directly to file using the `assay` function for the DESeqDataSet object.
+For the other comparsion, we could repeat our annotations or write the DE results directly to file using the `assay` function for the DESeqDataSet object.
 
-# What can we do with our DE results?
+```{r DEResultsOuput}
+write.csv(res_Tx, 
+          row.names = FALSE,
+          na = ".",
+          file="./OutputTables/DEResults_ko.Tx_v_wt.Tx.csv")
+```
+
+
+# Summary
+
+
+
+---
+
+# Extension - what can we do with our DE results?
 
 Now that we have our DE results, have we address the biological question relevant to the authors of the [original paper](http://www.ncbi.nlm.nih.gov/pubmed/25464849)? On the one hand, yes - we now have two tables of genes that are impacted by change in Mov10 expression. But with two lists of genes alone, it can be difficult to find patterns or understand broader biological impacts.
 
@@ -255,14 +331,9 @@ A way to determine possible [broader biological interpretations](https://www.ebi
 
 The University of Michigan has license and support for additional tools, such as Cytoscape, so we recommend reaching out to staff with [Taubman Library](https://www.lib.umich.edu/locations-and-hours/taubman-health-sciences-library/research-and-clinical-support) to learn more about resources that might be application toyour research.
 
-# Thresholds
 
-How many DE genes would we have if we only apply a threshold to our adjusted pvalues and ignored fold-change?
-```{r StatSigGenes}
-sum(res.KD$padj < 0.05, na.rm = TRUE)
-```
 
-If we threshold only on significance, we still identify less DE genes than the 6057 identified in the paper. How should we interpret these differences? Are we in danger of missing relevant genes or, due to DESeq2's stringency, are we better protected against irrelevant genes? One of the authors of DESeq2, wrote this [blog post that detailed differences between DESeq2 and EdgeR ](https://mikelove.wordpress.com/2016/09/28/deseq2-or-edger/) but this [review of multiple DE tools by Costa-Silva, Domingues, and Martins Lopes](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5739479/) may also be useful for making choices for your own data.
+
 
 ---
 
