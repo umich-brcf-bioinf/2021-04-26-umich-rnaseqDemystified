@@ -19,7 +19,13 @@ As a reminder, our overall differential expression workflow is shown below. In t
 | **4** | **Assess Quality of Reads** |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
-| 7 | Test for DE Genes |
+| :--: | ---- |
+| 7 | Organize project files locally |
+| 8 | Initialize DESeq2 and fit DESeq2 model |
+| 9 | Assess expression variance within treatment groups |
+| 10 | Specify pairwise comparisons and test for differential expression |
+| 11 | Generate summary figures for comparisons |
+| 12 | Annotate differential expression result tables |
 
 ## Cutadapt
 
@@ -31,35 +37,59 @@ It can operate on both FASTA and FASTQ file formats, and it supports compressed 
 
 Notably, cutadapt's error-tolerant adapter trimming likely contributed greatly to its early popularity. We will use it to trim the adapters from our reads. As usual, we'll view the help page to get a sense for how to structure our command.
 
+<br>
+<br>
+<br>
+<br>
+
 Cutadapt Exercise:
 
 1. View the help page of the cutadapt tool
 2. Construct a cutadapt command to trim the adapters from paired-end reads
 3. View the output of cutadapt, and verify that it's correct
-4. Construct a for-loop to trim the reads for all of our samples
+4. Construct commands to trim the reads for all of our samples
 
 <details>
-<summary>Click here for solution - cutadapt for all samples</summary>
+<summary>Click here for solution - cutadapt exercise</summary>
 
-```
-SAMPLE=sample_01
-cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
-reads/${SAMPLE}_R2.fastq.gz
+1. Log back in to aws instance with `ssh <username>@50.17.210.255`
 
-SAMPLE=sample_02
-cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
-reads/${SAMPLE}_R2.fastq.gz
+2. View cutadapt help page
 
-SAMPLE=sample_03
-cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
-reads/${SAMPLE}_R2.fastq.gz
+        cutadapt --help | less
+        # Will need to type `q` to exit from `less`
 
-SAMPLE=sample_04
-cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p out_trimmed/${SAMPLE}_R2.trimmed.fastq.gz reads/${SAMPLE}_R1.fastq.gz
-reads/${SAMPLE}_R2.fastq.gz
-```
+3. Trim the adapters from sample_01 with cutadapt
+
+        # Need to create directory for trimmed outputs
+        mkdir ~/analysis/trimmed
+
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/sample_01.trimmed.fastq.gz -p ~/analysis/trimmed/sample_01_R2.trimmed.fastq.gz ~/data/reads/sample_01_R1.fastq.gz ~/data/reads/sample_01_R2.fastq.gz
+
+4. View cutadapt output
+
+        ls -l ~/analysis/trimmed
+
+5. Construct commands to trim the reads for all of our samples
+
+Note: We're re-using the same command. We can update `$SAMPLE`, then press 'up' to re-run cutadapt command with newly defined variable.
+
+        SAMPLE=sample_02
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+
+        SAMPLE=sample_03
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+
+        SAMPLE=sample_04
+        cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz -p ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/reads/${SAMPLE}_R1.fastq.gz ~/data/reads/${SAMPLE}_R2.fastq.gz
+
 
 </details>
+
+<br>
+<br>
+<br>
+<br>
 
 ## Re-running FastQC
 
@@ -67,24 +97,40 @@ Now that we've run cutadapt and trimmed the adapters from our reads, we will qui
 
 Re-running FastQC Exercise:
 
-1. Construct and execute FastQC command to evaluate trimmed read FASTQ files
-2. View the output (filenames)
+1. Create directory for new fastqc results
+2. Construct and execute FastQC command to evaluate trimmed read FASTQ files
+3. View the output (filenames)
 
 
 <details>
-<summary>FastQC on trimmed reads solution</summary>
+<summary>Click here for solution - re-running FastQC exercise</summary>
 
-```
-fastqc -o out_fastqc_trimmed out_trimmed/*.fastq.gz
-```
+1. Create directory for new fastqc results
+
+        mkdir ~/analysis/fastqc_trimmed
+
+2. FastQC command to evaluate trimmed FASTQ files
+
+        fastqc -o ~/analysis/fastqc_trimmed ~/analysis/trimmed/*.fastq.gz
+
 
 </details>
+
+<br>
+<br>
+<br>
+<br>
 
 # MultiQC
 
 FastQC is an excellent tool, but it can be tedious to look at the report for each sample separately, while keeping track of what trends emerge. It would be much easier to look at all the FastQC reports compiled into a single report. [MultiQC](https://multiqc.info/) is a tool that does exactly this.
 
 MultiQC is designed to interpret and aggregate reports from [various tools](https://multiqc.info/#supported-tools) and output a single report as an HTML document.
+
+<br>
+<br>
+<br>
+<br>
 
 MultiQC Exercise:
 
@@ -96,24 +142,25 @@ MultiQC Exercise:
 <details>
 <summary>MultiQC solution</summary>
 
-```
-multiqc --outdir out_multiqc out_fastqc_trimmed/
-```
+1. View MultiQC help page
 
-</details>
+        multiqc --help | less
+        # Will need to type `q` to exit from `less`
 
+2. MultiQC command to process our trimmed read results
 
-<details>
-<summary>scp command helpful details</summary>
+        multiqc --outdir ~/analysis/multiqc ~/analysis/fastqc_trimmed/
 
-Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
+3. Log out of aws instance and use scp to transfer MultiQC report to local computer
 
-scp command format, with the address for AWS remote
+        exit # log out from remote
 
-```
-# Usage: scp source destination
-scp <username>@50.17.210.255:~/example_data/out_multiqc/multiqc_report.html ~/rsd-workshop/
-```
+        # Now on local
+        scp <username>@50.17.210.255:~/analysis/multiqc/multiqc_report.html ~/workshop_rsd/
+
+4. View MultiQC report
+Use GUI file manager to find your ~/workshop_rsd folder
+Double-click multiqc_report.html (open it with an internet browser)
 
 </details>
 

@@ -17,7 +17,13 @@ Here we will take the results from the previous module and operate on them a bit
 | 4 | Assess Quality of Raw Reads |
 | **5** | **Splice-aware Mapping to Genome** |
 | **6** | **Count Reads Associated with Genes** |
-| 7 | Test for DE Genes |
+| :--: | ---- |
+| 7 | Organize project files locally |
+| 8 | Initialize DESeq2 and fit DESeq2 model |
+| 9 | Assess expression variance within treatment groups |
+| 10 | Specify pairwise comparisons and test for differential expression |
+| 11 | Generate summary figures for comparisons |
+| 12 | Annotate differential expression result tables |
 
 # Running MultiQC
 
@@ -67,10 +73,31 @@ We will run `multiqc`, and it will detect these reports from STAR and include th
 
 MultiQC With STAR Exercise:
 
-1. Note the contents of our analysis directory, including the STAR contents
+1. Note the contents of our analysis directory, including the RSEM / STAR contents
 2. Run MultiQC on this directory
 3. Transfer the report back to local computer and view it
 
+<details>
+<summary>Click here for solution - MultiQC with STAR exercise</summary>
+
+1. Note contents of our analysis directory, including RSEM / STAR contents
+
+        ls -l ~/analysis/rsem_star/
+
+2. Run MultiQC on this directory
+
+        multiqc --outdir ~/analysis/multiqc_star ~/analysis/rsem_star
+
+3. Transfer the report back to local computer and view it
+
+        exit # log out from remote
+
+        # Now on local
+        scp <username>@50.17.210.255:~/analysis/multiqc_star/multiqc_report.html ~/workshop_rsd/multiqc_report_star.html
+
+Use GUI file manager to find your ~/workshop_rsd folder. Double-click multiqc_report.html (open it with an internet browser).
+
+</details>
 
 The newly included STAR section will look something like the following:
 
@@ -95,6 +122,32 @@ Count Matrix Exercise:
 3. View the help file of `combine.py`
 4. Construct / execute a command to combine our results into a count matrix
 5. View the resulting count matrix
+
+<details>
+<summary>Click here for solution - Creating count matrix exercise</summary>
+
+1. Log back in to aws instance with `ssh <username>@50.17.210.255`
+2. View the `.genes.results` files that we want to combine
+
+        head -n 1 ~/analysis/rsem_star/sample_01.genes.results
+        # It's easiest to look at the first line (header)
+
+3. Understand the process of creating a count matrix
+4. View the help file of `combine.py`
+
+        combine.py --help
+
+5. Construct / execute a command to combine our results into a count matrix
+
+        combine.py --output_file ~/analysis/count_matrix.tsv --input_path 'analysis/rsem_star/*.genes.results' --column expected_count --id_columns gene_id
+
+6. View the resulting count matrix
+
+        head ~/analysis/count_matrix.tsv
+
+</details>
+
+
 
 <details>
     <summary>Contents of combine.py script</summary>
@@ -189,3 +242,8 @@ if __name__ == '__main__':
     main(sys.argv)
 ```
 </details>
+
+
+---
+
+These materials have been adapted and extended from materials created by the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
