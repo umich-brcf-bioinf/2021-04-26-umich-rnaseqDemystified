@@ -22,11 +22,13 @@
 | 1:00 | **Day  1 concludes** | |
 | **Day 2** |
 | 9:00 | Intro Day 2 | Chris Gates |
-| 9:10 | [Introduction to DESeq2](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/) | Dana King |
-|  | [DESeq2 Initialization](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/) | |
-|  | [Count Normalizations and DESeq2 model fitting](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/) | |
-| 10:30 | **Break** | |
-|  | [Sample Visualizations for QC](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/) | |
-|  | [DE Comparisons and Gene Annotations](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/) | |
-|  | [DE Visualizations and output files](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/) |  |
+| 9:10 | [Introduction to DESeq2](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module06_DEAnalysisSetup) | Dana King |
+|  | [DESeq2 Initialization](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module07_DESeq2Init) | |
+| 10:15 | **Break** | |
+|  | [Count Normalizations and DESeq2 model fitting](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module08_DESeq2DE) | |
+|  | [Sample Visualizations for Quality Control](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module09_SampleQCViz) | |
+| 11:15 | **Break** | |
+|  | [DE Comparisons and Gene Annotations](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module10_DEComparisons) | |
+|  | [DE Visualizations and output files](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module11_DEVisualizations) |  |
+|  | [Bonus - sample level QC visualizations](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module11X_BonusContent) |  |
 | 12:45  | [Wrap-up](https://umich-brcf-bioinf.github.io/2021-04-26-umich-rnaseqDemystified/Module99_Wrap_up) | Chris Gates |
