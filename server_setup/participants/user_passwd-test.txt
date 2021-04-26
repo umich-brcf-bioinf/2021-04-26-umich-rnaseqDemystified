@@ -1,0 +1,3 @@
+#username	passwd	email	first_name	last_name
+#user0	rsd001	chrismgates@gmail.com	Henry	Tuttle
+user1	rsd001	chrismgates@gmail.com	Henry	Tuttle
