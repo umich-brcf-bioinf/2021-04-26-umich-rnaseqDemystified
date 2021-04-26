@@ -10,7 +10,7 @@ output:
             toc_float: true
             number_sections: true
             fig_caption: true
-            keep_md: true
+            keep_md: false
             markdown: GFM
 ---
 
@@ -20,10 +20,7 @@ output:
         max-width: 1200px;
     }
 </style>
-> # Objectives 
-> * Generate tables of DE results
-> * Understand what a p-value represents.   
-> * Understand multiple hypothesis correction application and importance    
+   
 
 
 ```{r Modules, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
@@ -45,13 +42,19 @@ Here we will finally test for differential expression between our comparisons of
 | 4 | Assess Quality of Raw Reads |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
-| :--: | ---- |
+|  | |
 | 7 | Organize project files locally |
 | 8 | Initialize DESeq2 and fit DESeq2 model |
 | 9 | Assess expression variance within treatment groups |
 | **10** | **Specify pairwise comparisons and test for differential expression** |
 | 11 | Generate summary figures for comparisons |
 | 12 | Annotate differential expression result tables |
+
+
+> **In this module we will**    
+> * Generate tables of DE results    
+> * Understand what a p-value represents.    
+> * Understand multiple hypothesis correction application and importance    
 
 ---
 
@@ -60,7 +63,7 @@ Here we will finally test for differential expression between our comparisons of
 Now that we have reviewed the plots by sample and determined that our data passed our quality control checks, specifically that the patterns we observe are likely due to our experimental treatments over technical or other cofounding factors. 
 
 This illustration from the HCB training materials illustrates the basis of the differential expression procedure, where our goal is to compare the distribution of an expressed gene across samples in each treatment groups. 
-![](~/repos/rnaseq_demystified_workshop_2021/images/de_theory.png)
+![](./images/de_theory.png)
 *Image credit: Paul Pavlidis, UBC*
 
 Only where the distributions of each group are sufficiently seperated will a gene be considered differentially expressed. This is where having sufficient replicates to overcome within group variance is important, as the more replicates we have in each group the better we can determine the distributions of expression for each group. 
@@ -106,6 +109,8 @@ Comparison <- "Gtype.Tx_ko.Tx_vs_wt.Tx"
 res_Tx <- results(dds, name=Comparison)
 ```
 
+> **Checkpoint**: Put a green check if you are seeing the same results names or a red x if you want to be put in a breakout room for help.
+
 ## How to generate additional contrasts
 
 If there are comparisons that are not included in the `resultsName`, since our dds object already has the fitted data we can generate Wald test results by specifying those comparisons as an additional arguement to the results function. 
@@ -115,9 +120,10 @@ If there are comparisons that are not included in the `resultsName`, since our d
 
 As the function description specifies, we need to provide a list of three elements: the name of the factor in the model design, the name of the numerator for the fold-change, and the name of denominator. 
 ```{r AdditionalComparisons}
-res_Wt <- results(dds, contrast=c("Gtype.Tx", "ko.control", "wt.control")) 
-head(res_Wt)
+res_WT <- results(dds, contrast=c("Gtype.Tx", "ko.control", "wt.control")) 
+head(res_WT)
 ```
+
 
 ## Results table - review of output columns
 
@@ -152,6 +158,16 @@ The default FDR rate cutoff for DESeq2 is `alpha = 0.05`. By setting the cutoff 
 > * If a row contains a sample with an extreme count outlier then the p-value and adjusted p-value will be set to NA. These outlier counts are detected by Cook’s distance.     
 > * If a row is filtered by automatic independent filtering, for having a low mean normalized count, then only the adjusted p-value will be set to NA.    
 
+---
+
+# Summary 
+
+In this section, we:    
+
+* Performed statistical tests for comparisons of interest    
+* Generated tables of differential expression results - i.e. fold changes and adjusted pvalues for each gene in dataset    
+* Discussed importance and application of multiple hypothesis correction    
+
 Now that we've generated our differential comparisons and have an understanding of our results, including multiple hypothesis correction, we can proceed with generating summary figures and tables for our differential expression analysis.
 
 ---
@@ -163,7 +179,7 @@ Now that we've generated our differential comparisons and have an understanding 
 
 ---
 
-![](~/repos/rnaseq_demystified_workshop_2021/images/significant_xkcd.png)
+![](./images/significant_xkcd.png)
 
 
 ```{r WriteOut.RData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
@@ -171,12 +187,7 @@ Now that we've generated our differential comparisons and have an understanding 
 save.image(file = "RunningData.RData")
 ```
 
----
 
-# Session Info
-```{r SessionInfo}
-sessionInfo()
-```
 
 ---
 
