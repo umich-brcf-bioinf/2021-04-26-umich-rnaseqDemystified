@@ -1,0 +1,12 @@
+name: rsd-updated
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - multiqc
+  - fastqc
+  - cutadapt
+  - star
+  - rsem
+  - numpy
+  - pandas
