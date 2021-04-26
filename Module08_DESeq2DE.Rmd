@@ -40,7 +40,7 @@ Here we will proceed with count normalizations and fit our DESeq2 model.
 | 4 | Assess Quality of Raw Reads |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
-| :--: | ---- |
+| | |
 | 7 | Organize project files locally |
 | **8** | **Initialize DESeq2 and fit DESeq2 model** |
 | 9 | Assess expression variance within treatment groups |
@@ -49,7 +49,7 @@ Here we will proceed with count normalizations and fit our DESeq2 model.
 | 12 | Annotate differential expression result tables |
 
 
-> # In this module, we will:
+> # In this module, we will:    
 > * Discuss count normalizations
 > * Execute model fitting for differential expression comparisons
 
@@ -133,11 +133,12 @@ Notice that with the additional covariate, additional comparisons are generated 
 
 # Summary 
 
-In this section, we:
-* Learned about count normalizations and uses
-* Generated a normalized count table
-* Fit two DESeq2 models for our data
-* Saw the impact of including a covariate in our model
+In this section, we:   
+
+* Learned about count normalizations and uses    
+* Generated a normalized count table   
+* Fit two DESeq2 models for our data   
+* Saw the impact of including a covariate in our model  
 
 ---
 
