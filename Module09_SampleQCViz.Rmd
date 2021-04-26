@@ -208,7 +208,7 @@ Generally, the decision to remove samples should not be taken lightly, especiall
 
 If your PCA reveals patterns that were not accounted for in the initial model fit, the [DESeq2 vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs) provides an overview of how to add additional covariates to a model design before refitting the DESeq2 model for a dataset.
 
-
+**Before moving on with our group comparisons, we'll take a short (10 minute) break.**
 
 ---
 

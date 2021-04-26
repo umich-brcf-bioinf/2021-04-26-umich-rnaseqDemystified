@@ -20,11 +20,7 @@ output:
         max-width: 1200px;
     }
 </style>
-> # Objectives
-> * Setup sample information 
-> * Understand possible confounding factors
-> * Understand the impact of batches or additional covariates
-> * Filter count table
+
 
 ```{r LoadRunningData, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(DESeq2)
@@ -44,12 +40,20 @@ Here we will proceed with continuing to set up the inputs we need to initialize 
 | 4 | Assess Quality of Raw Reads |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
+| | |
 | 7 | Organize project files locally |
 | **8** | **Initialize DESeq2 and fit DESeq2 model** |
 | 9 | Assess expression variance within treatment groups |
 | 10 | Specify pairwise comparisons and test for differential expression |
 | 11 | Generate summary figures for comparisons |
 | 12 | Annotate differential expression result tables |
+
+
+> # In this module, we will:
+> * Setup our sample information & create a DESeq2 object
+> * Understand possible confounding factors
+> * Understand the impact of batches or additional covariates
+> * Filter count table
 
 ---
 
@@ -84,7 +88,7 @@ MetaInfo <- read.table("~/RNASeqDemystified/data/SampleInfo_trimmed.csv", sep = 
 head(MetaInfo)
 ```
 
-**Checkpoint**: *If you see `MetaInfo` in your environment panel, please indicate with the green 'yes' button. Otherwise, please use the 'raise hand' button to be placed in a breakout room for help*
+> **Checkpoint**: If you see `MetaInfo` in your environment panel, please indicate with the green 'yes' button. Otherwise, please use the 'raise hand' button to be placed in a breakout room for help
 
 
 How are the treatment groups encoded in the table?
@@ -97,13 +101,15 @@ unique(MetaInfo$Gtype.Tx)
 Next, we'll format our table so that we have the appropriate data type (a ordered [factor](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/)) for DESeq2 to recognize our treatment groups and appropriately compare samples.
 ```{r SampleInfo2}
 MetaInfo$Gtype.Tx <- factor(MetaInfo$Gtype.Tx, levels = c( "wt.Tx", "ko.Tx", "ko.control", "wt.control" )) ## levels = c(Case, Control); Control should be last if only two groups & first if three groups to generate default pair-wise comparisons. 
+
 unique(MetaInfo$Gtype.Tx)
 ```
 Notice that we set the levels in a particular order. This is important for setting the 'Control' group as the denominator in our comparisons when we setup our DESeq2 model.
 
 Before we proceed, we need to make sure that the sample labels (column names) in the count table match the sample information table (row names), including the order. 
 ```{r CheckSampleInfos}
-all(colnames(data) %in% rownames(MetaInfo)) #OR?
+all(colnames(data) %in% rownames(MetaInfo)) #OR
+
 all(colnames(data) == rownames(MetaInfo))
 ```
 The first line of code shows us if the two lists have matching members and the second line checks if both the identity and order match between our `data` table and our `MetaInfo`.
@@ -129,7 +135,7 @@ dds <- DESeqDataSetFromMatrix(countData = CountTable,
                               design = ~ Gtype.Tx)
 ```
 
-**Checkpoint**: *If you see `dds` in your environment panel, please indicate with the green 'yes' button. Otherwise, please use the 'red x' button to get help*
+> **Checkpoint**: If you see `dds` in your environment panel, please indicate with the green 'yes' button. Otherwise, please use the 'red x' button to get help
 
 The design formula specifies column(s) in the metadata table and how they should be used in the analysis. For our dataset we only have one column we are interested in, that is `condition`. This column has three factor levels, which tells DESeq2 that for each gene we want to evaluate gene expression change with respect to these different levels.
 
@@ -149,7 +155,9 @@ In this case, there aren't known [**covariates**](https://methods-sagepub-com.pr
 Let's test out manually adding a covariate to our `MetaInfo` data table and then create a new DESeq2 object.
 ```{r Covariates}
 head(MetaInfo)
+
 MetaInfo$patient <- factor(rep(c("P1", "P2", "P3"), 4), levels = c("P1", "P2", "P3"))
+
 head(MetaInfo)
 ```
 Notice how we avoid starting with a number our patient covariate labels since R doesn't like that.
@@ -164,7 +172,7 @@ Now we have specified for DESeq2 that we want to test for the effect of the cond
 ---
 
 <details>
-    <summary>*Click for Note*</summary>
+    <summary>*Click for note on interaction terms*</summary>
     More complex questions, including determining if a fold-change due to treatment is different across groups, such as patient samples, "interaction terms" can be included in the design formula, such as outlined in [this support thread](https://support.bioconductor.org/p/98628/).   
 </details> 
 
@@ -202,6 +210,7 @@ While not necessary, [pre-filtering](http://bioconductor.org/packages/devel/bioc
 Here we will filter out any genes that have less than 10 counts across any of the samples. This is a fairly standard level of filtering, but can filter data less/more depending on quality control metrics from alignments and/or total number of samples.
 ```{r PreFilter}
 keep <- rowSums(counts(dds)) >= 10
+
 dds <- dds[keep,]
 ```
 Notice how the `dds` object now has less elements than the `dds_patient` object after filtering, so there were quite a number of genes that were not measured in our experiment.
@@ -209,10 +218,23 @@ Notice how the `dds` object now has less elements than the `dds_patient` object 
 We'll also filter the `dds_patient` genes.
 ```{r PreFilterPatient}
 keep <- rowSums(counts(dds_patient)) >= 10
+
 dds_patient <- dds_patient[keep,]
 ```
 
+---
+
+# Summary 
+
+In this section, we:
+* Loaded the necessary input files into our R session
+* Discussed model design for DESeq2
+* Initialized a DESeq2 data set
+* Filtered our count data 
+
 Now that we've created our DESeq2 objects, including specifying what model is appropriate for our data, and filtered our data, we can proceed with assessing the impact of the experimental conditions on gene expression across our samples. 
+
+**Before moving on with our group comparisons, we'll take a short (10 minute) break.**
 
 ---
 
