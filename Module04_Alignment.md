@@ -17,7 +17,13 @@ We'll discuss the alignment and gene quantification steps which gather the neces
 | 4 | Assess Quality of Raw Reads |
 | **5** | **Splice-aware Mapping to Genome** |
 | **6** | **Count Reads Associated with Genes** |
-| 7 | Test for DE Genes |
+| :--: | ---- |
+| 7 | Organize project files locally |
+| 8 | Initialize DESeq2 and fit DESeq2 model |
+| 9 | Assess expression variance within treatment groups |
+| 10 | Specify pairwise comparisons and test for differential expression |
+| 11 | Generate summary figures for comparisons |
+| 12 | Annotate differential expression result tables |
 
 # Alignment and Gene Quantification
 
@@ -123,21 +129,24 @@ RSEM Calculate Expression Exercise:
 
 2. Command to align and quantify sample_01
 
+        # Need to create directory for rsem + STAR outputs
+        mkdir ~/analysis/rsem_star
+
         SAMPLE=sample_01
-        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
+        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --keep-intermediate-files --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
 
 3. Iterate through our samples to align them all
 
 Note: We're re-using the same command. We can update `$SAMPLE`, then press 'up' to re-run cutadapt command with newly defined variable.
 
         SAMPLE=sample_02
-        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
+        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
 
         SAMPLE=sample_03
-        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
+        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
 
         SAMPLE=sample_04
-        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
+        rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --paired-end ~/analysis/trimmed/${SAMPLE}_R1.trimmed.fastq.gz ~/analysis/trimmed/${SAMPLE}_R2.trimmed.fastq.gz ~/data/refs/GRCh38.98.chr22reduced ~/analysis/rsem_star/${SAMPLE}
 
 </details>
 
