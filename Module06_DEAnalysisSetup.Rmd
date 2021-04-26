@@ -20,10 +20,15 @@ output:
         max-width: 1200px;
     }
 </style>
-> # In this module, we will learn:
-> * Overview of reproducible research & analysis setup
-> * Broad introduction to DESeq2 & why it is widely used for differential expression comparisons
-> * How to import and review gene count table
+
+# Overall goals    
+
+Today we will:
+
+
+Today we won't:
+* Exhaust every step 
+
 
 # Differential Expression Workflow
 
@@ -43,6 +48,13 @@ Today we will proceed from a count table similar to what was generated yesterday
 | 10 | Specify pairwise comparisons and test for differential expression |
 | 11 | Generate summary figures for comparisons |
 | 12 | Annotate differential expression result tables |
+
+---
+
+> # In this module, we will learn:
+> * Overview of reproducible research & analysis setup
+> * Broad introduction to DESeq2 & why it is widely used for differential expression comparisons
+> * How to import and review gene count table
 
 ---
 
@@ -74,7 +86,7 @@ dir.create("./RNASeqDemystified")
 #setwd("~/RNASeqDemystified")
 getwd()
 ```
-**Checkpoint**: *Please use the red x if you are not in your own 'RNASeqDemystified' directory after executing these commands*
+> **Checkpoint**: Please use the red x if you are not in your own 'RNASeqDemystified' directory after executing these commands
 
 Once we confirm our working directory, we'll create a new folder to store our raw data.
 ```{r SetupDirs2, message=FALSE}
@@ -95,7 +107,7 @@ download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-04-26-um
 ```
 
 
-**Checkpoint**: *Please use the 'raise hand' button if you are having issues with downloading the data, or if you don't see the files after clicking on the "data" directory, like shown below to be placed in a breakout room for help. If you have successfully downloaded the data then used the green 'yes' button*
+> **Checkpoint**: If you have successfully downloaded the data then used the green 'yes' button. We'll have a stopping point 
 
 ![Working directory and data folder structure](./images/DirectoryWithData.png)
 
@@ -106,7 +118,39 @@ Next, we'll open a new '.R' script file by using the toolbar at the top of our w
 
 This code file can also serve as a 'cheatsheet' of commands to use for working through differential expression comparisons with other example datasets or your own data in the future.
 
-*Another note is that there are several bonus content sections on the instruction pages, like the two below that we will not be covering in this workshop, but that may have useful context or be helpful when you review this material*
+To start off our code file, we'll check for if the packages we're using today were correctly installed.
+
+```{r CheckPackages}
+# copy this line and paste into your R script file (on a new line)
+missing <- setdiff(c("tidyr", "ggplot2", "pheatmap", "ggrepel", "formattable", "RColorBrewer", "matrixStats", "dplyr", "biomaRt", "DESeq2"), rownames(installed.packages()))
+# place cursor on same line as command and use the 'Run' button OR Ctrl + Enter to execute command
+
+# copy this line and pastw into your R script files (on a new line)
+if (!length(missing)) { cat("Ready for Computational Foundations workshop\n")} else {cat("PROBLEM: could not install:", missing, "\n")}
+# place cursor on same line as command and use the 'Run' button OR Ctrl + Enter to execute command
+```
+
+
+> **Checkpoint**: Please use the 'red x' button if you are having issues with downloading the data, or if you don't that the expected packages are installed, like shown below to be placed in a breakout room for help. If you have successfully downloaded the data then used the green 'yes' button
+
+If you are seeing a `PROBLEM` message after checking your package installation, here is the code to install the packages, taken from the setup instructions:
+```{r InstallPackagesAfterCheck}
+# copy these lines and paste into your R script file
+install.packages("tidyr")
+install.packages("ggplot2")
+install.packages("pheatmap")
+install.packages("ggrepel")
+install.packages("formattable")
+install.packages("RColorBrewer")
+install.packages("matrixStats")
+install.packages("dplyr")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+BiocManager::install(c("biomaRt","DESeq2"), update=FALSE, ask=FALSE)
+# highlight all lines and use the 'run' button OR Ctrl + Enter to send commands to the Console to be executed by R
+```
+
+*Note that there are several bonus content sections on the instruction pages, like the two below that we will not be covering in this workshop, but that may have useful context or be helpful when you review this material*
 
 --- 
 <details>
@@ -127,7 +171,7 @@ This code file can also serve as a 'cheatsheet' of commands to use for working t
 </details>
 ---
 
-## Check package installations
+## Load packages
 
 You should already have several  packages installed, so we can load them into our R session now. To do that we'll use the `library` function to load the required packages.
 
@@ -146,7 +190,7 @@ library('RColorBrewer', character.only=TRUE)
 
 As discussed in the computation foundations/prerequsite sessions, R/RStudio has great resources for getting help, including [code 'cheatsheets'](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf) and package vignettes, like for [tidyr](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
-**Checkpoint**: *Please use the 'red x' button if you need help loading your libraries*
+> **Checkpoint**: Please use the 'red x' button if you need help loading your libraries
 
 # Tools for Differential Gene Expression analysis
 
@@ -173,7 +217,7 @@ We previously loaded several libraries into our R session, we can check the tool
 ?`DESeq2-package`
 ```
 
-**Checkpoint**: *If you see the R documentation for `DESeq2` pop up in your 'help' panel on the right, please indicate with the green 'yes' button. Please use the 'raise hand' button, if you see this message `No documentation for 'DESeq2-package' in specified packages and libraries` to be placed in a breakout room for help*
+> **Checkpoint**: If you see the R documentation for `DESeq2` pop up in your 'help' panel on the right, please indicate with the green 'yes' button. Please use the 'raise hand' button, if you see this message `No documentation for 'DESeq2-package' in specified packages and libraries` to be placed in a breakout room for help
 
 ## DESeq2 assumptions and requirements
 
