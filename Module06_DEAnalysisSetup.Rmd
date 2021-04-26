@@ -24,10 +24,19 @@ output:
 # Overall goals    
 
 Today we will:
-
+* Get an overview of a differential expression workflow
+* Run a differential expression analysis with DESeq2 starting from a count table
+* Generate visualizations of gene expression for each sample
+* Test for differential expression between experimental conditions
+* Generate summary figures and tables of differential expression results
+* Discuss key considerations around experimental design and your results might be impacted
 
 Today we won't:
-* Exhaust every step 
+* Execute every step that might be relevant to a differential expression analysis
+* Generate all the figures we would normally generate in a differential expression analysis
+* Exhaust possible errors or edge cases
+* Execute the commands that would work best for your dataset 
+* Show what steps to take after analysis to interpret differential expression results
 
 
 # Differential Expression Workflow
@@ -42,6 +51,7 @@ Today we will proceed from a count table similar to what was generated yesterday
 | 4 | Assess Quality of Raw Reads |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
+| | |
 | **7** | **Organize project files locally** |
 | **8** | **Initialize DESeq2 and fit DESeq2 model** |
 | 9 | Assess expression variance within treatment groups |
@@ -134,7 +144,7 @@ if (!length(missing)) { cat("Ready for Computational Foundations workshop\n")} e
 > **Checkpoint**: Please use the 'red x' button if you are having issues with downloading the data, or if you don't that the expected packages are installed, like shown below to be placed in a breakout room for help. If you have successfully downloaded the data then used the green 'yes' button
 
 If you are seeing a `PROBLEM` message after checking your package installation, here is the code to install the packages, taken from the setup instructions:
-```{r InstallPackagesAfterCheck}
+```{r InstallPackagesAfterCheck, eval = FALSE}
 # copy these lines and paste into your R script file
 install.packages("tidyr")
 install.packages("ggplot2")
@@ -153,13 +163,16 @@ BiocManager::install(c("biomaRt","DESeq2"), update=FALSE, ask=FALSE)
 *Note that there are several bonus content sections on the instruction pages, like the two below that we will not be covering in this workshop, but that may have useful context or be helpful when you review this material*
 
 --- 
+
 <details>
     <summary>*Click for code execution shortcut reminder*</summary>
     **Ctrl-Enter** is a standard shortcut in Rstudio to send the current line (or selected lines) to the console. If you see an `>`, then R has executed the command. If you see a `+`, this means that the command is not complete and R is waiting (usually for a `)`).
 </details>
+
 ---
 
 ---
+
 <details>
     <summary>*Click for review of R conventions for object names*</summary>
     R has some restrictions for naming objects:   
@@ -169,6 +182,7 @@ BiocManager::install(c("biomaRt","DESeq2"), update=FALSE, ask=FALSE)
     * Should not be identical to a named function   
     * Dots & underscores will work but are better to avoid   
 </details>
+
 ---
 
 ## Load packages
@@ -184,7 +198,6 @@ library('ggrepel', character.only=TRUE)
 library('pheatmap', character.only=TRUE)
 library('RColorBrewer', character.only=TRUE)
 ```
-
 
 *Note: Expect to see some messages in your console while these packages are loading*
 
@@ -225,12 +238,15 @@ A key assumption is that since a vast number of RNAs are represented in each sam
 
 For most experiments biological variance is much greater than technical variance, especially if [best practices](https://www.txgen.tamu.edu/faq/rna-isolation-best-practices/) for [quality RNA isolation](https://www.biocompare.com/Bench-Tips/128790-Four-Tips-for-Perfecting-RNA-Isolation/) are followed (including DNase treatment!).
 
+---
+
 <details>
     <summary>*Click for statistical thinking around RNA-seq data & replicates with cell lines*</summary>
     For a walk through of mean versus variance in RNA-seq data, this [blog post by David Tang](https://davetang.org/muse/2012/04/14/variance-in-rna-seq-data/) has a nice practical walk through. A more technical talk by Gordon Smyth is summarized in this [blog post by Peter Hicky](https://www.peterhickey.org/2011/11/23/bioinf-seminar-gordon-smyth/) and described in detail in [Symth's voom paper](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-2-r29)
     **Note**: If you are working with cell lines and would like more detail about replicates for *in vitro* studies, this [archived page](https://web-archive-org.proxy.lib.umich.edu/web/20170807192514/http://www.labstats.net:80/articles/cell_culture_n.html) could be helpful.
 </details>    
 
+---
 
 
 Since variance is key to the statistical approach used for DESeq2, if you try to compare treatment groups with less than **two** replicates, DESeq2 will give you an error, as shown in [this blog post](https://support.bioconductor.org/p/89746/). Without replicates, statistical significance (i.e. p-values) cannot be calculated, but qualitative approaches like looking at the top expressed genes after normalization are an option.
@@ -255,7 +271,7 @@ A related aspect to consider for experimental design is how much sequencing dept
 
 Generally, for the human and mouse genomes, the general recommendation is 30-40 million reads per sample if measuring the ~20,000  protein-coding genes (i.e.: polyA library prep) to capture both highly expressed (common) and more lowly expresssed (rarer) transcripts. However, as the image above shows, sequencing depth has less of an impact in detecting differentially expressed genes (DEGs) than number of replicates.
 
-### Raw data as input
+# Starting from raw count table
 
 Another key assumption for DESeq2 is that the analysis will start with [un-normalized counts](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#why-un-normalized-counts).
 
@@ -276,18 +292,49 @@ tail(CountTable) # now whole numbers
 ```
     
 ---
+
 <details>
     <summary>*Click for alternative DESeq2 input options for RSEM outputs*</summary>
     The package `tximport` is another option[recommended the DESeq2  authors](https://support.bioconductor.org/p/90672/) to read in the RSEM expected_counts, as this  package allows for the average transcript length per gene to be used in the DE analysis and, as [described by the author](https://support.bioconductor.org/p/88763/), the `tximport-to-DESeqDataSet` constructor function round the non-integer data generated by RSEM to whole numbers.
 </details>
+
 ---
 
 ---
+
 <details>
     <summary>*Click for comparison of RNA-seq data and microarray data*</summary>
     With [higher sensitivity, greater flexiblity, and decreasing cost](https://www.illumina.com/science/technology/next-generation-sequencing/microarray-rna-seq-comparison.html), sequencing has largely replaced microarray assays for measuring gene expression. A key difference between the platforms is that microarrays measure intensities and are therefore *continous* data while the count data from sequencing is *discrete*. A more detailed comparison between microarrays and sequencing technologies/analysis is outlined in [the online materials for Penn State's STAT555 course](https://online.stat.psu.edu/stat555/node/30/)
 </details>   
+
 ---     
+
+## Getting help
+
+R/Rstudio has a strong community component so if you are getting an error or wondering how to make a command work or how to perform a specific task, there is likely already a solution out there. Google is your friend but part of the challenge is figuring out *what to search for*. Key parts of a successful search:
+
+* Package or command name 
+* `R` or `Bioconductor`
+* The error message if there is one
+* Version information
+
+How to get session information to aid in a search:
+```{r Session info, eval = FALSE, message = FALSE}
+sessionInfo()
+```
+
+
+Highly recommend using resources like [Bioconductor Support](https://support.bioconductor.org/), [Biostars](https://www.biostars.org/), and [Stack Overflow](https://stackoverflow.com/questions/tagged/r), including threads on specific packages or common bioinformatic tasks. 
+
+I personally use one or more of these resources **every day**.
+
+---
+# Summary
+
+In this section, we:
+* Set up our compute environment
+* Learned about DESeq2
+* Loaded our raw count tables (input file 1)
 
 Now that we have our count data processed, we can move on to "unblinding" our data, as the sample names are unique identifiers generated by a sequencing center and not very informative as far as our experimental conditions.
 
