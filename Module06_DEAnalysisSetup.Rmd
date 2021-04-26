@@ -23,20 +23,22 @@ output:
 
 # Overall goals    
 
-Today we will:
-* Get an overview of a differential expression workflow
-* Run a differential expression analysis with DESeq2 starting from a count table
-* Generate visualizations of gene expression for each sample
-* Test for differential expression between experimental conditions
-* Generate summary figures and tables of differential expression results
-* Discuss key considerations around experimental design and your results might be impacted
+**Today we will:**   
+* Get an overview of a differential expression workflow    
+* Run a differential expression analysis with DESeq2 starting from a count table    
+* Generate visualizations of gene expression for each sample    
+* Test for differential expression between experimental conditions    
+* Generate summary figures and tables of differential expression results    
+* Discuss key considerations around experimental design and your results might be impacted    
 
-Today we won't:
-* Execute every step that might be relevant to a differential expression analysis
-* Generate all the figures we would normally generate in a differential expression analysis
-* Exhaust possible errors or edge cases
-* Execute the commands that would work best for your dataset 
-* Show what steps to take after analysis to interpret differential expression results
+
+**Today we won't:**     
+* Execute every step that might be relevant to a differential expression analysis    
+* Generate all the figures we would normally generate in a differential expression analysis   
+* Exhaust possible errors or edge cases    
+* Execute the commands that would work best for your dataset     
+* Show what steps to take after analysis to interpret differential expression results    
+* Become RNA-seq analysis experts
 
 
 # Differential Expression Workflow
@@ -61,7 +63,7 @@ Today we will proceed from a count table similar to what was generated yesterday
 
 ---
 
-> # In this module, we will learn:
+> **In this module, we will**:
 > * Overview of reproducible research & analysis setup
 > * Broad introduction to DESeq2 & why it is widely used for differential expression comparisons
 > * How to import and review gene count table

@@ -84,6 +84,9 @@ We've already loaded the libraries we need for this module. We'll follow best pr
 dir.create("./Figures")
 dir.create("./Figures/BySamples/")
 
+```
+
+```{r SetupdirectoryPaths}
 plotPath = "./Figures/BySamples/"
 Comparison <- "ko.Tx" # descriptor for the dataset we are looking at
 ```
@@ -234,9 +237,10 @@ If your PCA reveals patterns that were not accounted for in the initial model fi
 
 In this section, we:    
 
-* Learned to generate PCA plots
-* Discussed variance within treatment groups 
-* Discussed technical artifacts, including batches
+* Learned to generate PCA plots    
+* Discussed variance within treatment groups     
+* Discussed technical artifacts, including batches    
+
 
 **Before moving on with our group comparisons, we'll take a short (10 minute) break.**
 

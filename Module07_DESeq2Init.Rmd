@@ -49,7 +49,7 @@ Here we will proceed with continuing to set up the inputs we need to initialize 
 | 12 | Annotate differential expression result tables |
 
 
-> # In this module, we will:
+> **In this module, we will:**
 > * Setup our sample information & create a DESeq2 object
 > * Understand possible confounding factors
 > * Understand the impact of batches or additional covariates
@@ -226,11 +226,12 @@ dds_patient <- dds_patient[keep,]
 
 # Summary 
 
-In this section, we:
-* Loaded the necessary input files into our R session
-* Discussed model design for DESeq2
-* Initialized a DESeq2 data set
-* Filtered our count data 
+In this section, we:    
+* Loaded the necessary input files into our R session    
+* Discussed model design for DESeq2    
+* Initialized a DESeq2 data set     
+* Filtered our count data     
+
 
 Now that we've created our DESeq2 objects, including specifying what model is appropriate for our data, and filtered our data, we can proceed with assessing the impact of the experimental conditions on gene expression across our samples. 
 

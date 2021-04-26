@@ -164,9 +164,10 @@ The default FDR rate cutoff for DESeq2 is `alpha = 0.05`. By setting the cutoff 
 
 In this section, we:    
 
-* Performed statistical tests for comparisons of interest    
-* Generated tables of differential expression results - i.e. fold changes and adjusted pvalues for each gene in dataset    
-* Discussed importance and application of multiple hypothesis correction    
+* Performed statistical tests for comparisons of interest     
+* Generated tables of differential expression results - i.e. fold changes and adjusted pvalues for each gene in dataset      
+* Discussed importance and application of multiple hypothesis correction      
+
 
 Now that we've generated our differential comparisons and have an understanding of our results, including multiple hypothesis correction, we can proceed with generating summary figures and tables for our differential expression analysis.
 

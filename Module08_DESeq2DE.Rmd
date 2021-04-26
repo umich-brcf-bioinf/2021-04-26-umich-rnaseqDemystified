@@ -136,9 +136,9 @@ Notice that with the additional covariate, additional comparisons are generated 
 In this section, we:   
 
 * Learned about count normalizations and uses    
-* Generated a normalized count table   
-* Fit two DESeq2 models for our data   
-* Saw the impact of including a covariate in our model  
+* Generated a normalized count table    
+* Fit two DESeq2 models for our data    
+* Saw the impact of including a covariate in our model    
 
 ---
 
