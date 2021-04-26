@@ -10,7 +10,7 @@ output:
             toc_float: true
             number_sections: true
             fig_caption: true
-            keep_md: true
+            keep_md: false
             markdown: GFM
 ---
 
@@ -66,7 +66,7 @@ To follow best practices as discussed by [Nobel, 2009](https://journals.plos.org
 To organize our files for our analysis today we'll create a new folder, ideally in our home directory, using the 'New Folder' button on the right side of our screen & naming it `RNASeqDemystified`.           
 
 Next, we'll set our working directory and create a new subdirectory within `RNASeqDemystified` called `data`.
-```{r SetupDirectories}
+```{r SetupDirectories, message=FALSE}
 ## alternative command
 # system("mkdir ./RNASeqDemystified")
 
@@ -77,21 +77,20 @@ getwd()
 **Checkpoint**: *Please use the red x if you are not in your own 'RNASeqDemystified' directory after executing these commands*
 
 Once we confirm our working directory, we'll create a new folder to store our raw data.
-```{r SetupDirs2}
+```{r SetupDirs2, message=FALSE}
 ## alternative command
 # system("mkdir ./data")
 
 dir.create("./RNASeqDemystified/data")
 ```
 
-**TODO: Confirm/test URL for download of new input files... currently on unmerged branch of repo**
 
 Next, we'll download the files we'll need for today.
 ```{r DownloadData, eval=FALSE}
 
-download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/rnaseq_demystified_workshop_2021/DMK_changes/data/Day2Data/SampleInfo_trimmed.csv", "./RNASeqDemystified/data/SampleInfo_trimmed.csv")
+download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-04-26-umich-rnaseqDemystified/master/data/Day2Data/SampleInfo_trimmed.csv", "./RNASeqDemystified/data/SampleInfo_trimmed.csv")
 
-download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/rnaseq_demystified_workshop_2021/DMK_changes/data/Day2Data/gene_expected_count_trimmed.txt", "./RNASeqDemystified/data/gene_expected_count_trimmed.txt")
+download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-04-26-umich-rnaseqDemystified/master/data/Day2Data/gene_expected_count_trimmed.txt", "./RNASeqDemystified/data/gene_expected_count_trimmed.txt")
 
 ```
 
@@ -109,12 +108,14 @@ This code file can also serve as a 'cheatsheet' of commands to use for working t
 
 *Another note is that there are several bonus content sections on the instruction pages, like the two below that we will not be covering in this workshop, but that may have useful context or be helpful when you review this material*
 
+--- 
 <details>
     <summary>*Click for code execution shortcut reminder*</summary>
     **Ctrl-Enter** is a standard shortcut in Rstudio to send the current line (or selected lines) to the console. If you see an `>`, then R has executed the command. If you see a `+`, this means that the command is not complete and R is waiting (usually for a `)`).
 </details>
+---
 
-
+---
 <details>
     <summary>*Click for review of R conventions for object names*</summary>
     R has some restrictions for naming objects:   
@@ -124,6 +125,7 @@ This code file can also serve as a 'cheatsheet' of commands to use for working t
     * Should not be identical to a named function   
     * Dots & underscores will work but are better to avoid   
 </details>
+---
 
 ## Check package installations
 
@@ -157,11 +159,14 @@ Additionally, `DESeq2` also has an
 from Love, Anders, and Huber from which our workflow is partially adapted and is a good resource when analyzing your own data
 (see also: [Love, Anders, and Huber. _Genome Biology_. 2014.](https://doi.org/10.1186/s13059-014-0550-8)).
 
+---
 
 <details>
     <summary>*Click for additional resources regarding statistical testing and tool comparison for RNA-seq data*</summary>
     To learn more about statistical testing and what distributions best model the behavior of RNA-seq data, a good resource is this [EdX lecture by Rafael Irizarry](https://www.youtube.com/watch?v=HK7WKsL3c2w&feature=youtu.be) or this [lecture by Kasper Hansen](https://www.youtube.com/watch?v=C8RNvWu7pAw). Another helpful guide is this [Comparative Study for Differential Expression Analysis by Zhang et al.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0103207) from 2014. 
 </details>
+
+---
 
 We previously loaded several libraries into our R session, we can check the tools documentation out using the `?` operator.
 ```{r CheckDocumentaion}
@@ -226,17 +231,19 @@ CountTable <- floor(CountTable)
 tail(CountTable) # now whole numbers
 ```
     
-
+---
 <details>
     <summary>*Click for alternative DESeq2 input options for RSEM outputs*</summary>
     The package `tximport` is another option[recommended the DESeq2  authors](https://support.bioconductor.org/p/90672/) to read in the RSEM expected_counts, as this  package allows for the average transcript length per gene to be used in the DE analysis and, as [described by the author](https://support.bioconductor.org/p/88763/), the `tximport-to-DESeqDataSet` constructor function round the non-integer data generated by RSEM to whole numbers.
 </details>
-    
+---
+
+---
 <details>
     <summary>*Click for comparison of RNA-seq data and microarray data*</summary>
     With [higher sensitivity, greater flexiblity, and decreasing cost](https://www.illumina.com/science/technology/next-generation-sequencing/microarray-rna-seq-comparison.html), sequencing has largely replaced microarray assays for measuring gene expression. A key difference between the platforms is that microarrays measure intensities and are therefore *continous* data while the count data from sequencing is *discrete*. A more detailed comparison between microarrays and sequencing technologies/analysis is outlined in [the online materials for Penn State's STAT555 course](https://online.stat.psu.edu/stat555/node/30/)
 </details>   
-     
+---     
 
 Now that we have our count data processed, we can move on to "unblinding" our data, as the sample names are unique identifiers generated by a sequencing center and not very informative as far as our experimental conditions.
 

@@ -10,7 +10,7 @@ output:
             toc_float: true
             number_sections: true
             fig_caption: true
-            keep_md: ftrue
+            keep_md: false
             markdown: GFM
 ---
 
@@ -44,7 +44,6 @@ Here we will proceed with continuing to set up the inputs we need to initialize 
 | 4 | Assess Quality of Raw Reads |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
-| :--: | ---- |
 | 7 | Organize project files locally |
 | **8** | **Initialize DESeq2 and fit DESeq2 model** |
 | 9 | Assess expression variance within treatment groups |
@@ -69,11 +68,15 @@ When we looked at our `CountTable`, our samples are blinded, i.e. the sample nam
 
 Since there are a large number of samples (and to increase the reproduciblity of our code), we would generate a sample information table in excel and exported it as a '.csv' file so that it is in a 'plain text' format that can be easily loaded into our R session. 
 
+---
+
 <details>
     <summary>*Click for code execution shortcut*</summary>
     A critical aspect of creating a sample sheet in excel is to avoid using spaces or characters that have special uses in R, such as dashes or parentheses. Simple sample group names are best.
     If you are unfamilar with '.csv' files or how to generate them, there are [tutorials](https://www.wikihow.com/Create-a-CSV-File) available to guide you through the process.
 </details> 
+
+---
 
 We'll load our 'pre-made' sample information sheet, `SampleInfo_trimmed.csv`, to unblind our samples.
 ```{r SampleInfo1}
@@ -89,7 +92,8 @@ How are the treatment groups encoded in the table?
 unique(MetaInfo$Gtype.Tx)
 ```
 
-**TODO: Update to set levels within input table & test proper level order to get pairwise comparisons; possibly split up  samples/data to avoid?**
+---
+
 Next, we'll format our table so that we have the appropriate data type (a ordered [factor](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/)) for DESeq2 to recognize our treatment groups and appropriately compare samples.
 ```{r SampleInfo2}
 MetaInfo$Gtype.Tx <- factor(MetaInfo$Gtype.Tx, levels = c( "wt.Tx", "ko.Tx", "ko.control", "wt.control" )) ## levels = c(Case, Control); Control should be last if only two groups & first if three groups to generate default pair-wise comparisons. 
@@ -110,7 +114,7 @@ If the sample labels don't match, then we will see an error and need to correct 
 
 Bioconductor software packages often define and use custom classes within R for storing data in a way that better fits expectations around biological data, such as illustrated below from [Huber et al. 2015](https://www.nature.com/articles/nmeth.3252).
 
-![](~/repos/rnaseq_demystified_workshop_2021/images/SummarizedExperiment.jpg)
+![](./images/SummarizedExperiment.jpg)
 
 These custom data structures have pre-specified data slots, which hold specific types/classes of data and therefore can be more easily accessed by functions from the same package.
 
@@ -157,32 +161,39 @@ dds_patient <- DESeqDataSetFromMatrix(countData = CountTable,
 ```
 Now we have specified for DESeq2 that we want to test for the effect of the condition (the last factor) while controlling for the effect of the patient origin (the first factor).
 
+---
 
 <details>
-    <summary>*Click for Note*</summary> 
-    More complex questions, including determining if a fold-change due to treatment is different across groups, such as patient samples, "interaction terms" can be included in the design formula, such as outlined in [this support thread](https://support.bioconductor.org/p/98628/).
+    <summary>*Click for Note*</summary>
+    More complex questions, including determining if a fold-change due to treatment is different across groups, such as patient samples, "interaction terms" can be included in the design formula, such as outlined in [this support thread](https://support.bioconductor.org/p/98628/).   
 </details> 
 
+---
 
-<details>
-    <summary>*Click for Modeling batch effects with DESeq2*</summary>
-    Differences between samples can also be due to technical reasons, such as collection on different days or different sequencing runs. Differences between samples that are not due to biological factors as called **batch effects**. We can include batch effects in our design model in the same way as covariates, as long as the technical groups do not overlap, or **confound**, the biological treatment groups.  
-    Let's try add some additional meta-data information where we have counfounding batch effects and create another DESeq2 object.   
-    ```{r Confounders, eval=FALSE}
-    #MetaInfo
-    MetaInfo$batch <- factor(c(rep(c("Day1"), 3), 
-                               rep(c("Day2"), 3), 
-                               rep(c("Day3"), 3), 
-                               rep(c("Day4"), 3)), 
-                             levels = c("Day1", "Day2", "Day3", "Day4"))
-    
-    dds_batch <- DESeqDataSetFromMatrix(countData = CountTable,
-                              colData = MetaInfo,
-                              design = ~ batch + Gtype.Tx)
-    ```
-    Notice that if you run the above command, the error indicates that variables in the design formula "are linear combinations" which means that batch and condition are correlated and the function is unable to fill in a required 'slot' in the DESeq2 object. So if batches are not balanced by including both case and controls (like in the patient covariate example) then we cannot control for those technical effects throughs statistical modeling.
-</details> 
+---
 
+### Optional - Modeling batch effects with DESeq2
+
+Differences between samples can also be due to technical reasons, such as collection on different days or different sequencing runs. Differences between samples that are not due to biological factors as called **batch effects**. We can include batch effects in our design model in the same way as covariates, as long as the technical groups do not overlap, or **confound**, the biological treatment groups. 
+
+
+Let's try add some additional meta-data information where we have counfounding batch effects and create another DESeq2 object.   
+```{r Confounders, eval=FALSE}
+#MetaInfo
+MetaInfo$batch <- factor(c(rep(c("Day1"), 3), 
+                           rep(c("Day2"), 3), 
+                           rep(c("Day3"), 3), 
+                           rep(c("Day4"), 3)), 
+                         levels = c("Day1", "Day2", "Day3", "Day4"))
+
+dds_batch <- DESeqDataSetFromMatrix(countData = CountTable,
+                          colData = MetaInfo,
+                          design = ~ batch + Gtype.Tx)
+```
+
+Notice that if you run the above command, the error indicates that variables in the design formula "are linear combinations" which means that batch and condition are correlated and the function is unable to fill in a required 'slot' in the DESeq2 object. So if batches are not balanced by including both case and controls (like in the patient covariate example) then we cannot control for those technical effects throughs statistical modeling.
+
+---
 
 ## Pre-filtering
 
