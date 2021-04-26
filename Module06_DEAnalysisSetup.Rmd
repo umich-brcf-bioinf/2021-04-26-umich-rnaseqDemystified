@@ -37,7 +37,6 @@ Today we will proceed from a count table similar to what was generated yesterday
 | 4 | Assess Quality of Raw Reads |
 | 5 | Splice-aware Mapping to Genome |
 | 6 | Count Reads Associated with Genes |
-| :--: | ---- |
 | **7** | **Organize project files locally** |
 | **8** | **Initialize DESeq2 and fit DESeq2 model** |
 | 9 | Assess expression variance within treatment groups |
@@ -99,7 +98,7 @@ download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/rnaseq_demyst
 
 **Checkpoint**: *Please use the 'raise hand' button if you are having issues with downloading the data, or if you don't see the files after clicking on the "data" directory, like shown below to be placed in a breakout room for help. If you have successfully downloaded the data then used the green 'yes' button*
 
-![Working directory and data folder structure](~/repos/rnaseq_demystified_workshop_2021/images/DirectoryWithData.png)
+![Working directory and data folder structure](./images/DirectoryWithData.png)
 
 
 # Setting up our analysis
@@ -181,7 +180,8 @@ For most experiments biological variance is much greater than technical variance
     <summary>*Click for statistical thinking around RNA-seq data & replicates with cell lines*</summary>
     For a walk through of mean versus variance in RNA-seq data, this [blog post by David Tang](https://davetang.org/muse/2012/04/14/variance-in-rna-seq-data/) has a nice practical walk through. A more technical talk by Gordon Smyth is summarized in this [blog post by Peter Hicky](https://www.peterhickey.org/2011/11/23/bioinf-seminar-gordon-smyth/) and described in detail in [Symth's voom paper](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-2-r29)
     **Note**: If you are working with cell lines and would like more detail about replicates for *in vitro* studies, this [archived page](https://web-archive-org.proxy.lib.umich.edu/web/20170807192514/http://www.labstats.net:80/articles/cell_culture_n.html) could be helpful.
-</details>
+</details>    
+
 
 
 Since variance is key to the statistical approach used for DESeq2, if you try to compare treatment groups with less than **two** replicates, DESeq2 will give you an error, as shown in [this blog post](https://support.bioconductor.org/p/89746/). Without replicates, statistical significance (i.e. p-values) cannot be calculated, but qualitative approaches like looking at the top expressed genes after normalization are an option.
@@ -191,11 +191,11 @@ Since variance is key to the statistical approach used for DESeq2, if you try to
 A question we are frequently asked is "How many replicates do I need?" As mentioned in the seminar, there is often more contributing to the observed gene expression in each sample than the experimental treatment or condition.
 
 
-![Image of technical, biological, and experimental contributors to gene expression, from HBC training materials](./images/de_variation.png)
+![Above: Image of technical, biological, and experimental contributors to gene expression, from HBC training materials](./images/de_variation.png)
    
 The general goal of differential expression analysis to seperate the “interesting” biological contributions from the “uninteresting” technical or extraneous contributions that either cannot be or were not controlled in the experimental design. The more sources of variation, such as samples coming from heterogenous tissues or experiments with incomplete knockdowns, the more replicates (>3) are recommended.  
 
-For a more in depth discussion of experimental design considerations, particularly for the number of replicates, please review [**Add review paper**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/) and these papers, like this one by [Hart et al](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3842884/) that focus on estimating statistical power for RNA-seq experiments.
+For a more in depth discussion of experimental design considerations, particularly for the number of replicates, please review [Koch et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/) and these papers, like this one by [Hart et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3842884/) that focus on estimating statistical power for RNA-seq experiments.
 
 #### Sequencing depth recommendations 
 
