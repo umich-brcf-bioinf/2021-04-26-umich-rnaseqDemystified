@@ -22,6 +22,9 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
 - Please take our optional [post-workshop survey](https://forms.gle/mrx9L4xhoSpXCZfXA) (5-10 minutes) <br />
   [https://forms.gle/mrx9L4xhoSpXCZfXA](https://forms.gle/mrx9L4xhoSpXCZfXA)
 
+- Thanks to our sponsors:
+  ![Sponsors](images/Module00_sponsor_logos.png)
+
 ---
 
 ## Thank you!
@@ -33,5 +36,3 @@ We welcome your questions and feedback.
 - Marci Brandenburg [mbradenb@umich.edu](mbradenb@umich.edu)
 - Travis Saari [trsaari@umich.edu](trsaari@umich.edu)
 - Dana King [damki@umich.edu](damki@umich.edu)
-
-![Sponsors](images/Module1_sponsor_logos.png)
