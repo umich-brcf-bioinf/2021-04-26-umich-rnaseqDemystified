@@ -19,8 +19,8 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
 
 - We will email you a link to the session recordings by next week.
 
-- Please take our optional [post-workshop survey](https://forms.gle/bsqTx6GVsxMvye169) (5-10 minutes) <br />
-  [https://forms.gle/bsqTx6GVsxMvye169](https://forms.gle/bsqTx6GVsxMvye169)
+- Please take our optional [post-workshop survey](https://forms.gle/mrx9L4xhoSpXCZfXA) (5-10 minutes) <br />
+  [https://forms.gle/mrx9L4xhoSpXCZfXA](https://forms.gle/mrx9L4xhoSpXCZfXA)
 
 ---
 
